@@ -1,0 +1,21 @@
+# Ignore node_modules folder
+node_modules/
+
+# Ignore Electron binaries
+electron/dist/
+
+# Ignore all compiled output
+dist/
+out/
+
+# Ignore other OS-specific files
+.DS_Store
+Thumbs.db
+
+# Ignore Electron binaries
+electron/dist/
+
+# Ignore LFS files
+*.exe
+*.dll
+*.zip
