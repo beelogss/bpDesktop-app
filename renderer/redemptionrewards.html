@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Redemption Rewards</title>
+    <link rel="stylesheet" href="assets/redemptionrewards.css">
+    <script src="https://kit.fontawesome.com/3980f875bb.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="main-content">
+        <a href="dashboard.html" class="back-to-dashboard">
+            <i class="fa-solid fa-arrow-left"></i>
+        </a>
+
+        <h2>Redemption Rewards</h2>
+        <div>
+            <button class="Reward" onclick="location.href='Addreward.html'">Add New Reward</button>
+        </div>
+
+        <div id="rewardsContainer" class="rewards-container"></div>
+
+        <!-- Modal for editing reward -->
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>Edit Reward</h3>
+                <img id="editImage" class="reward-image" alt="Reward Image">
+                <label for="editName">Reward Name:</label>
+                <input type="text" id="editName">
+                <label for="editStock">Stock:</label>
+                <input type="number" id="editStock">
+                <button id="saveEdit">Save</button>
+            </div>
+        </div>
+
+        <!-- Modal for adding a new reward -->
+        <div id="addModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="document.getElementById('addModal').style.display='none'">&times;</span>
+                <h3>Add New Reward</h3>
+                <label for="rewardName">Reward Name:</label>
+                <input type="text" id="rewardName">
+                <label for="rewardStock">Stock:</label>
+                <input type="number" id="rewardStock">
+                <label for="rewardImage">Image URL:</label>
+                <input type="text" id="rewardImage">
+                <button id="addReward">Add Reward</button>
+                <p id="successMessage" style="color: green; display: none;">Reward successfully added!</p>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        let currentEditIndex = null;
+
+        function fetchRewards() {
+            const rewards = JSON.parse(localStorage.getItem('rewards')) || [];
+            const rewardsContainer = document.getElementById('rewardsContainer');
+            rewardsContainer.innerHTML = '';
+
+            rewards.forEach((reward, index) => {
+                const rewardCard = document.createElement('div');
+                rewardCard.className = 'reward-card';
+
+                const img = document.createElement('img');
+                img.src = reward.image_url;
+                img.alt = reward.reward_name;
+                img.className = 'reward-image';
+
+                const name = document.createElement('h3');
+                name.textContent = reward.reward_name;
+
+                const stock = document.createElement('p');
+                stock.textContent = `Stock: ${reward.stock}`;
+
+                const editButton = document.createElement('button');
+                editButton.textContent = 'Edit';
+                editButton.className = 'edit-btn';
+                editButton.onclick = () => openEditModal(index);
+
+                const deleteButton = document.createElement('button');
+                deleteButton.textContent = 'Delete';
+                deleteButton.className = 'delete-btn';
+                deleteButton.onclick = () => deleteReward(index);
+
+                rewardCard.appendChild(img);
+                rewardCard.appendChild(name);
+                rewardCard.appendChild(stock);
+                rewardCard.appendChild(editButton);
+                rewardCard.appendChild(deleteButton);
+
+                rewardsContainer.appendChild(rewardCard);
+            });
+        }
+
+        function editReward(rewardId) {
+            const rewards = JSON.parse(localStorage.getItem('rewards')) || [];
+            const reward = rewards.find(r => r.id === rewardId); // Find the specific reward
+
+            if (reward) {
+                // Store the selected reward in localStorage to use in the edit page
+                localStorage.setItem('selectedReward', JSON.stringify(reward));
+                window.location.href = 'editreward.html'; // Redirect to the edit reward page
+            } else {
+                alert('Reward not found!');
+            }
+        }
+
+        function deleteReward(rewardId) {
+            const rewards = JSON.parse(localStorage.getItem('rewards')) || [];
+            const updatedRewards = rewards.filter(r => r.id !== rewardId); // Filter out the reward to delete
+
+            // Save the updated rewards back to localStorage
+            localStorage.setItem('rewards', JSON.stringify(updatedRewards));
+
+            // Optionally, you could show a confirmation dialog
+            alert('Reward deleted successfully!');
+
+            // Refresh the reward list (assuming fetchRewards is the function to refresh the UI)
+            fetchRewards();
+        }
+        function openEditModal(index) {
+            const rewards = JSON.parse(localStorage.getItem('rewards')) || [];
+            currentEditIndex = index;
+            const reward = rewards[index];
+
+            document.getElementById('editName').value = reward.reward_name;
+            document.getElementById('editStock').value = reward.stock;
+            document.getElementById('editImage').src = reward.image_url;
+
+            document.getElementById('editModal').style.display = 'block';
+        }
+
+        function deleteReward(index) {
+            const rewards = JSON.parse(localStorage.getItem('rewards')) || [];
+            if (confirm('Are you sure you want to delete this reward?')) {
+                rewards.splice(index, 1);
+                localStorage.setItem('rewards', JSON.stringify(rewards));
+                fetchRewards();
+            }
+        }
+
+        document.getElementById('saveEdit').onclick = () => {
+            const rewards = JSON.parse(localStorage.getItem('rewards')) || [];
+            const reward = rewards[currentEditIndex];
+
+            reward.reward_name = document.getElementById('editName').value;
+            reward.stock = document.getElementById('editStock').value;
+
+            localStorage.setItem('rewards', JSON.stringify(rewards));
+            document.getElementById('editModal').style.display = 'none';
+            fetchRewards();
+        };
+
+        document.getElementById('addReward').onclick = () => {
+            const name = document.getElementById('rewardName').value;
+            const stock = document.getElementById('rewardStock').value;
+            const imageUrl = document.getElementById('rewardImage').value;
+
+            if (name && stock && imageUrl) {
+                const rewards = JSON.parse(localStorage.getItem('rewards')) || [];
+                rewards.push({ reward_name: name, stock: stock, image_url: imageUrl });
+                localStorage.setItem('rewards', JSON.stringify(rewards));
+                document.getElementById('rewardName').value = '';
+                document.getElementById('rewardStock').value = '';
+                document.getElementById('rewardImage').value = '';
+                document.getElementById('successMessage').style.display = 'block';
+                setTimeout(() => {
+                    document.getElementById('successMessage').style.display = 'none';
+                }, 3000);
+                fetchRewards();
+            } else {
+                alert('Please fill in all fields.');
+            }
+        };
+
+        document.querySelector('.close').onclick = function () {
+            document.getElementById('editModal').style.display = 'none';
+        };
+
+        window.onclick = function (event) {
+            if (event.target == document.getElementById('editModal')) {
+                document.getElementById('editModal').style.display = 'none';
+            }
+        };
+
+        document.addEventListener('DOMContentLoaded', fetchRewards);
+    </script>
+</body>
+
+</html>

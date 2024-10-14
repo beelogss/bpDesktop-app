@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Points Allocation</title>
+    <link rel="stylesheet" href="assets/pointsallocation.css">
+    <script src="https://kit.fontawesome.com/3980f875bb.js" crossorigin="anonymous"></script>
+
+<body>
+    <div class="main-content">
+        <a href="dashboard.html" class="back-to-dashboard">
+            <i class="fa-solid fa-arrow-left"></i>
+        </a>
+
+        <h2>Points Allocation</h2>
+        
+
+            <div class="search-bar">
+                <input type="text" id="search-input" placeholder="Search by student number">
+                <button id="search-button">Search</button>
+            </div>
+        
+            <table id="userTable">
+                <thead>
+                    <tr>
+                        <th>Student Number</th>
+                        <th>Full Name</th>
+                        <th>Collected Points</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                </tbody>
+            </table>
+        </div>
+
+        <script>
+            function fetchUsers() {
+                fetch('http://localhost:3000/getUsers')
+                    .then(response => response.json())
+                    .then(users => {
+                        const tableBody = document.querySelector('#userTable tbody');
+                        tableBody.innerHTML = ''; 
+                        users.forEach(user => {
+                            const row = document.createElement('tr');
+                            row.innerHTML = `
+                            <td>${user.student_number}</td>
+                            <td>${user.name}</td>
+                            <td>${user.collected_points}</td>
+                            <td>
+                                <button onclick="editUser(${user.id})">Edit</button>
+                                <button onclick="deleteUser(${user.id})">Delete</button>
+                            </td>
+                            `;
+                            const searchInput = document.getElementById('search-input');
+                            const searchButton = document.getElementById('search-button');
+                            const userTable = document.getElementById('userTable');
+
+                            searchButton.addEventListener('click', () => {
+                                const searchTerm = searchInput.value.toLowerCase();
+                                const rows = userTable.rows;
+
+                                for (let i = 1; i < rows.length; i++) {
+                                    const row = rows[i];
+                                    const cells = row.cells;
+                                    const nameCell = cells[1].textContent.toLowerCase();
+                                    const studentNumberCell = cells[0].textContent.toLowerCase();
+
+                                    if (nameCell.includes(searchTerm) || studentNumberCell.includes(searchTerm)) {
+                                        row.style.display = '';
+                                    } else {
+                                        row.style.display = 'none';
+                                    }
+                                }
+                            });
+                            tableBody.appendChild(row);
+                        });
+                    })
+                    .catch(error => console.error('Error fetching users:', error));
+            }
+
+            function deleteUser(id) {
+                fetch(`http://localhost:3000/deleteUser/${id}`, {
+                    method: 'DELETE'
+                })
+                    .then(response => response.json())
+                    .then(data => {
+                        if (data.success) {
+                            alert('User deleted successfully');
+                            fetchUsers(); 
+                        } else {
+                            alert('Error deleting user');
+                        }
+                    })
+                    .catch(error => console.error('Error:', error));
+            }
+
+            function editUser(id) {
+                window.location.href = `EditUser.html?id=${id}`;
+            }
+
+            document.addEventListener('DOMContentLoaded', fetchUsers);
+        </script>
+</body>
+
+</html>

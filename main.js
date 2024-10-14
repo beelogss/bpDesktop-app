@@ -18,6 +18,7 @@ function createWindow() {
       contextIsolation: true,
       nodeIntegration: false,
     },
+    autoHideMenuBar: true,
   });
 
   mainWindow.loadFile('renderer/index.html');

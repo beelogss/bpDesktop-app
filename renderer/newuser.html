@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New User</title>
+    <link rel="stylesheet" href="assets/newuser.css">
+    <script src="https://kit.fontawesome.com/3980f875bb.js" crossorigin="anonymous"></script>
+
+</head>
+
+<body>
+    <div class="main-content">
+        <a href="manageuser.html" class="back-to-dashboard">
+            <i class="fa-solid fa-arrow-left"></i>
+        </a>
+
+        <h2>Add New User</h2>
+        <form id="addUserForm">
+            <label for="studentNumber">Student Number:</label>
+            <input type="text" id="studentNumber" name="studentNumber" required>
+
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" name="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" name="email" required>
+
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" required>
+
+            <label for="confirmPassword">Confirm Password:</label>
+            <input type="password" id="confirmPassword" name="confirmPassword" required>
+
+            <button type="submit">Add User</button>
+        </form>
+    </div>
+</body>
+
+<script>
+    addUserForm.addEventListener('submit', async (event) => {
+        event.preventDefault();
+        const studentNumber = document.getElementById('studentNumber').value;
+        const name = document.getElementById('name').value;
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const confirmPassword = document.getElementById('confirmPassword').value;
+
+        if (password !== confirmPassword) {
+            alert('Passwords do not match');
+            return;
+        }
+
+        try {
+            await window.electronAPI.addUser({
+                studentNumber,
+                name,
+                email,
+                password // Store only password, not confirmPassword
+            });
+            alert('User added successfully');
+            addUserForm.reset(); // Clear form fields
+            window.location.href = 'manageuser.html';
+        } catch (error) {
+            console.error('Error adding user:', error);
+            statusDiv.innerText = 'Failed to add user';
+        }
+    });
+</script>
+
+</html>

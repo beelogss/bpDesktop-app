@@ -1,0 +1,186 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: whitesmoke;
+    margin: 0;
+    padding: 20px;
+}
+
+.main-content {
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+h2 {
+    font-size: 28px;
+    color: #455e14;
+    margin-bottom: 20px;
+}
+
+.back-to-dashboard {
+    color: #455e14;
+    text-decoration: none;
+    font-size: 16px;
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    background-color: transparent;
+}
+
+.back-to-dashboard:hover {
+    background-color: #bdd299;
+    color: white;
+}
+
+.reward-card {
+    display: inline-block;
+    width: 200px;
+    padding: 10px;
+    margin: 10px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    text-align: center;
+    background-color: whitesmoke;
+}
+
+.reward-image {
+    width: 100px;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 50%;
+}
+
+.rewards-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+button.Reward {
+    font-size: 15px;
+    padding: 10px 20px;
+    background-color: #83951c;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button.Reward:hover {
+    background-color: #bdd299;
+    color: #455e14;
+}
+
+button.edit-btn {
+    background-color: #7a9b57;
+    color: white;
+    padding: 5px 10px;
+    margin-right: 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button.delete-btn {
+    background-color: #ff5f5f;
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.success-message {
+    display: none;
+    padding: 10px;
+    background-color: #bdd299;
+    color: white;
+    text-align: center;
+    margin-top: 10px;
+    border-radius: 5px;
+}
+
+.modal {
+    display: none; /* Hidden by default */
+    position: fixed; /* Stay in place */
+    z-index: 1000; /* Sit on top */
+    left: 0;
+    top: 0;
+    width: 100%; /* Full width */
+    height: 100%; /* Full height */
+    overflow: auto; /* Enable scroll if needed */
+    background-color: rgb(0, 0, 0); /* Fallback color */
+    justify-items: center;
+    background-color: rgba(0, 0, 0, 0.4); /* Black w/ opacity */
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; /* 15% from the top and centered */
+    padding: 20px;
+    border: 1px solid #ddd;
+    width: 40%; /* Could be more or less, depending on screen size */
+    max-width: 500px;
+    border-radius: 8px;
+}
+
+.modal-content label {
+    display: block;
+    text-align: left;
+}
+
+.save-button {
+    background-color: #83951c;
+    color: white;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.save-button:hover {
+    background-color: #bdd299;
+    color: #455e14;
+}
+
+.close {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover, .close:focus {
+    color: #000;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+#editName, #editStock {
+    width: 80%;
+    padding: 8px;
+    margin: 10px 0;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+#saveEdit {
+    background-color: #83951c;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+#saveEdit:hover {
+    background-color: #bdd299;
+    color: #455e14;
+}
+
+/* Responsive styles */
+@media (max-width: 768px) {
+    .modal-content {
+        width: 95%; /* Adjust width for smaller screens */
+    }
+}
