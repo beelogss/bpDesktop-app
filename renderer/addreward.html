@@ -31,33 +31,45 @@
     </div>
 
     <script>
-        addRewardForm.addEventListener('submit', (event) => {
+        document.getElementById('addRewardForm').addEventListener('submit', async (event) => {
             event.preventDefault();
 
             const rewardName = document.getElementById('reward_name').value;
             const rewardStock = document.getElementById('stock').value;
-            const rewardImage = document.getElementById('image').files[0]; // Assuming you're using file input for images
+            const rewardImage = document.getElementById('image').files[0];
 
-            // Save reward to Firebase
-            const newRewardRef = db.ref('rewards').push();
-            const newRewardData = {
-                reward_name: rewardName,
-                stock: rewardStock,
-                image_url: rewardImage ? URL.createObjectURL(rewardImage) : '' // Handle image URL for now
-            };
+            if (!rewardImage) {
+                alert('Please select an image');
+                return;
+            }
 
-            newRewardRef.set(newRewardData)
-                .then(() => {
-                    alert('Reward added successfully');
-                    document.getElementById('addRewardForm').reset();
-                    window.location.href = 'redemptionrewards.html'; // Redirect after saving
-                })
-                .catch((error) => {
-                    console.error('Error adding reward:', error);
-                    alert('Failed to add reward');
-                });
+            try {
+                // Upload image to Firebase Storage
+                const { success: uploadSuccess, imageUrl, error: uploadError } = await window.electronAPI.uploadImage(rewardImage);
+                if (!uploadSuccess) {
+                    throw new Error(uploadError);
+                }
+
+                // Save reward details to Firestore
+                const reward = {
+                    reward_name: rewardName,
+                    stock: rewardStock,
+                    image_url: imageUrl
+                };
+
+                const { success: addSuccess, error: addError } = await window.electronAPI.addReward(reward);
+                if (!addSuccess) {
+                    throw new Error(addError);
+                }
+
+                alert('Reward added successfully');
+                document.getElementById('addRewardForm').reset();
+                window.location.href = 'redemptionrewards.html';
+            } catch (error) {
+                console.error('Error adding reward:', error);
+                alert('Failed to add reward');
+            }
         });
-
     </script>
 
 </body>

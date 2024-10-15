@@ -1,13 +1,10 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
-
-// Import electron-reload for live-reloading
 require('electron-reload')(__dirname, {
     electron: path.join(__dirname, 'node_modules', '.bin', 'electron'),
     hardResetMethod: 'exit'
-  });
-  
-const { getDataFromFirestore, addUserToFirestore, deleteUserFromFirestore } = require('./main/firebase');
+});
+const { getDataFromFirestore, addUserToFirestore, deleteUserFromFirestore, uploadImage, addRewardToFirestore, getRewardsFromFirestore } = require('./main/firebase');
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
@@ -54,5 +51,35 @@ ipcMain.handle('delete-user', async (event, userId) => {
   } catch (error) {
     console.error('Error deleting user:', error);
     return { error: 'Failed to delete user' };
+  }
+});
+
+ipcMain.handle('upload-image', async (event, file) => {
+  try {
+    const imageUrl = await uploadImage(file);
+    return { success: true, imageUrl };
+  } catch (error) {
+    console.error('Error uploading image:', error);
+    return { error: 'Failed to upload image' };
+  }
+});
+
+ipcMain.handle('add-reward', async (event, reward) => {
+  try {
+    await addRewardToFirestore(reward);
+    return { success: true };
+  } catch (error) {
+    console.error('Error adding reward:', error);
+    return { error: 'Failed to add reward' };
+  }
+});
+
+ipcMain.handle('get-rewards', async () => {
+  try {
+    const rewards = await getRewardsFromFirestore();
+    return rewards;
+  } catch (error) {
+    console.error('Error fetching rewards:', error);
+    return { error: 'Failed to fetch rewards' };
   }
 });
