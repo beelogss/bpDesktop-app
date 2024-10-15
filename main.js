@@ -54,9 +54,9 @@ ipcMain.handle('delete-user', async (event, userId) => {
   }
 });
 
-ipcMain.handle('upload-image', async (event, file) => {
+ipcMain.handle('upload-image', async (event, { fileContent, fileName }) => {
   try {
-    const imageUrl = await uploadImage(file);
+    const imageUrl = await uploadImage(Buffer.from(fileContent), fileName);
     return { success: true, imageUrl };
   } catch (error) {
     console.error('Error uploading image:', error);

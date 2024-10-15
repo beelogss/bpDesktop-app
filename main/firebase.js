@@ -45,11 +45,12 @@ async function deleteUserFromFirestore(userId) {
   }
 }
 
-async function uploadImage(file) {
+async function uploadImage(fileBuffer, fileName) {
   try {
-    const storageRef = ref(storage, `rewards/${file.name}`);
-    const snapshot = await uploadBytes(storageRef, file);
+    const storageRef = ref(storage, `rewards/${fileName}`);
+    const snapshot = await uploadBytes(storageRef, fileBuffer);
     const downloadURL = await getDownloadURL(snapshot.ref);
+    console.log('Image uploaded successfully:', downloadURL);
     return downloadURL;
   } catch (error) {
     console.error('Error uploading image:', error);
