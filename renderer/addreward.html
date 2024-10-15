@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Reward</title>
+    <link rel="stylesheet" href="assets/addreward.css">
+    <script src="https://kit.fontawesome.com/3980f875bb.js" crossorigin="anonymous"></script>
+</head>
+
+<body>
+    <div class="main-content">
+        <a href="redemptionrewards.html" class="back-to-dashboard">
+            <i class="fa-solid fa-arrow-left"></i>
+        </a>
+
+        <h2>Add New Reward</h2>
+        <form id="addRewardForm" enctype="multipart/form-data">
+            <label for="reward_name">Reward Name:</label>
+            <input type="text" id="reward_name" name="reward_name" required>
+
+            <label for="stock">Stock:</label>
+            <input type="number" id="stock" name="stock" required>
+
+            <label for="image">Reward Image:</label>
+            <input type="file" id="image" name="image" accept="image/*" required>
+
+            <button type="submit">Add Reward</button>
+        </form>
+    </div>
+
+    <script>
+        addRewardForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+
+            const rewardName = document.getElementById('reward_name').value;
+            const rewardStock = document.getElementById('stock').value;
+            const rewardImage = document.getElementById('image').files[0]; // Assuming you're using file input for images
+
+            // Save reward to Firebase
+            const newRewardRef = db.ref('rewards').push();
+            const newRewardData = {
+                reward_name: rewardName,
+                stock: rewardStock,
+                image_url: rewardImage ? URL.createObjectURL(rewardImage) : '' // Handle image URL for now
+            };
+
+            newRewardRef.set(newRewardData)
+                .then(() => {
+                    alert('Reward added successfully');
+                    document.getElementById('addRewardForm').reset();
+                    window.location.href = 'redemptionrewards.html'; // Redirect after saving
+                })
+                .catch((error) => {
+                    console.error('Error adding reward:', error);
+                    alert('Failed to add reward');
+                });
+        });
+
+    </script>
+
+</body>
+
+</html>

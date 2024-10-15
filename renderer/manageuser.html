@@ -12,56 +12,45 @@
 
 <body>
     <div class="main-content">
-    <a href="dashboard.html" class="back-to-dashboard">
-        <i class="fa-solid fa-arrow-left"></i>
-    </a>
+        <a href="dashboard.html" class="back-to-dashboard">
+            <i class="fa-solid fa-arrow-left"></i>
+        </a>
 
-    <h2>Manage Users</h2>
-    <button id="get-data">Get Data</button>
+        <h2>Manage Users</h2>
+        <button id="get-data">Get Data</button>
 
-    <div class="search-bar">
-        <input type="text" id="search-input" placeholder="Search by full name or student number">
-        <button id="search-button">Search</button>
-        <button class="NewUser" onclick="location.href='NewUser.html'">
-            Add New User
-        </button>
-    </div>
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Search by full name or student number">
+            <button id="search-button">Search</button>
+            <button class="NewUser" onclick="location.href='NewUser.html'">
+                Add New User
+            </button>
+        </div>
 
-    <table id="data-table">
-        <thead>
-            <tr>
-                <th>Student Number</th>
-                <th>Full Name</th>
-                <th>Email</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        </tbody>
-    </table>
-
-    <!-- <h2>Add New User</h2>
-    <form id="add-user-form">
-        <label for="name">Name:</label>
-        <input type="text" id="name" required>
-        <label for="email">Email:</label>
-        <input type="email" id="email" required>
-        <button type="submit">Add User</button>
-    </form>
-
-    <div id="status"></div> -->
+        <table id="data-table">
+            <thead>
+                <tr>
+                    <th>Student Number</th>
+                    <th>Full Name</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
     </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', async () => {
             getDataButton.click(); // Auto-fetch data when page loads
         });
-    
+
         const getDataButton = document.getElementById('get-data');
         const dataTableBody = document.querySelector('#data-table tbody');
         const statusDiv = document.getElementById('status');
         const addUserForm = document.getElementById('add-user-form');
-    
+
         // Fetch and display data in the table
         async function fetchData() {
             try {
@@ -85,10 +74,10 @@
                 statusDiv.innerText = 'Failed to fetch data';
             }
         }
-    
+
         // Fetch and display data on button click (or on page load)
         getDataButton.addEventListener('click', fetchData);
-    
+
         // Attach event handlers to delete buttons
         function attachDeleteEventHandlers() {
             document.querySelectorAll('.delete-user').forEach(button => {
@@ -108,7 +97,7 @@
             });
         }
     </script>
-    
+
 </body>
 
 </html>
