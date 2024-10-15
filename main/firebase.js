@@ -1,6 +1,6 @@
 const { initializeApp } = require('firebase/app');
-const { getFirestore, collection, getDocs, addDoc, deleteDoc, doc } = require('firebase/firestore');
-const { getStorage, ref, uploadBytes, getDownloadURL, deleteObject } = require('firebase/storage');
+const { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, updateDoc } = require('firebase/firestore');
+const { getStorage, ref, uploadBytes, getDownloadURL} = require('firebase/storage');
 
 const firebaseConfig = {
     apiKey: "AIzaSyCNBtOJqXJXiSbEZLO83DJ1oq2etkKUbI4",
@@ -77,4 +77,38 @@ async function getRewardsFromFirestore() {
   }
 }
 
-module.exports = { getDataFromFirestore, addUserToFirestore, deleteUserFromFirestore, uploadImage, addRewardToFirestore, getRewardsFromFirestore };
+async function editRewardFromFirestore(rewardId, rewardName, stock) {
+  try {
+    const rewardRef = doc(db, 'rewards', rewardId);
+    await updateDoc(rewardRef, {
+      reward_name: rewardName,
+      stock: stock
+    });
+    console.log('Reward successfully updated in Firebase!');
+  } catch (error) {
+    console.error('Error editing reward in Firebase:', error);
+    throw error;
+  }
+}
+
+async function deleteRewardFromFirestore(rewardId) {
+  try {
+    const rewardRef = doc(db, 'rewards', rewardId);
+    await deleteDoc(rewardRef);
+    console.log('Reward successfully deleted from Firebase!');
+  } catch (error) {
+    console.error('Error deleting reward from Firebase:', error);
+    throw error;
+  }
+}
+
+module.exports = { 
+  getDataFromFirestore, 
+  addUserToFirestore, 
+  deleteUserFromFirestore, 
+  uploadImage, 
+  addRewardToFirestore, 
+  getRewardsFromFirestore, 
+  deleteRewardFromFirestore,
+  editRewardFromFirestore
+};

@@ -4,7 +4,7 @@ require('electron-reload')(__dirname, {
     electron: path.join(__dirname, 'node_modules', '.bin', 'electron'),
     hardResetMethod: 'exit'
 });
-const { getDataFromFirestore, addUserToFirestore, deleteUserFromFirestore, uploadImage, addRewardToFirestore, getRewardsFromFirestore } = require('./main/firebase');
+const { getDataFromFirestore, addUserToFirestore, deleteUserFromFirestore, uploadImage, addRewardToFirestore, getRewardsFromFirestore, editRewardFromFirestore, deleteRewardFromFirestore} = require('./main/firebase');
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
@@ -81,5 +81,26 @@ ipcMain.handle('get-rewards', async () => {
   } catch (error) {
     console.error('Error fetching rewards:', error);
     return { error: 'Failed to fetch rewards' };
+  }
+});
+
+ipcMain.handle('edit-reward', async (event, rewardId, rewardName, stock) => {
+  try {
+    await editRewardFromFirestore(rewardId, rewardName, stock); // Update Firebase with the new reward details
+    return { success: true };
+  } catch (error) {
+    console.error('Error editing reward in main.js:', error);
+    return { success: false, error: error.message };
+  }
+});
+
+
+ipcMain.handle('delete-reward', async (event, id) => {
+  try {
+      await deleteRewardFromFirestore(id); // Call Firebase delete function
+      return { success: true };
+  } catch (error) {
+      console.error('Error deleting reward:', error);
+      return { success: false, error };
   }
 });

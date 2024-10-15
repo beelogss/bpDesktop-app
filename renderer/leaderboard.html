@@ -37,36 +37,40 @@
             <tbody>
             </tbody>
         </table>
+
+        <!-- Button to manually fetch data -->
+        <button id="get-data" style="display:none;">Fetch Data</button>
     </div>
 
     <script>
-        function fetchUsers(filter) {
-            fetch(`http://localhost:3000/getUsers?filter=${filter}`)
-                .then(response => response.json())
-                .then(users => {
-                    const tableBody = document.querySelector('#userTable tbody');
-                    tableBody.innerHTML = '';
-                    users.sort((a, b) => b.collected_points - a.collected_points);
-
-                    users.forEach((user, index) => {
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${index + 1}</td>
-                            <td>${user.name}</td>
-                            <td>${user.collected_points}</td>
-                        `;
-                        tableBody.appendChild(row);
-                    });
-                })
-                .catch(error => console.error('Error fetching users:', error));
-        }
-
-        document.getElementById('leaderboard-filter').addEventListener('change', function () {
-            const selectedFilter = this.value;
-            fetchUsers(selectedFilter);
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchData(); // Auto-fetch data when page loads
         });
 
-        document.addEventListener('DOMContentLoaded', () => fetchUsers('week'));
+        const dataTableBody = document.querySelector('#userTable tbody');
+
+        // Fetch and display data in the table
+        function fetchData() {
+            window.electronAPI.getData()
+                .then(data => {
+                    console.log('Data received in renderer:', data);
+                    // Clear previous table rows
+                    dataTableBody.innerHTML = '';
+                    data.forEach((user, index) => {
+                        const collectedPoints = user.collected_points || 0; // Default to 0 if null
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${index + 1}</td> <!-- Rank Number -->
+                            <td>${user.name}</td> <!-- Full Name -->
+                            <td>${collectedPoints}</td> <!-- Collected Points -->
+                        `;
+                        dataTableBody.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        }
     </script>
 </body>
 

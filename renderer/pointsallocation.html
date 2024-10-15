@@ -7,6 +7,7 @@
     <title>Points Allocation</title>
     <link rel="stylesheet" href="assets/pointsallocation.css">
     <script src="https://kit.fontawesome.com/3980f875bb.js" crossorigin="anonymous"></script>
+</head>
 
 <body>
     <div class="main-content">
@@ -15,94 +16,91 @@
         </a>
 
         <h2>Points Allocation</h2>
-        
 
-            <div class="search-bar">
-                <input type="text" id="search-input" placeholder="Search by student number">
-                <button id="search-button">Search</button>
-            </div>
-        
-            <table id="userTable">
-                <thead>
-                    <tr>
-                        <th>Student Number</th>
-                        <th>Full Name</th>
-                        <th>Collected Points</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                </tbody>
-            </table>
+        <div class="search-bar">
+            <input type="text" id="search-input" placeholder="Search by student number">
+            <button id="search-button">Search</button>
         </div>
 
-        <script>
-            function fetchUsers() {
-                fetch('http://localhost:3000/getUsers')
-                    .then(response => response.json())
-                    .then(users => {
-                        const tableBody = document.querySelector('#userTable tbody');
-                        tableBody.innerHTML = ''; 
-                        users.forEach(user => {
-                            const row = document.createElement('tr');
-                            row.innerHTML = `
-                            <td>${user.student_number}</td>
-                            <td>${user.name}</td>
-                            <td>${user.collected_points}</td>
-                            <td>
-                                <button onclick="editUser(${user.id})">Edit</button>
-                                <button onclick="deleteUser(${user.id})">Delete</button>
-                            </td>
-                            `;
-                            const searchInput = document.getElementById('search-input');
-                            const searchButton = document.getElementById('search-button');
-                            const userTable = document.getElementById('userTable');
+        <table id="userTable">
+            <thead>
+                <tr>
+                    <th>Student Number</th>
+                    <th>Full Name</th>
+                    <th>Collected Points</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+            </tbody>
+        </table>
+    </div>
 
-                            searchButton.addEventListener('click', () => {
-                                const searchTerm = searchInput.value.toLowerCase();
-                                const rows = userTable.rows;
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            fetchData(); // Auto-fetch data when page loads
+        });
 
-                                for (let i = 1; i < rows.length; i++) {
-                                    const row = rows[i];
-                                    const cells = row.cells;
-                                    const nameCell = cells[1].textContent.toLowerCase();
-                                    const studentNumberCell = cells[0].textContent.toLowerCase();
+        const dataTableBody = document.querySelector('#userTable tbody');
+        const searchInput = document.getElementById('search-input');
 
-                                    if (nameCell.includes(searchTerm) || studentNumberCell.includes(searchTerm)) {
-                                        row.style.display = '';
-                                    } else {
-                                        row.style.display = 'none';
-                                    }
-                                }
-                            });
-                            tableBody.appendChild(row);
-                        });
-                    })
-                    .catch(error => console.error('Error fetching users:', error));
-            }
-
-            function deleteUser(id) {
-                fetch(`http://localhost:3000/deleteUser/${id}`, {
-                    method: 'DELETE'
+        // Fetch and display data in the table
+        function fetchData() {
+            window.electronAPI.getData()
+                .then(data => {
+                    console.log('Data received in renderer:', data);
+                    updateTable(data); // Update table with fetched data
                 })
-                    .then(response => response.json())
-                    .then(data => {
-                        if (data.success) {
-                            alert('User deleted successfully');
-                            fetchUsers(); 
-                        } else {
-                            alert('Error deleting user');
-                        }
-                    })
-                    .catch(error => console.error('Error:', error));
-            }
+                .catch(error => {
+                    console.error('Error fetching data:', error);
+                });
+        }
 
-            function editUser(id) {
-                window.location.href = `EditUser.html?id=${id}`;
-            }
+        // Update table with user data
+        function updateTable(data) {
+            // Clear previous table rows
+            dataTableBody.innerHTML = '';
+            data.forEach(user => {
+                const collectedPoints = user.collected_points || 0; // Default to 0 if null
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${user.studentNumber}</td>
+                    <td>${user.name}</td>
+                    <td>${collectedPoints}</td>
+                    <td><button class="delete-user" data-id="${user.id}">Delete</button></td>
+                `;
+                dataTableBody.appendChild(row);
+            });
+            attachDeleteEventHandlers(); // Reattach event handlers
+        }
 
-            document.addEventListener('DOMContentLoaded', fetchUsers);
-        </script>
+        // Search functionality
+        searchInput.addEventListener('input', async () => {
+            const query = searchInput.value.toLowerCase();
+            const data = await window.electronAPI.getData(); // Fetch all data
+            const filteredData = data.filter(user => {
+                return user.studentNumber.toString().includes(query); // Filter by student number
+            });
+            updateTable(filteredData); // Update table with filtered data
+        });
+
+        // Attach event handlers to delete buttons
+        function attachDeleteEventHandlers() {
+            document.querySelectorAll('.delete-user').forEach(button => {
+                button.addEventListener('click', async (event) => {
+                    const userId = event.target.getAttribute('data-id');
+                    try {
+                        await window.electronAPI.deleteUser(userId);
+                        alert('User deleted successfully');
+                        const row = event.target.closest('tr');
+                        row.remove(); // Immediately remove the row from the UI
+                    } catch (error) {
+                        console.error('Error deleting user:', error);
+                    }
+                });
+            });
+        }
+    </script>
 </body>
 
 </html>

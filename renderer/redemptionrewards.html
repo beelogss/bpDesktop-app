@@ -12,15 +12,15 @@
 <body>
     <div class="main-content">
         <a href="dashboard.html" class="back-to-dashboard">
-            <i class="fa-solid fa-arrow-left"></i> Back to Dashboard
+            <i class="fa-solid fa-arrow-left"></i>
         </a>
 
         <h2>Redemption Rewards</h2>
-        
+
         <button class="Reward" onclick="location.href='addreward.html'">Add New Reward</button>
 
         <div id="status"></div>
-        
+
         <div id="rewards-container" class="rewards-grid">
             <!-- Rewards will be dynamically displayed here -->
         </div>
@@ -28,29 +28,27 @@
         <button id="fetch-rewards-btn">Refresh Rewards</button>
 
         <!-- Modal for editing reward -->
-        <!-- Modal for editing reward -->
-<div id="editModal" class="modal">
-    <div class="modal-content">
-        <span class="close">&times;</span>
-        <h3>Edit Reward</h3>
-        
-        <div class="edit-modal-body">
-            <div class="image-section">
-                <img id="editImage" class="reward-image" alt="Reward Image">
-            </div>
-            <div class="form-section">
-                <label for="editName">Reward Name:</label>
-                <input type="text" id="editName" class="modal-input">
-                
-                <label for="editStock">Stock:</label>
-                <input type="number" id="editStock" class="modal-input">
-                
-                <button id="saveEdit" class="modal-save-button">Save Changes</button>
+        <div id="editModal" class="modal">
+            <div class="modal-content">
+                <span class="close">&times;</span>
+                <h3>Edit Reward</h3>
+
+                <div class="edit-modal-body">
+                    <div class="image-section">
+                        <img id="editImage" class="reward-image" alt="Reward Image">
+                    </div>
+                    <div class="form-section">
+                        <label for="editName">Reward Name:</label>
+                        <input type="text" id="editName" class="modal-input">
+
+                        <label for="editStock">Stock:</label>
+                        <input type="number" id="editStock" class="modal-input">
+
+                        <button id="saveEdit" class="modal-save-button">Save Changes</button>
+                    </div>
+                </div>
             </div>
         </div>
-    </div>
-</div>
-
 
         <!-- Modal for adding a new reward -->
         <div id="addModal" class="modal">
@@ -73,10 +71,10 @@
         document.addEventListener('DOMContentLoaded', async () => {
             fetchRewards(); // Auto-fetch rewards when page loads
         });
-
+    
         const rewardsContainer = document.getElementById('rewards-container');
         const statusDiv = document.getElementById('status');
-
+    
         // Function to fetch and display rewards
         async function fetchRewards() {
             try {
@@ -84,13 +82,13 @@
                 console.log('Rewards received:', rewards);
                 // Clear previous content
                 rewardsContainer.innerHTML = '';
-
+    
                 // Loop through the rewards and display each one
                 rewards.forEach(reward => {
                     const rewardElement = document.createElement('div');
                     rewardElement.classList.add('reward-item');
-
-                    // Display reward image, name, and stock
+    
+                    // Display reward image, name, stock, and action buttons
                     rewardElement.innerHTML = `
                         <div class="reward-image">
                             <img src="${reward.image_url}" alt="${reward.reward_name}" />
@@ -99,9 +97,10 @@
                             <h3>${reward.reward_name}</h3>
                             <p>Stock: ${reward.stock}</p>
                             <button class="edit-button" onclick="openEditModal('${reward.id}', '${reward.reward_name}', ${reward.stock}, '${reward.image_url}')">Edit</button>
+                            <button class="delete-button" onclick="deleteReward('${reward.id}')">Delete</button>
                         </div>
                     `;
-
+    
                     rewardsContainer.appendChild(rewardElement);
                 });
             } catch (error) {
@@ -109,26 +108,49 @@
                 statusDiv.innerText = 'Failed to fetch rewards';
             }
         }
-
+    
         // Open edit modal
         function openEditModal(id, name, stock, imageUrl) {
             document.getElementById('editName').value = name;
             document.getElementById('editStock').value = stock;
             document.getElementById('editImage').src = imageUrl;
             document.getElementById('editModal').style.display = 'block';
-            // Store the ID for saving changes later
+    
+            // Link saveEdit function to the save button
             document.getElementById('saveEdit').onclick = () => saveEdit(id);
         }
-
+    
+        // Save edited reward
         async function saveEdit(id) {
             const name = document.getElementById('editName').value;
             const stock = document.getElementById('editStock').value;
-            // Call your API to save the edited reward (not implemented here)
-            await window.electronAPI.editReward(id, { reward_name: name, stock: stock });
-            fetchRewards(); // Refresh the rewards list
-            document.getElementById('editModal').style.display = 'none'; // Close modal
+    
+            // Call the editReward function via Electron API to update Firebase
+            try {
+                await window.electronAPI.editReward(id, name, stock);
+                document.getElementById('editModal').style.display = 'none'; // Close modal
+                fetchRewards(); // Refresh the rewards list to reflect the updated data
+            } catch (error) {
+                console.error('Error saving reward:', error);
+                statusDiv.innerText = 'Failed to save reward';
+            }
         }
-
+    
+        // Delete reward
+        async function deleteReward(id) {
+            const confirmDelete = confirm("Are you sure you want to delete this reward?");
+            if (confirmDelete) {
+                try {
+                    await window.electronAPI.deleteReward(id); // Delete reward via Electron API
+                    fetchRewards(); // Refresh the rewards list after deletion
+                } catch (error) {
+                    console.error('Error deleting reward:', error);
+                    statusDiv.innerText = 'Failed to delete reward';
+                }
+            }
+        }
+    
+        // Event listener for the fetch rewards button
         document.getElementById('fetch-rewards-btn').addEventListener('click', fetchRewards);
     </script>
 </body>

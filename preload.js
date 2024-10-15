@@ -6,5 +6,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   deleteUser: (userId) => ipcRenderer.invoke('delete-user', userId),
   uploadImage: (file) => ipcRenderer.invoke('upload-image', file),
   addReward: (reward) => ipcRenderer.invoke('add-reward', reward),
-  getRewards: () => ipcRenderer.invoke('get-rewards')
+  getRewards: () => ipcRenderer.invoke('get-rewards'),
+  editReward: (rewardId, rewardName, stock) => ipcRenderer.invoke('edit-reward', rewardId, rewardName, stock),
+  deleteReward: (rewardId) => ipcRenderer.invoke('delete-reward', rewardId)
 });
