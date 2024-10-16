@@ -16,6 +16,8 @@ function createWindow() {
       nodeIntegration: false,
     },
     autoHideMenuBar: true,
+    minWidth: 800,
+    minHeight: 600
   });
 
   mainWindow.loadFile('renderer/index.html');
@@ -84,9 +86,9 @@ ipcMain.handle('get-rewards', async () => {
   }
 });
 
-ipcMain.handle('edit-reward', async (event, rewardId, rewardName, stock) => {
+ipcMain.handle('edit-reward', async (event, rewardId, rewardName, stock, points) => {
   try {
-    await editRewardFromFirestore(rewardId, rewardName, stock); // Update Firebase with the new reward details
+    await editRewardFromFirestore(rewardId, rewardName, stock, points); // Update Firebase with the new reward details
     return { success: true };
   } catch (error) {
     console.error('Error editing reward in main.js:', error);

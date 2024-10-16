@@ -70,28 +70,29 @@ form#addUserForm input {
     margin-bottom: 15px;
     border: 1px solid #ccc;
     border-radius: 41px;
-}
-
-form#addUserForm button {
-    padding: 10px 20px;
-    align-items: center;
-    justify-content: center;
-    font-family: 'Poppins';
-    font-size: 15px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    margin: 6px auto 0 auto;
-    border-radius: 5px;
-    border-color: #acacac;
-    background-color: #83951c;
-    color: white;
-    font-weight: bold;
+    border-color: #7a9b57;
 }
 
 #addUserForm input:focus {
-    border-color: #455e14;
-    background-color: white;
     outline: none;
+    border-width: 2px;
+    border-color: #7a9b57!important;
+}
+
+form#addUserForm button {
+    width: 100px;
+    height: 40px;
+    font-family: 'Poppins';
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+    background-color: white;
+    color: white;
+    background-color: #83951c;
+    font-weight: bold;
+    margin-left: auto;
+    border: none;
 }
 
 form#addUserForm button:hover {

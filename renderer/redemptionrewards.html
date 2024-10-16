@@ -17,9 +17,9 @@
 
         <h2>Redemption Rewards</h2>
 
-        <button class="Reward" onclick="location.href='addreward.html'">Add New Reward</button>
-
         <div id="status"></div>
+
+        <button class="Reward" onclick="location.href='addreward.html'">Add New Reward</button>
 
         <div id="rewards-container" class="rewards-grid">
             <!-- Rewards will be dynamically displayed here -->
@@ -44,6 +44,9 @@
                         <label for="editStock">Stock:</label>
                         <input type="number" id="editStock" class="modal-input">
 
+                        <label for="editPoints">Required Points:</label>
+                        <input type="number" id="editPoints" class="modal-input">
+
                         <button id="saveEdit" class="modal-save-button">Save Changes</button>
                     </div>
                 </div>
@@ -59,6 +62,8 @@
                 <input type="text" id="rewardName" required>
                 <label for="rewardStock">Stock:</label>
                 <input type="number" id="rewardStock" required>
+                <label for="rewardPoints">Required Points:</label>
+                <input type="number" id="rewardPoints" required>
                 <label for="rewardImage">Image URL:</label>
                 <input type="text" id="rewardImage" required>
                 <button id="addReward">Add Reward</button>
@@ -96,7 +101,8 @@
                         <div class="reward-details">
                             <h3>${reward.reward_name}</h3>
                             <p>Stock: ${reward.stock}</p>
-                            <button class="edit-button" onclick="openEditModal('${reward.id}', '${reward.reward_name}', ${reward.stock}, '${reward.image_url}')">Edit</button>
+                            <p>Points: ${reward.points}</p>
+                            <button class="edit-button" onclick="openEditModal('${reward.id}', '${reward.reward_name}', ${reward.stock}, ${reward.points}, '${reward.image_url}')">Edit</button>
                             <button class="delete-button" onclick="deleteReward('${reward.id}')">Delete</button>
                         </div>
                     `;
@@ -110,9 +116,10 @@
         }
     
         // Open edit modal
-        function openEditModal(id, name, stock, imageUrl) {
+        function openEditModal(id, name, stock, points, imageUrl) {
             document.getElementById('editName').value = name;
             document.getElementById('editStock').value = stock;
+            document.getElementById('editPoints').value = points;
             document.getElementById('editImage').src = imageUrl;
             document.getElementById('editModal').style.display = 'block';
     
@@ -124,10 +131,11 @@
         async function saveEdit(id) {
             const name = document.getElementById('editName').value;
             const stock = document.getElementById('editStock').value;
+            const points = document.getElementById('editPoints').value;
     
             // Call the editReward function via Electron API to update Firebase
             try {
-                await window.electronAPI.editReward(id, name, stock);
+                await window.electronAPI.editReward(id, name, stock, points);
                 document.getElementById('editModal').style.display = 'none'; // Close modal
                 fetchRewards(); // Refresh the rewards list to reflect the updated data
             } catch (error) {

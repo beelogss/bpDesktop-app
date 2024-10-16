@@ -78,12 +78,13 @@ async function getRewardsFromFirestore() {
   }
 }
 
-async function editRewardFromFirestore(rewardId, rewardName, stock) {
+async function editRewardFromFirestore(rewardId, rewardName, stock, points) {
   try {
     const rewardRef = doc(db, 'rewards', rewardId);
     await updateDoc(rewardRef, {
       reward_name: rewardName,
-      stock: stock
+      stock: stock,
+      points: points
     });
     console.log('Reward successfully updated in Firebase!');
   } catch (error) {

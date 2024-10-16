@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit User</title>
+    <link rel="stylesheet" href="assets/edituser.css">
+</head>
+<body>
+    <div class="main-content">
+        <a href="manageuser.html" class="back-to-dashboard">
+            <i class="fa-solid fa-arrow-left"></i>
+        </a>
+
+        <h2>Edit User</h2>
+        <form id="edit-user-form">
+            <label for="studentNumber">Student Number:</label>
+            <input type="text" id="studentNumber" disabled>
+
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" required>
+
+            <label for="email">Email:</label>
+            <input type="email" id="email" required>
+
+            <button type="submit">Save Changes</button>
+        </form>
+    </div>
+
+    <script>
+        // Fetch the user ID from the URL query string
+        const userId = new URLSearchParams(window.location.search).get('id');
+        const form = document.getElementById('edit-user-form');
+        const studentNumberInput = document.getElementById('studentNumber');
+        const nameInput = document.getElementById('name');
+        const emailInput = document.getElementById('email');
+
+        // Fetch user data by ID and populate the form
+        async function fetchUserById(userId) {
+            try {
+                const user = await window.electronAPI.getData(); // Fetch all users
+                const userData = user.find(u => u.id === userId); // Find the user by ID
+                if (userData) {
+                    studentNumberInput.value = userData.studentNumber;
+                    nameInput.value = userData.name;
+                    emailInput.value = userData.email;
+                } else {
+                    console.error('User not found');
+                }
+            } catch (error) {
+                console.error('Error fetching user:', error);
+            }
+        }
+
+        // Fetch user data when the page loads
+        document.addEventListener('DOMContentLoaded', () => {
+            if (userId) {
+                fetchUserById(userId); // Fetch user details and populate the form
+            }
+        });
+
+        // Handle form submission
+        form.addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            // Create updated user object
+            const updatedUser = {
+                name: nameInput.value,
+                email: emailInput.value
+            };
+
+            try {
+                // Call the Electron API to update the user in Firebase
+                await window.electronAPI.editUser(userId, updatedUser);
+                alert('User updated successfully');
+                location.href = 'manageuser.html'; // Redirect back to Manage Users page
+            } catch (error) {
+                console.error('Error updating user:', error);
+            }
+        });
+    </script>
+</body>
+</html>

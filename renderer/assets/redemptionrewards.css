@@ -1,5 +1,7 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Signika+Negative:wght@300..700&display=swap');
+
 body {
-    font-family: 'Poppins', sans-serif;
+    font-family: 'Poppins';
     background-color: #f0f0f0;
     margin: 0;
     padding: 20px;
@@ -14,6 +16,10 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.main-content h2, .back-to-dashboard{
+    display: inline-block;
+}
+
 h2 {
     font-size: 28px;
     color: #455e14;
@@ -21,14 +27,25 @@ h2 {
 }
 
 .back-to-dashboard {
+    display: inline-block;
     color: #455e14;
     text-decoration: none;
-    margin-bottom: 10px;
-    display: inline-block;
+    font-size: 16px;
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+.back-to-dashboard:hover {
+    text-decoration: underline;
+    background-color: #bdd299;
+    color: white;
 }
 
 .Reward {
     background-color: #83951c;
+    font-family: 'Poppins';
+    font-weight: bold;
     color: white;
     border: none;
     padding: 10px 20px;
@@ -38,7 +55,8 @@ h2 {
 }
 
 .Reward:hover {
-    background-color: #7a9b57;
+    background-color: #bdd299;
+    color: #455e14;
 }
 
 .rewards-grid {
@@ -73,7 +91,7 @@ h2 {
 
 .reward-details h3 {
     font-size: 18px;
-    color: #333;
+    color: #455e14;
     margin: 10px 0;
 }
 
@@ -83,6 +101,8 @@ h2 {
 }
 
 .edit-button {
+    font-family: 'Poppins';
+    font-weight: bold;
     background-color: #455e14;
     color: white;
     border: none;
@@ -93,7 +113,25 @@ h2 {
 }
 
 .edit-button:hover {
-    background-color: #83951c;
+    background-color: #bdd299;
+    color: #455e14;
+}
+
+.delete-button {
+    font-family: 'Poppins';
+    font-weight: bold;
+    background-color: #b4e639;
+    color: white;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.delete-button:hover {
+    background-color: #E74C3C;;
+    color: white;
 }
 
 /* Modal styles */
@@ -136,7 +174,7 @@ h2 {
 }
 
 h3 {
-    margin-bottom: 20px;
+    margin-top: 0%;
     color: #455e14;
     font-size: 24px;
 }
@@ -170,39 +208,51 @@ h3 {
 }
 
 label {
+    font-size: 'Poppins';
+    font-weight: bold;
+    color: #455e14;
     margin-bottom: 5px;
     font-weight: 600;
-    color: #333;
+}
+
+.modal-content {
+    height: auto;
+    width: auto;
 }
 
 .modal-input {
-    width: 100%;
+    font-family: 'Poppins';
+    width: 92%;
     padding: 10px;
     margin-bottom: 15px;
     border-radius: 5px;
-    border: 1px solid #ccc;
+    border: 1px solid #455e14;
     font-size: 16px;
     transition: border 0.3s ease;
 }
 
 .modal-input:focus {
     outline: none;
+    border-width: 2px;
     border-color: #455e14;
 }
 
 .modal-save-button {
+    font-family: 'Poppins';
+    font-weight: bold;
     padding: 10px 20px;
     background-color: #83951c;
     color: white;
     border: none;
     border-radius: 5px;
     cursor: pointer;
-    font-size: 16px;
+    font-size: 14px;
     transition: background-color 0.3s ease;
 }
 
 .modal-save-button:hover {
-    background-color: #7a9b57;
+    background-color: #bdd299;
+    color: #455e14;
 }
 
 /* Fade in animation for the modal */

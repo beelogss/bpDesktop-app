@@ -48,28 +48,10 @@ body {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.search-bar button {
-    width: 11%;
-    height: 40px;
-    padding: 10px;
-    font-size: 14px;
-    background-color: #83951c;
-    color: white;
-    border: none;
-    border-radius: 60px;
-    cursor: pointer;
-    margin-left: 5px;
-    font-family: 'Poppins';
-    font-weight: bold;
-    text-align: center;
-    justify-content: center;
-    align-items: center;
-
-}
-
-.search-bar button:hover {
-    background-color: #bdd299;
-    color: #455e14;
+.search-bar input:focus {
+    outline: none;
+    border-width: 2px;
+    border-color: #7a9b57!important;
 }
 
 button.NewUser {

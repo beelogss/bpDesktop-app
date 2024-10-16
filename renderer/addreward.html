@@ -23,6 +23,9 @@
             <label for="stock">Stock:</label>
             <input type="number" id="stock" name="stock" required>
 
+            <label for="stock">Required Points:</label>
+            <input type="number" id="points" name="points" required>
+
             <label for="image">Reward Image:</label>
             <input type="file" id="image" name="image" accept="image/*" required>
 
@@ -39,6 +42,7 @@
 
                 const rewardName = document.getElementById('reward_name').value;
                 const rewardStock = document.getElementById('stock').value;
+                const rewardPoints = document.getElementById('points').value;
                 const rewardImage = document.getElementById('image').files[0];
 
                 if (!rewardImage) {
@@ -62,6 +66,7 @@
                         const reward = {
                             reward_name: rewardName,
                             stock: rewardStock,
+                            points: rewardPoints,
                             image_url: imageUrl
                         };
 

@@ -18,6 +18,7 @@ body {
 }
 
 h2 {
+    font-size: 24px;
     color: #455e14;
     margin-bottom: 20px;
 }
@@ -35,96 +36,66 @@ h2, p {
     margin-bottom: 20px;
     padding: 10px 15px;
     border-radius: 5px;
-    background-color: transparent;
 }
 
 .back-to-dashboard:hover {
-    text-decoration: underline;
+     text-decoration: underline;
     background-color: #bdd299;
     color: white;
 }
 
-form {
+form#editUserForm {
     background-color: whitesmoke;
-    padding: 20px;
+    padding: 25px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     margin-bottom: 30px;
-    font-family: 'Poppins';
 }
 
-form label {
+form#editUserForm label {
     font-weight: bold;
     color: #455e14;
     margin-bottom: 8px;
     display: block;
-    font-family: 'Poppins';
-}
-
-form input {
-    width: 97%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border: 1px solid #7a951c;
-    border-radius: 5px;
-    font-family: 'Poppins';
-}
-
-form input:focus {
-    outline: none;
-    border-width: 2px;
-    border-color: #7a9b57!important;
-}
-
-form button {
-    padding: 10px 20px;
-    background-color: #83951c;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-    cursor: pointer;
-    font-family: 'Poppins';
-    font-weight: bold;
-}
-
-form button:hover {
-    background-color: #bdd299;
-    color: #455e14;
-
-}
-
-.reward-card {
-    display: inline-block;
-    width: 200px;
-    margin: 10px;
-    padding: 10px;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: white;
-    text-align: center;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-}
-
-.reward-card img {
-    width: 100%;
-    height: 150px;
-    object-fit: contain;
-    border-bottom: 1px solid #ddd;
-    margin-bottom: 10px;
-}
-
-.reward-card h3 {
-    color: #455e14;
-    font-size: 18px;
-    margin-bottom: 10px;
-}
-
-.reward-card p {
-    color: #455e14;
     font-size: 16px;
 }
 
+form#editUserForm input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+    border-radius: 41px;
+    font-size: 16px;
+    box-sizing: border-box;
+}
+
+form#editUserForm input:focus {
+    border-color: #455e14;
+    background-color: white;
+    outline: none;
+}
+
+form#editUserForm button {
+    padding: 10px 20px;
+    align-items: center;
+    justify-content: center;
+    font-family: 'Poppins';
+    font-size: 15px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin: 6px auto 0 auto;
+    border-radius: 5px;
+    border-color: #acacac;
+    background-color: #83951c;
+    color: white;
+    font-weight: bold;
+}
+
+form#editUserForm button:hover {
+    background-color: #bdd299;
+    color: #455e14;
+}
 
 @media (max-width: 768px) {
     .main-content {
