@@ -4,7 +4,7 @@ require('electron-reload')(__dirname, {
     electron: path.join(__dirname, 'node_modules', '.bin', 'electron'),
     hardResetMethod: 'exit'
 });
-const { getDataFromFirestore, addUserToFirestore, deleteUserFromFirestore, uploadImage, addRewardToFirestore, getRewardsFromFirestore, editRewardFromFirestore, deleteRewardFromFirestore} = require('./main/firebase');
+const { getDataFromFirestore, addUserToFirestore, editUserFromFirestore, deleteUserFromFirestore, uploadImage, addRewardToFirestore, getRewardsFromFirestore, editRewardFromFirestore, deleteRewardFromFirestore} = require('./main/firebase');
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
@@ -43,6 +43,16 @@ ipcMain.handle('add-user', async (event, user) => {
   } catch (error) {
     console.error('Error adding user:', error);
     return { error: 'Failed to add user' };
+  }
+});
+
+ipcMain.handle('edit-user', async (event, userId, studentNumber, name, email) => {
+  try {
+      await editUserFromFirestore(userId, studentNumber, name, email);
+      return { success: true };
+  } catch (error) {
+      console.error('Error editing user:', error);
+      return { error: 'Failed to edit user' };
   }
 });
 

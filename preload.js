@@ -3,6 +3,7 @@ const { contextBridge, ipcRenderer } = require('electron');
 contextBridge.exposeInMainWorld('electronAPI', {
   getData: () => ipcRenderer.invoke('get-data'),
   addUser: (user) => ipcRenderer.invoke('add-user', user),
+  editUser: (userId, studentNumber, name, email) => ipcRenderer.invoke('edit-user', userId, studentNumber, name, email),
   deleteUser: (userId) => ipcRenderer.invoke('delete-user', userId),
   uploadImage: (file) => ipcRenderer.invoke('upload-image', file),
   addReward: (reward) => ipcRenderer.invoke('add-reward', reward),

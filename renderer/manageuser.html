@@ -69,11 +69,14 @@
                     <td>${user.studentNumber}</td>
                     <td>${user.name}</td>
                     <td>${user.email}</td>
-                    <td><button class="delete-user" data-id="${user.id}">Delete</button></td>
+                    <td>
+                        <button class="edit-user" data-id="${user.id}">Edit</button>
+                        <button class="delete-user" data-id="${user.id}">Delete</button>
+                    </td>
                 `;
                 dataTableBody.appendChild(row);
             });
-            attachDeleteEventHandlers(); // Reattach event handlers
+            attachEventHandlers(); // Reattach event handlers for both edit and delete
         }
 
         // Fetch and display data on button click (or on page load)
@@ -89,8 +92,17 @@
             updateTable(filteredData); // Update table with filtered data
         });
 
-        // Attach event handlers to delete buttons
-        function attachDeleteEventHandlers() {
+        // Attach event handlers to edit and delete buttons
+        function attachEventHandlers() {
+            // Handle Edit button
+            document.querySelectorAll('.edit-user').forEach(button => {
+                button.addEventListener('click', (event) => {
+                    const userId = event.target.getAttribute('data-id');
+                    window.location.href = `edituser.html?id=${userId}`;
+                });
+            });
+
+            // Handle Delete button
             document.querySelectorAll('.delete-user').forEach(button => {
                 button.addEventListener('click', async (event) => {
                     const userId = event.target.getAttribute('data-id');

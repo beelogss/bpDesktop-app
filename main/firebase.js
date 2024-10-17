@@ -36,6 +36,22 @@ async function addUserToFirestore(user) {
   }
 }
 
+// Edit user data in Firestore
+async function editUserFromFirestore(userId, studentNumber, name, email) {
+  try {
+      const userRef = doc(db, 'users', userId);
+      await updateDoc(userRef, {
+          studentNumber: studentNumber,
+          name: name,
+          email: email
+      });
+      console.log('User successfully updated in Firebase!');
+  } catch (error) {
+      console.error('Error editing user in Firebase:', error);
+      throw error;
+  }
+}
+
 async function deleteUserFromFirestore(userId) {
   try {
     await deleteDoc(doc(db, 'users', userId));
@@ -106,7 +122,8 @@ async function deleteRewardFromFirestore(rewardId) {
 
 module.exports = { 
   getDataFromFirestore, 
-  addUserToFirestore, 
+  addUserToFirestore,
+  editUserFromFirestore, 
   deleteUserFromFirestore, 
   uploadImage, 
   addRewardToFirestore, 
