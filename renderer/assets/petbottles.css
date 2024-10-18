@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Signika+Negative:wght@300..700&display=swap');
 
 body {
-    font-family: 'Poppins';
+    font-family: 'Poppins', sans-serif;
     background-color: #f0f0f0;
     margin: 0;
     padding: 20px;
@@ -16,7 +16,7 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-.main-content h2, .back-to-dashboard{
+.main-content h2, .back-to-dashboard {
     display: inline-block;
 }
 
@@ -42,9 +42,9 @@ h2 {
     color: white;
 }
 
-.Reward {
+.AddBottle {
     background-color: #83951c;
-    font-family: 'Poppins';
+    font-family: 'Poppins', sans-serif;
     font-weight: bold;
     color: white;
     border: none;
@@ -54,62 +54,65 @@ h2 {
     transition: background-color 0.3s;
 }
 
-.Reward:hover {
+.AddBottle:hover {
     background-color: #bdd299;
     color: #455e14;
 }
 
-.rewards-grid {
+.bottles-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 16px;
     padding: 20px;
 }
 
-.reward-item {
+.bottle-item {
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 10px;
     text-align: center;
+    transition: transform 0.3s;
 }
 
-.reward-image img {
+.bottle-item:hover {
+    transform: translateY(-5px);
+}
+
+.bottle-image img {
     max-width: 100%;
     height: auto;
     border-radius: 8px;
 }
 
-
-.reward-item:hover {
-    transform: translateY(-5px);
-}
-
-.reward-details {
+.bottle-details {
     padding: 15px;
     text-align: center;
 }
 
-.reward-details h3 {
+.bottle-details h3 {
     font-size: 18px;
     color: #455e14;
     margin: 10px 0;
 }
 
-.reward-details p {
+.bottle-details p {
     font-size: 14px;
     color: #777;
 }
 
-.edit-button {
-    font-family: 'Poppins';
+.edit-button, .delete-button {
+    font-family: 'Poppins', sans-serif;
     font-weight: bold;
-    background-color: #455e14;
-    color: white;
     border: none;
     padding: 8px 15px;
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s;
+}
+
+.edit-button {
+    background-color: #455e14;
+    color: white;
 }
 
 .edit-button:hover {
@@ -118,19 +121,12 @@ h2 {
 }
 
 .delete-button {
-    font-family: 'Poppins';
-    font-weight: bold;
     background-color: #b4e639;
     color: white;
-    border: none;
-    padding: 8px 15px;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
 }
 
 .delete-button:hover {
-    background-color: #E74C3C;;
+    background-color: #E74C3C;
     color: white;
 }
 
@@ -152,7 +148,7 @@ h2 {
     margin: 10% auto;
     padding: 20px;
     border-radius: 10px;
-    width: 50%;
+    width: 80%;
     max-width: 600px;
     display: flex;
     flex-direction: column;
@@ -174,7 +170,7 @@ h2 {
 }
 
 h3 {
-    margin-top: 0%;
+    margin-top: 0;
     color: #455e14;
     font-size: 24px;
 }
@@ -193,7 +189,7 @@ h3 {
     align-items: center;
 }
 
-.reward-image {
+.bottle-image {
     max-width: 100%;
     height: auto;
     border-radius: 10px;
@@ -208,21 +204,32 @@ h3 {
 }
 
 label {
-    font-size: 'Poppins';
+    font-family: 'Poppins', sans-serif;
     font-weight: bold;
     color: #455e14;
     margin-bottom: 5px;
-    font-weight: 600;
 }
 
-.modal-content {
-    height: auto;
-    width: auto;
+.editsizeinput:focus {
+    outline: none;
+    border-width: 2px;
+    border-color: #455e14;
 }
-
-.modal-input {
+select {
+    width: 20%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #455e14;
+    border-radius: 5px;
     font-family: 'Poppins';
-    width: 92%;
+}
+select option {
+    font-weight: bold;
+    color: #455e14;
+    font-family: 'Poppins';
+}
+.modal-input {
+    font-family: 'Poppins', sans-serif;
     padding: 10px;
     margin-bottom: 15px;
     border-radius: 5px;
@@ -238,7 +245,7 @@ label {
 }
 
 .modal-save-button {
-    font-family: 'Poppins';
+    font-family: 'Poppins', sans-serif;
     font-weight: bold;
     padding: 10px 20px;
     background-color: #83951c;

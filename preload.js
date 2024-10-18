@@ -15,7 +15,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   uploadPetBottleImage: (file) => ipcRenderer.invoke('upload-pet-bottle-image', file),
   addPetBottle: (petBottle) => ipcRenderer.invoke('add-pet-bottle', petBottle),
   getPetBottles: () => ipcRenderer.invoke('get-pet-bottles'),
-  editPetBottle: (petBottleId, brandName, size, weight, barcodeNumber) => ipcRenderer.invoke('edit-pet-bottle', petBottleId, brandName, size, weight, barcodeNumber),
+  editPetBottle: (petBottleId, brandName, size, sizeUnit, weight, weightUnit, barcodeNumber, imageUrl) => ipcRenderer.invoke('edit-pet-bottle', petBottleId, brandName, size, sizeUnit, weight, weightUnit, barcodeNumber, imageUrl),
   deletePetBottle: (petBottleId) => ipcRenderer.invoke('delete-pet-bottle', petBottleId),
 
 });

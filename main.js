@@ -134,7 +134,6 @@ ipcMain.handle('delete-reward', async (event, id) => {
   }
 });
 
-// Handler to upload a pet bottle image
 ipcMain.handle('upload-pet-bottle-image', async (event, { fileContent, fileName }) => {
   try {
     const imageUrl = await uploadPetBottleImage(Buffer.from(fileContent), fileName);
@@ -145,7 +144,6 @@ ipcMain.handle('upload-pet-bottle-image', async (event, { fileContent, fileName 
   }
 });
 
-// Handler to add a pet bottle
 ipcMain.handle('add-pet-bottle', async (event, petBottle) => {
   try {
     await addPetBottleToFirestore(petBottle);
@@ -156,7 +154,6 @@ ipcMain.handle('add-pet-bottle', async (event, petBottle) => {
   }
 });
 
-// Handler to get all pet bottles
 ipcMain.handle('get-pet-bottles', async () => {
   try {
     const petBottles = await getPetBottlesFromFirestore();
@@ -167,10 +164,9 @@ ipcMain.handle('get-pet-bottles', async () => {
   }
 });
 
-// Handler to edit a pet bottle
-ipcMain.handle('edit-pet-bottle', async (event, petBottleId, brandName, size, weight, barcodeNumber) => {
+ipcMain.handle('edit-pet-bottle', async (event, petBottleId, brandName, size, sizeUnit, weight, weightUnit, barcodeNumber, imageUrl) => {
   try {
-    await editPetBottleInFirestore(petBottleId, brandName, size, weight, barcodeNumber);
+    await editPetBottleInFirestore(petBottleId, brandName, size, sizeUnit, weight, weightUnit, barcodeNumber);
     return { success: true };
   } catch (error) {
     console.error('Error editing pet bottle:', error);
@@ -178,7 +174,6 @@ ipcMain.handle('edit-pet-bottle', async (event, petBottleId, brandName, size, we
   }
 });
 
-// Handler to delete a pet bottle
 ipcMain.handle('delete-pet-bottle', async (event, id) => {
   try {
     await deletePetBottleFromFirestore(id);

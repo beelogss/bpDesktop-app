@@ -120,7 +120,6 @@ async function deleteRewardFromFirestore(rewardId) {
   }
 }
 
-// Function to upload an image for a pet bottle
 async function uploadPetBottleImage(fileBuffer, fileName) {
   try {
     const storageRef = ref(storage, `petBottles/${fileName}`);
@@ -134,7 +133,6 @@ async function uploadPetBottleImage(fileBuffer, fileName) {
   }
 }
 
-// Function to add a pet bottle to Firestore
 async function addPetBottleToFirestore(petBottle) {
   try {
     await addDoc(collection(db, 'petBottles'), petBottle);
@@ -144,36 +142,39 @@ async function addPetBottleToFirestore(petBottle) {
   }
 }
 
-// Function to retrieve all pet bottles from Firestore
 async function getPetBottlesFromFirestore() {
   try {
-    const querySnapshot = await getDocs(collection(db, 'petBottles'));
-    const petBottles = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    return petBottles;
+    const bottles = [];
+    const snapshot = await getDocs(collection(db, 'petBottles'));
+    snapshot.forEach(doc => {
+      bottles.push({ id: doc.id, ...doc.data() });
+    });
+    return bottles;
   } catch (error) {
-    console.error('Error fetching pet bottles from Firestore:', error);
+    console.error('Error fetching bottles:', error);
     throw error;
   }
 }
 
-// Function to edit a pet bottle in Firestore
-async function editPetBottleInFirestore(petBottleId, brandName, size, weight, barcodeNumber) {
+async function editPetBottleInFirestore(petBottleId, brandName, size, sizeUnit, weight, weightUnit, barcodeNumber, imageUrl) {
   try {
     const petBottleRef = doc(db, 'petBottles', petBottleId);
     await updateDoc(petBottleRef, {
       brand_name: brandName,
       size: size,
+      size_unit: sizeUnit,
       weight: weight,
-      barcode_number: barcodeNumber
+      weight_unit: weightUnit,
+      barcode_number: barcodeNumber,
+      image_url: imageUrl
     });
-    console.log('Pet bottle successfully updated in Firestore!');
+    console.log('Pet bottle successfully updated in Firebase!');
   } catch (error) {
-    console.error('Error editing pet bottle in Firestore:', error);
+    console.error('Error editing pet bottle in Firebase:', error);
     throw error;
   }
 }
 
-// Function to delete a pet bottle from Firestore
 async function deletePetBottleFromFirestore(petBottleId) {
   try {
     const petBottleRef = doc(db, 'petBottles', petBottleId);
@@ -184,7 +185,6 @@ async function deletePetBottleFromFirestore(petBottleId) {
     throw error;
   }
 }
-
 
 
 module.exports = { 

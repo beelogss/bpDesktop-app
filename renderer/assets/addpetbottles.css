@@ -44,6 +44,37 @@ h2, p {
     color: white;
 }
 
+.bottleSizeUnit{
+    background-color: whitesmoke;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    margin-bottom: 30px;
+}
+select {
+    width: 10%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #7a951c;
+    border-radius: 5px;
+    font-family: 'Poppins';
+}
+
+/* Style the options */
+select option {
+    font-weight: bold;
+    color: #455e14;
+    margin-bottom: 8px;
+    display: block;
+    font-family: 'Poppins';
+}
+
+/* Style the select dropdown on focus */
+select:focus {
+    outline: none;
+    border-width: 2px;
+    border-color: #7a9b57!important;
+}
 form {
     background-color: whitesmoke;
     padding: 20px;
@@ -76,6 +107,38 @@ form input:focus {
     border-color: #7a9b57!important;
 }
 
+#bottleSize {
+    width: 85%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #7a951c;
+    border-radius: 5px;
+    font-family: 'Poppins';
+}
+#bottleSizeUnit{
+    width: 10.3%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #7a951c;
+    border-radius: 5px;
+    font-family: 'Poppins';
+}
+#bottleWeight{
+    width: 85%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #7a951c;
+    border-radius: 5px;
+    font-family: 'Poppins';
+}
+#bottleWeightUnit{
+    width: 10.3%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #7a951c;
+    border-radius: 5px;
+    font-family: 'Poppins';
+}
 form button {
     padding: 10px 20px;
     background-color: #83951c;
