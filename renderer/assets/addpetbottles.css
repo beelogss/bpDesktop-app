@@ -27,7 +27,7 @@ h2, p {
     margin-top: 0%;
 }
 
-.back-to-dashboard {
+.back-to-bottles {
     display: inline-block;
     color: #455e14;
     text-decoration: none;
@@ -38,7 +38,7 @@ h2, p {
     background-color: transparent;
 }
 
-.back-to-dashboard:hover {
+.back-to-bottles:hover {
     text-decoration: underline;
     background-color: #bdd299;
     color: white;

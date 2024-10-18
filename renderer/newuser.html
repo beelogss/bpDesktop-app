@@ -7,7 +7,6 @@
     <title>Add New User</title>
     <link rel="stylesheet" href="assets/newuser.css">
     <script src="https://kit.fontawesome.com/3980f875bb.js" crossorigin="anonymous"></script>
-
 </head>
 
 <body>
@@ -28,10 +27,16 @@
             <input type="email" id="email" name="email" required>
 
             <label for="password">Password:</label>
-            <input type="password" id="password" name="password" required>
+            <div class="password-container">
+                <input type="password" id="password" name="password" required>
+                <i class="fa-solid fa-eye-slash" id="togglePassword"></i>
+            </div>
 
             <label for="confirmPassword">Confirm Password:</label>
-            <input type="password" id="confirmPassword" name="confirmPassword" required>
+            <div class="password-container">
+                <input type="password" id="confirmPassword" name="confirmPassword" required>
+                <i class="fa-solid fa-eye-slash" id="toggleConfirmPassword"></i>
+            </div>
 
             <button type="submit">Add User</button>
         </form>
@@ -39,6 +44,29 @@
 </body>
 
 <script>
+    const togglePassword = document.getElementById('togglePassword');
+    const passwordField = document.getElementById('password');
+    const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+    const confirmPasswordField = document.getElementById('confirmPassword');
+
+    togglePassword.addEventListener('click', function () {
+        // Toggle password visibility
+        const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordField.setAttribute('type', type);
+        // Toggle icon class between eye-slash (hidden) and eye (visible)
+        this.classList.toggle('fa-eye-slash');
+        this.classList.toggle('fa-eye');
+    });
+
+    toggleConfirmPassword.addEventListener('click', function () {
+        // Toggle confirm password visibility
+        const type = confirmPasswordField.getAttribute('type') === 'password' ? 'text' : 'password';
+        confirmPasswordField.setAttribute('type', type);
+        // Toggle icon class between eye-slash (hidden) and eye (visible)
+        this.classList.toggle('fa-eye-slash');
+        this.classList.toggle('fa-eye');
+    });
+
     addUserForm.addEventListener('submit', async (event) => {
         event.preventDefault();
         const studentNumber = document.getElementById('studentNumber').value;
@@ -57,7 +85,7 @@
                 studentNumber,
                 name,
                 email,
-                password // Store only password, not confirmPassword
+                password
             });
             alert('User added successfully');
             addUserForm.reset(); // Clear form fields

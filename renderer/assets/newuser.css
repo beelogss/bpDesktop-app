@@ -64,6 +64,34 @@ form#addUserForm label {
     font-family: "Poppins";
 }
 
+.password-container {
+    position: relative;
+    width: 100%;
+}
+
+.password-container input {
+    width: calc(100% - 40px); /* Adjusted to accommodate the icon */
+    padding: 12px;
+    border: 1px solid #ccc;
+    border-radius: 41px;
+    border-color: #7a9b57;
+}
+
+.password-container input:focus {
+    outline: none;
+    border-width: 2px;
+    border-color: #7a9b57 !important;
+}
+
+.password-container i {
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    cursor: pointer;
+    color: #455e14;
+}
+
 form#addUserForm input {
     width: 97%;
     padding: 12px;

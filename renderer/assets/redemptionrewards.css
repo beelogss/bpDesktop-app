@@ -8,6 +8,7 @@ body {
 }
 
 .main-content {
+    font-family: 'Poppins';
     max-width: 1200px;
     margin: 0 auto;
     background-color: white;

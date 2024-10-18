@@ -1,10 +1,27 @@
 const { app, BrowserWindow, ipcMain } = require('electron');
 const path = require('path');
 require('electron-reload')(__dirname, {
-    electron: path.join(__dirname, 'node_modules', '.bin', 'electron'),
-    hardResetMethod: 'exit'
+  electron: path.join(__dirname, 'node_modules', '.bin', 'electron'),
+  hardResetMethod: 'exit'
 });
-const { getDataFromFirestore, addUserToFirestore, editUserFromFirestore, deleteUserFromFirestore, uploadImage, addRewardToFirestore, getRewardsFromFirestore, editRewardFromFirestore, deleteRewardFromFirestore} = require('./main/firebase');
+const { 
+  getDataFromFirestore,
+  addUserToFirestore,
+  editUserFromFirestore,
+  deleteUserFromFirestore,
+
+  uploadImage,
+  addRewardToFirestore,
+  getRewardsFromFirestore,
+  editRewardFromFirestore,
+  deleteRewardFromFirestore,
+
+  uploadPetBottleImage,
+  addPetBottleToFirestore,
+  getPetBottlesFromFirestore,
+  editPetBottleInFirestore,
+  deletePetBottleFromFirestore
+} = require('./main/firebase');
 
 function createWindow() {
   const mainWindow = new BrowserWindow({
@@ -48,11 +65,11 @@ ipcMain.handle('add-user', async (event, user) => {
 
 ipcMain.handle('edit-user', async (event, userId, studentNumber, name, email) => {
   try {
-      await editUserFromFirestore(userId, studentNumber, name, email);
-      return { success: true };
+    await editUserFromFirestore(userId, studentNumber, name, email);
+    return { success: true };
   } catch (error) {
-      console.error('Error editing user:', error);
-      return { error: 'Failed to edit user' };
+    console.error('Error editing user:', error);
+    return { error: 'Failed to edit user' };
   }
 });
 
@@ -109,10 +126,65 @@ ipcMain.handle('edit-reward', async (event, rewardId, rewardName, stock, points)
 
 ipcMain.handle('delete-reward', async (event, id) => {
   try {
-      await deleteRewardFromFirestore(id); // Call Firebase delete function
-      return { success: true };
+    await deleteRewardFromFirestore(id); // Call Firebase delete function
+    return { success: true };
   } catch (error) {
-      console.error('Error deleting reward:', error);
-      return { success: false, error };
+    console.error('Error deleting reward:', error);
+    return { success: false, error };
+  }
+});
+
+// Handler to upload a pet bottle image
+ipcMain.handle('upload-pet-bottle-image', async (event, { fileContent, fileName }) => {
+  try {
+    const imageUrl = await uploadPetBottleImage(Buffer.from(fileContent), fileName);
+    return { success: true, imageUrl };
+  } catch (error) {
+    console.error('Error uploading pet bottle image:', error);
+    return { error: 'Failed to upload pet bottle image' };
+  }
+});
+
+// Handler to add a pet bottle
+ipcMain.handle('add-pet-bottle', async (event, petBottle) => {
+  try {
+    await addPetBottleToFirestore(petBottle);
+    return { success: true };
+  } catch (error) {
+    console.error('Error adding pet bottle:', error);
+    return { error: 'Failed to add pet bottle' };
+  }
+});
+
+// Handler to get all pet bottles
+ipcMain.handle('get-pet-bottles', async () => {
+  try {
+    const petBottles = await getPetBottlesFromFirestore();
+    return petBottles;
+  } catch (error) {
+    console.error('Error fetching pet bottles:', error);
+    return { error: 'Failed to fetch pet bottles' };
+  }
+});
+
+// Handler to edit a pet bottle
+ipcMain.handle('edit-pet-bottle', async (event, petBottleId, brandName, size, weight, barcodeNumber) => {
+  try {
+    await editPetBottleInFirestore(petBottleId, brandName, size, weight, barcodeNumber);
+    return { success: true };
+  } catch (error) {
+    console.error('Error editing pet bottle:', error);
+    return { success: false, error: error.message };
+  }
+});
+
+// Handler to delete a pet bottle
+ipcMain.handle('delete-pet-bottle', async (event, id) => {
+  try {
+    await deletePetBottleFromFirestore(id);
+    return { success: true };
+  } catch (error) {
+    console.error('Error deleting pet bottle:', error);
+    return { success: false, error: error.message };
   }
 });

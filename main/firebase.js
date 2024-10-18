@@ -120,14 +120,88 @@ async function deleteRewardFromFirestore(rewardId) {
   }
 }
 
+// Function to upload an image for a pet bottle
+async function uploadPetBottleImage(fileBuffer, fileName) {
+  try {
+    const storageRef = ref(storage, `petBottles/${fileName}`);
+    const snapshot = await uploadBytes(storageRef, fileBuffer);
+    const downloadURL = await getDownloadURL(snapshot.ref);
+    console.log('Pet bottle image uploaded successfully:', downloadURL);
+    return downloadURL;
+  } catch (error) {
+    console.error('Error uploading pet bottle image:', error);
+    throw error;
+  }
+}
+
+// Function to add a pet bottle to Firestore
+async function addPetBottleToFirestore(petBottle) {
+  try {
+    await addDoc(collection(db, 'petBottles'), petBottle);
+  } catch (error) {
+    console.error('Error adding pet bottle to Firestore:', error);
+    throw error;
+  }
+}
+
+// Function to retrieve all pet bottles from Firestore
+async function getPetBottlesFromFirestore() {
+  try {
+    const querySnapshot = await getDocs(collection(db, 'petBottles'));
+    const petBottles = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    return petBottles;
+  } catch (error) {
+    console.error('Error fetching pet bottles from Firestore:', error);
+    throw error;
+  }
+}
+
+// Function to edit a pet bottle in Firestore
+async function editPetBottleInFirestore(petBottleId, brandName, size, weight, barcodeNumber) {
+  try {
+    const petBottleRef = doc(db, 'petBottles', petBottleId);
+    await updateDoc(petBottleRef, {
+      brand_name: brandName,
+      size: size,
+      weight: weight,
+      barcode_number: barcodeNumber
+    });
+    console.log('Pet bottle successfully updated in Firestore!');
+  } catch (error) {
+    console.error('Error editing pet bottle in Firestore:', error);
+    throw error;
+  }
+}
+
+// Function to delete a pet bottle from Firestore
+async function deletePetBottleFromFirestore(petBottleId) {
+  try {
+    const petBottleRef = doc(db, 'petBottles', petBottleId);
+    await deleteDoc(petBottleRef);
+    console.log('Pet bottle successfully deleted from Firestore!');
+  } catch (error) {
+    console.error('Error deleting pet bottle from Firestore:', error);
+    throw error;
+  }
+}
+
+
+
 module.exports = { 
   getDataFromFirestore, 
   addUserToFirestore,
   editUserFromFirestore, 
   deleteUserFromFirestore, 
+
   uploadImage, 
   addRewardToFirestore, 
   getRewardsFromFirestore, 
+  editRewardFromFirestore,
   deleteRewardFromFirestore,
-  editRewardFromFirestore
+
+  uploadPetBottleImage,
+  addPetBottleToFirestore,
+  getPetBottlesFromFirestore,
+  editPetBottleInFirestore,
+  deletePetBottleFromFirestore
 };
