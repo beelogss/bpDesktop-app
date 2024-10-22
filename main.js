@@ -20,7 +20,12 @@ const {
   addPetBottleToFirestore,
   getPetBottlesFromFirestore,
   editPetBottleInFirestore,
-  deletePetBottleFromFirestore
+  deletePetBottleFromFirestore,
+
+  addClaimedReward,
+  getClaimedRewards,
+  updateClaimedRewardStatus,
+  deleteClaimedReward
 } = require('./main/firebase');
 
 function createWindow() {
@@ -164,7 +169,7 @@ ipcMain.handle('get-pet-bottles', async () => {
   }
 });
 
-ipcMain.handle('edit-pet-bottle', async (event, petBottleId, brandName, size, sizeUnit, weight, weightUnit, barcodeNumber, imageUrl) => {
+ipcMain.handle('edit-pet-bottle', async (event, petBottleId, brandName, size, sizeUnit, weight, weightUnit, barcodeNumber) => {
   try {
     await editPetBottleInFirestore(petBottleId, brandName, size, sizeUnit, weight, weightUnit, barcodeNumber);
     return { success: true };
@@ -181,5 +186,45 @@ ipcMain.handle('delete-pet-bottle', async (event, id) => {
   } catch (error) {
     console.error('Error deleting pet bottle:', error);
     return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('add-claimed-reward', async (event, reward) => {
+  try {
+    await addClaimedReward(reward);
+    return { success: true };
+  } catch (error) {
+    console.error('Error adding claimed reward:', error);
+    return { error: 'Failed to add claimed reward' };
+  }
+});
+
+ipcMain.handle('get-claimed-rewards', async () => {
+  try {
+    const claimedRewards = await getClaimedRewards();
+    return claimedRewards;
+  } catch (error) {
+    console.error('Error fetching claimed rewards:', error);
+    return { error: 'Failed to fetch claimed rewards' };
+  }
+});
+
+ipcMain.handle('update-claimed-reward-status', async (event, rewardId, status) => {
+  try {
+    await updateClaimedRewardStatus(rewardId, status);
+    return { success: true };
+  } catch (error) {
+    console.error('Error updating claimed reward status:', error);
+    return { error: 'Failed to update claimed reward status' };
+  }
+});
+
+ipcMain.handle('delete-claimed-reward', async (event, rewardId) => {
+  try {
+    await deleteClaimedReward(rewardId);
+    return { success: true };
+  } catch (error) {
+    console.error('Error deleting claimed reward:', error);
+    return { error: 'Failed to delete claimed reward' };
   }
 });

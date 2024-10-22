@@ -1,0 +1,245 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&family=Signika+Negative:wght@300..700&display=swap');
+
+body {
+    font-family: 'Poppins';
+    background-color: whitesmoke;
+    margin: 0;
+    padding: 20px;
+}
+
+.main-content {
+    font-family: 'Poppins';
+    max-width: 1200px;
+    margin: 0 auto;
+    background-color: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.back-to-dashboard {
+    display: inline-block;
+    color: #455e14;
+    text-decoration: none;
+    font-size: 16px;
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+.back-to-dashboard:hover {
+    text-decoration: underline;
+    background-color: #bdd299;
+    color: white;
+}
+
+.search-bar {
+    display: flex;
+}
+
+.search-bar input {
+    width: 68%;
+    padding: 10px;
+    font-size: 14px;
+    border: 1px solid #ccc;
+    border-radius: 60px;
+    font-family: 'Poppins';
+    border-color: #7a9b57;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.search-bar input:focus {
+    outline: none;
+    border-width: 2px;
+    border-color: #7a9b57!important;
+}
+
+button.NewReward {
+    width: 150px;
+    height: 40px;
+    font-family: 'Poppins';
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+    background-color: white;
+    color: white;
+    background-color: #83951c;
+    font-weight: bold;
+    margin-left: auto;
+    border: none;
+}
+
+button.NewReward:hover {
+    background-color: #bdd299;
+    color: #455e14;
+}
+
+#get-data {
+    width: 100px;
+    height: 40px;
+    font-family: 'Poppins';
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+    border: none;
+    color: white;
+    background-color: #83951c;
+    font-weight: bold;
+    margin-top: 20px;
+}
+
+#get-data:hover {
+    background-color: #bdd299;
+    color: #455e14;
+}
+
+h2 {
+    padding: 5px 15px;
+    width: 400px;
+    font-family: 'Poppins';
+    font-size: 25px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
+    border-color: #acacac;
+    background-color: white;
+    color: #455e14;
+    font-weight: bold;
+    margin-top: 1px;
+    font-weight: 600;
+}
+
+.main-content h2, .back-to-dashboard{
+    display: inline-block;
+}
+
+h3 {
+    color: #455e14;
+    font-size: 20px;
+    margin-bottom: 15px;
+}
+
+form#rewardForm {
+    margin-bottom: 30px;
+}
+
+form#rewardForm .form-group {
+    margin-bottom: 15px;
+}
+
+form#rewardForm label {
+    font-weight: 500;
+    margin-bottom: 5px;
+    display: block;
+    color: #455e14;
+}
+
+form#rewardForm input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    font-size: 16px;
+}
+
+form#rewardForm button {
+    background-color: #83951c;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 4px;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+form#rewardForm button:hover {
+    background-color: #e5eeda;
+}
+
+table#data-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+table#data-table th,
+table#data-table td {
+    padding: 12px;
+    border: 1px solid #bdd299;
+    text-align: left;
+    color: black;
+}
+
+table#data-table th {
+    background-color: #7a9b57;
+    color: white;
+    text-align: center;
+}
+
+table#data-table td button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+table#data-table td button:first-of-type {
+    color: black;
+    background-color: #b4e639;
+    margin-bottom: 3px;
+    width: 80px;
+    font-size: 13px;
+    font-family: 'Poppins';
+    font-weight: bold;
+}
+
+table#data-table td button:last-of-type {
+    background-color: #8abf2c;
+    width: 80px;
+    font-size: 13px;
+    font-family: 'Poppins';
+    font-weight: bold;
+    color: white;
+}
+
+table#data-table td button:first-of-type:hover {
+    background-color: #bdd299;
+    color: white;
+    font-family: 'Poppins';
+    font-weight: bold;
+}
+
+table#data-table td button:last-of-type:hover {
+    background-color: #E74C3C;
+    /* Red */
+    font-family: 'Poppins';
+    font-weight: bold;
+}
+
+table#data-table td {
+    text-align: center;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    form#rewardForm input {
+        font-size: 14px;
+    }
+
+    table#data-table th,
+    table#data-table td {
+        font-size: 14px;
+    }
+}

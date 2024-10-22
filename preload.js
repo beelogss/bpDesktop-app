@@ -18,4 +18,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   editPetBottle: (petBottleId, brandName, size, sizeUnit, weight, weightUnit, barcodeNumber, imageUrl) => ipcRenderer.invoke('edit-pet-bottle', petBottleId, brandName, size, sizeUnit, weight, weightUnit, barcodeNumber, imageUrl),
   deletePetBottle: (petBottleId) => ipcRenderer.invoke('delete-pet-bottle', petBottleId),
 
+  addClaimedReward: (reward) => ipcRenderer.invoke('add-claimed-reward', reward),
+  getClaimedRewards: () => ipcRenderer.invoke('get-claimed-rewards'),
+  updateClaimedRewardStatus: (rewardId, status) => ipcRenderer.invoke('update-claimed-reward-status', rewardId, status),
+  deleteClaimedReward: (rewardId) => ipcRenderer.invoke('delete-claimed-reward', rewardId),
+
 });

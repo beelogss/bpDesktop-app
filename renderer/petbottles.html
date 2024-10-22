@@ -30,7 +30,7 @@
         <!-- Modal for editing bottle (unchanged) -->
         <div id="editModal" class="modal">
             <div class="modal-content">
-                <span class="close">&times;</span>
+                <span class="close" id="closeEditModal">&times;</span>
                 <h3>Edit Bottle</h3>
 
                 <div class="edit-modal-body">
@@ -150,22 +150,22 @@
    }
 
    // Open edit modal
-   function editBottle(id, brand_name, size, size_unit, weight, weight_unit, barcode, image_url) {
+   function editBottle(id, brand_name, size, size_unit, weight, weight_unit, barcode, imageUrl) {
        document.getElementById('editBrand').value = brand_name;
        document.getElementById('editsize').value = size; 
        document.getElementById('editsizeunit').value = size_unit; 
        document.getElementById('editweight').value = weight; 
        document.getElementById('editweightunit').value = weight_unit; 
        document.getElementById('editBarcode').value = barcode;
-       document.getElementById('editImage').src = image_url;
+       document.getElementById('editImage').src = imageUrl;
        document.getElementById('editModal').style.display = 'block';
 
        // Link saveEdit function to the save button
-       document.getElementById('saveEdit').onclick = () => saveEdit(id, image_url);   
+       document.getElementById('saveEdit').onclick = () => saveEdit(id);   
    }
     
    // Save edited bottle
-   async function saveEdit(id, image_url) {
+   async function saveEdit(id) {
        const brand_name = document.getElementById('editBrand').value;
        const size = document.getElementById('editsize').value; 
        const size_unit = document.getElementById('editsizeunit').value; 
@@ -174,7 +174,7 @@
        const barcode = document.getElementById('editBarcode').value;
     
        try {
-           await window.electronAPI.editPetBottle(id, brand_name, size, size_unit, weight, weight_unit, barcode, image_url);
+           await window.electronAPI.editPetBottle(id, brand_name, size, size_unit, weight, weight_unit, barcode);
            document.getElementById('editModal').style.display = 'none'; // Close modal
            fetchBottles(); // Refresh the bottles list to reflect the updated data
        } catch (error) {
@@ -199,6 +199,11 @@
        
    // Event listener for the fetch bottles button
    document.getElementById('fetch-bottles-btn').addEventListener('click', fetchBottles);
+
+   // Event listener for the close button
+   document.getElementById('closeEditModal').addEventListener('click', () => {
+       document.getElementById('editModal').style.display = 'none';
+   });
    
 </script>
 

@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<!-- <!DOCTYPE html>
 <html lang="en">
 
 <head>
@@ -110,6 +110,114 @@
             window.addEventListener('pageshow', () => {
                 addBottleForm.reset();
             });
+        });
+    </script>
+
+</body>
+
+</html> -->
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Add New Pet Bottle</title>
+    <link rel="stylesheet" href="assets/addpetbottles.css">
+</head>
+
+<body>
+    <div class="main-content">
+        <a href="petbottles.html" class="back-to-dashboard">
+            <i class="fa-solid fa-arrow-left"></i>
+        </a>
+
+        <h2>Add New Pet Bottle</h2>
+        <form id="addBottleForm" enctype="multipart/form-data">
+            <label for="brandname">Brand Name:</label>
+            <input type="text" id="brandname" name="brandname" required>
+
+            <label for="bottleSize">Size:</label>
+            <input type="number" id="bottleSize" required placeholder="Enter size">
+            <select id="bottleSizeUnit" name="bottleSizeUnit" required>
+                <option value="ml">ml</option>
+                <option value="L">L</option>
+                <option value="oz">oz</option>
+            </select>
+
+            <label for="bottleWeight">Weight:</label>
+            <input type="number" id="bottleWeight" required placeholder="Enter weight">
+            <select id="bottleWeightUnit" name="bottleWeightUnit" required>
+                <option value="g">g</option>
+                <option value="kg">kg</option>
+                <option value="lbs">lbs</option>
+            </select>
+
+            <label for="barcodenumber">Barcode Number:</label>
+            <input type="number" id="barcodenumber" name="barcodenumber" required>
+
+            <label for="image">Bottle Image:</label>
+            <input type="file" id="image" name="image" accept="image/*" required>
+
+            <button id="addBottle">Add Bottle</button>
+        </form>
+    </div>
+
+    <script>
+        document.getElementById('addBottleForm').addEventListener('submit', async (event) => {
+            event.preventDefault();
+
+            const brandName = document.getElementById('brandname').value;
+            const bottleSize = document.getElementById('bottleSize').value;
+            const bottleSizeUnit = document.getElementById('bottleSizeUnit').value;
+            const bottleWeight = document.getElementById('bottleWeight').value;
+            const bottleWeightUnit = document.getElementById('bottleWeightUnit').value;
+            const barcodeNumber = document.getElementById('barcodenumber').value;
+            const bottleImage = document.getElementById('image').files[0];
+
+            if (!bottleImage) {
+                alert('Please select an image');
+                return;
+            }
+
+            try {
+                // Read the file content
+                const reader = new FileReader();
+                reader.onload = async function(event) {
+                    const fileContent = event.target.result;
+
+                    // Upload image to Firebase Storage
+                    const { success: uploadSuccess, imageUrl, error: uploadError } = await window.electronAPI.uploadPetBottleImage({ fileContent, fileName: bottleImage.name });
+                    if (!uploadSuccess) {
+                        throw new Error(uploadError);
+                    }
+
+                    // Save pet bottle details to Firestore
+                    const petBottle = {
+                        brand_name: brandName,
+                        size: bottleSize,
+                        size_unit: bottleSizeUnit,
+                        weight: bottleWeight,
+                        weight_unit: bottleWeightUnit,
+                        barcode_number: barcodeNumber,
+                        image_url: imageUrl
+                    };
+
+                    const { success: addSuccess, error: addError } = await window.electronAPI.addPetBottle(petBottle);
+                    if (!addSuccess) {
+                        throw new Error(addError);
+                    }
+
+                    alert('Pet bottle added successfully');
+                    document.getElementById('addBottleForm').reset();
+                    window.location.href = 'petbottles.html';
+                };
+                reader.readAsArrayBuffer(bottleImage);
+            } catch (error) {
+                console.error('Error adding pet bottle:', error);
+                alert('Failed to add pet bottle');
+            }
         });
     </script>
 

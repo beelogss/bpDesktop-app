@@ -156,7 +156,7 @@ async function getPetBottlesFromFirestore() {
   }
 }
 
-async function editPetBottleInFirestore(petBottleId, brandName, size, sizeUnit, weight, weightUnit, barcodeNumber, imageUrl) {
+async function editPetBottleInFirestore(petBottleId, brandName, size, sizeUnit, weight, weightUnit, barcodeNumber) {
   try {
     const petBottleRef = doc(db, 'petBottles', petBottleId);
     await updateDoc(petBottleRef, {
@@ -166,7 +166,6 @@ async function editPetBottleInFirestore(petBottleId, brandName, size, sizeUnit, 
       weight: weight,
       weight_unit: weightUnit,
       barcode_number: barcodeNumber,
-      image_url: imageUrl
     });
     console.log('Pet bottle successfully updated in Firebase!');
   } catch (error) {
@@ -182,6 +181,58 @@ async function deletePetBottleFromFirestore(petBottleId) {
     console.log('Pet bottle successfully deleted from Firestore!');
   } catch (error) {
     console.error('Error deleting pet bottle from Firestore:', error);
+    throw error;
+  }
+}
+
+// Function to add a claimed reward to Firestore
+async function addClaimedReward(reward) {
+  try {
+    const claimedRewardsCollection = collection(db, 'claimedRewards');
+    const docRef = await addDoc(claimedRewardsCollection, reward);
+    return docRef; // Return the document reference
+  } catch (error) {
+    console.error('Error adding claimed reward:', error);
+    throw error; // Rethrow the error to handle it in the calling function
+  }
+}
+
+// Function to get all claimed rewards from Firestore
+async function getClaimedRewards() {
+  try {
+    const claimedRewardsCollection = collection(db, 'claimedRewards');
+    const claimedRewardsSnapshot = await getDocs(claimedRewardsCollection);
+
+    const claimedRewards = claimedRewardsSnapshot.docs.map((doc) => ({
+      id: doc.id,
+      ...doc.data(),
+    }));
+
+    return claimedRewards;
+  } catch (error) {
+    console.error('Error fetching claimed rewards:', error);
+    return [];
+  }
+}
+
+// Function to update the status of a claimed reward in Firestore
+async function updateClaimedRewardStatus(rewardId, status) {
+  try {
+    const rewardDoc = doc(db, 'claimedRewards', rewardId);
+    await updateDoc(rewardDoc, { status });
+  } catch (error) {
+    console.error('Error updating claimed reward status:', error);
+    throw error; // Rethrow the error to handle it in the calling function
+  }
+}
+
+// Function to delete a claimed reward from Firestore
+async function deleteClaimedReward(rewardId) {
+  try {
+    const rewardDoc = doc(db, 'claimedRewards', rewardId);
+    await deleteDoc(rewardDoc);
+  } catch (error) {
+    console.error('Error deleting claimed reward:', error);
     throw error;
   }
 }
@@ -203,5 +254,10 @@ module.exports = {
   addPetBottleToFirestore,
   getPetBottlesFromFirestore,
   editPetBottleInFirestore,
-  deletePetBottleFromFirestore
+  deletePetBottleFromFirestore,
+
+  addClaimedReward,
+  getClaimedRewards,
+  updateClaimedRewardStatus,
+  deleteClaimedReward,
 };
