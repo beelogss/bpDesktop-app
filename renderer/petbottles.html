@@ -63,6 +63,9 @@
                         <label for="editBarcode">Barcode:</label>
                         <input type="number" id="editBarcode" class="modal-input">
 
+                        <label for="editPoints">Points:</label>
+                        <input type="number" id="editPoints" class="modal-input" placeholder="Enter points">
+
                         <button id="saveEdit" class="modal-save-button">Save Changes</button>
                     </div>
                 </div>
@@ -126,7 +129,7 @@
                const bottleElement = document.createElement('div');
                bottleElement.classList.add('bottle-item');
 
-               // Display bottle image, brand name, size, weight, barcode number
+               // Display bottle image, brand name, size, weight, barcode number, and points
                bottleElement.innerHTML = `
                    <div class="bottle-image">
                        <img src="${bottle.image_url}" alt="${bottle.brand_name}" />
@@ -136,7 +139,8 @@
                        <p>Size: ${bottle.size} ${bottle.size_unit}</p>
                        <p>Weight: ${bottle.weight} ${bottle.weight_unit}</p>
                        <p>Barcode: ${bottle.barcode_number}</p>
-                       <button class="edit-button" onclick="editBottle('${bottle.id}', '${bottle.brand_name}', ${bottle.size}, '${bottle.size_unit}', ${bottle.weight}, '${bottle.weight_unit}', '${bottle.barcode_number}', '${bottle.image_url}')">Edit</button>
+                       <p>Points: ${bottle.points}</p>
+                       <button class="edit-button" onclick="editBottle('${bottle.id}', '${bottle.brand_name}', ${bottle.size}, '${bottle.size_unit}', ${bottle.weight}, '${bottle.weight_unit}', '${bottle.barcode_number}', '${bottle.image_url}', ${bottle.points})">Edit</button>
                        <button class="delete-button" onclick="deleteBottle('${bottle.id}')">Delete</button>
                    </div>
                `;
@@ -150,13 +154,14 @@
    }
 
    // Open edit modal
-   function editBottle(id, brand_name, size, size_unit, weight, weight_unit, barcode, imageUrl) {
+   function editBottle(id, brand_name, size, size_unit, weight, weight_unit, barcode, imageUrl, points) {
        document.getElementById('editBrand').value = brand_name;
        document.getElementById('editsize').value = size; 
        document.getElementById('editsizeunit').value = size_unit; 
        document.getElementById('editweight').value = weight; 
        document.getElementById('editweightunit').value = weight_unit; 
        document.getElementById('editBarcode').value = barcode;
+       document.getElementById('editPoints').value = points;
        document.getElementById('editImage').src = imageUrl;
        document.getElementById('editModal').style.display = 'block';
 
@@ -172,9 +177,10 @@
        const weight = document.getElementById('editweight').value; 
        const weight_unit = document.getElementById('editweightunit').value; 
        const barcode = document.getElementById('editBarcode').value;
+       const points = document.getElementById('editPoints').value;
     
        try {
-           await window.electronAPI.editPetBottle(id, brand_name, size, size_unit, weight, weight_unit, barcode);
+           await window.electronAPI.editPetBottle(id, brand_name, size, size_unit, weight, weight_unit, barcode, points);
            document.getElementById('editModal').style.display = 'none'; // Close modal
            fetchBottles(); // Refresh the bottles list to reflect the updated data
        } catch (error) {

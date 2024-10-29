@@ -1,122 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Add New Pet Bottle</title>
-    <link rel="stylesheet" href="assets/addpetbottles.css">
-    <script src="https://kit.fontawesome.com/3980f875bb.js" crossorigin="anonymous"></script>
-</head>
-
-<body>
-    <div class="main-content">
-        <a href="petbottles.html" class="back-to-bottles">
-            <i class="fa-solid fa-arrow-left"></i>
-        </a>
-
-        <h2>Add New Pet Bottle</h2>
-        <form id="addBottleForm" enctype="multipart/form-data">
-            <label for="brandname">Brand Name:</label>
-            <input type="text" id="brandname" name="brandname" required>
-
-            <label for="bottleSize">Size:</label>
-            <input type="number" id="bottleSize" required placeholder="Enter size">
-            <select id="bottleSizeUnit" name="bottleSizeUnit" required>
-                <option value="ml">ml</option>
-                <option value="L">L</option>
-                <option value="oz">oz</option>
-            </select>
-
-            <label for="bottleWeight">Weight:</label>
-            <input type="number" id="bottleWeight" required placeholder="Enter weight">
-            <select id="bottleWeightUnit" name="bottleWeightUnit" required>
-                <option value="g">g</option>
-                <option value="kg">kg</option>
-                <option value="lbs">lbs</option>
-            </select>
-
-            <label for="barcodenumber">Barcode Number:</label>
-            <input type="number" id="barcodenumber" name="barcodenumber" required>
-
-            <label for="image">Bottle Image:</label>
-            <input type="file" id="image" name="image" accept="image/*" required>
-
-            <button id="addBottle">Add Bottle</button>
-        </form>
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            const addBottleButton = document.getElementById('addBottle');
-
-            const handleFormSubmit = async (event) => {
-                event.preventDefault();
-
-                const brandName = document.getElementById('brandname').value;
-                const size = document.getElementById('bottleSize').value;
-                const sizeUnit = document.getElementById('bottleSizeUnit').value;
-                const weight = document.getElementById('bottleWeight').value;
-                const weightUnit = document.getElementById('bottleWeightUnit').value;
-                const barcodeNumber = document.getElementById('barcodenumber').value;
-                const image = document.getElementById('image').files[0];
-
-                if (!image) {
-                    alert('Please select an image');
-                    return;
-                }
-
-                try {
-                    // Read the file content
-                    const reader = new FileReader();
-                    reader.onload = async function (event) {
-                        const fileContent = event.target.result;
-
-                        // Upload image to Firebase Storage
-                        const { success: uploadSuccess, imageUrl, error: uploadError } = await window.electronAPI.uploadImage({ fileContent, fileName: image.name });
-                        if (!uploadSuccess) {
-                            throw new Error(uploadError);
-                        }
-
-                        // Save pet bottle details to Firestore
-                        const petBottle = {
-                            brand_name: brandName,
-                            size: size,
-                            size_unit: sizeUnit,
-                            weight: weight,
-                            weight_unit: weightUnit,
-                            barcode_number: barcodeNumber,
-                            image_url: imageUrl
-                        };
-
-                        const { success: addSuccess, error: addError } = await window.electronAPI.addPetBottle(petBottle);
-                        if (!addSuccess) {
-                            throw new Error(addError);
-                        }
-                        alert('Pet Bottle added successfully');
-                        addBottleForm.reset();
-                        window.location.href = 'petbottles.html';
-                    };
-                    reader.readAsDataURL(image);
-                } catch (error) {
-                    console.error('Error adding pet bottle:', error);
-                    alert(error.message);
-                }
-            };
-
-            addBottleButton.addEventListener('click', handleFormSubmit);
-
-            // Ensure the form is reset when navigating back to this page
-            window.addEventListener('pageshow', () => {
-                addBottleForm.reset();
-            });
-        });
-    </script>
-
-</body>
-
-</html> -->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -125,6 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Add New Pet Bottle</title>
     <link rel="stylesheet" href="assets/addpetbottles.css">
+    <script src="https://kit.fontawesome.com/3980f875bb.js" crossorigin="anonymous"></script>
 </head>
 
 <body>
@@ -157,6 +39,9 @@
             <label for="barcodenumber">Barcode Number:</label>
             <input type="number" id="barcodenumber" name="barcodenumber" required>
 
+            <label for="points">Points:</label>
+            <input type="number" id="points" name="points" required placeholder="Enter points">
+
             <label for="image">Bottle Image:</label>
             <input type="file" id="image" name="image" accept="image/*" required>
 
@@ -174,6 +59,7 @@
             const bottleWeight = document.getElementById('bottleWeight').value;
             const bottleWeightUnit = document.getElementById('bottleWeightUnit').value;
             const barcodeNumber = document.getElementById('barcodenumber').value;
+            const points = document.getElementById('points').value;
             const bottleImage = document.getElementById('image').files[0];
 
             if (!bottleImage) {
@@ -201,6 +87,7 @@
                         weight: bottleWeight,
                         weight_unit: bottleWeightUnit,
                         barcode_number: barcodeNumber,
+                        points: points,
                         image_url: imageUrl
                     };
 
