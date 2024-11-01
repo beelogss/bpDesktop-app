@@ -62,7 +62,34 @@ button.NewReward {
     cursor: pointer;
     transition: background-color 0.3s ease;
     border-radius: 5px;
-    background-color: white;
+    color: white;
+    background-color: #83951c;
+    font-weight: bold;
+    margin-left: 10px;
+    border: none;
+}
+
+button.NewReward:hover {
+    background-color: #bdd299;
+    color: #455e14;
+}
+
+.scanner-status {
+    font-size: 18px;
+    color: #455e14;
+    margin-top: 20px;
+    margin-bottom: 10px;
+    text-align: center;
+}
+
+#start-scan {
+    width: 150px;
+    height: 40px;
+    font-family: 'Poppins';
+    font-size: 13px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    border-radius: 5px;
     color: white;
     background-color: #83951c;
     font-weight: bold;
@@ -70,7 +97,7 @@ button.NewReward {
     border: none;
 }
 
-button.NewReward:hover {
+#start-scan:hover {
     background-color: #bdd299;
     color: #455e14;
 }

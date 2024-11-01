@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -16,85 +15,144 @@
         </a>
 
         <h2>Add New User</h2>
+
         <form id="addUserForm">
             <label for="studentNumber">Student Number:</label>
-            <input type="text" id="studentNumber" name="studentNumber" required>
+            <input type="text" id="studentNumber" name="studentNumber" placeholder="Student Number 00-00000" maxlength="8"
+                   onfocus="setStudentNumberFocused(true)" onblur="setStudentNumberFocused(false)"
+                   oninput="handleStudentNumberChange(event)" required>
 
             <label for="name">Full Name:</label>
-            <input type="text" id="name" name="name" required>
+            <input type="text" id="name" name="name" placeholder="Full name" required>
 
             <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+            <input type="email" id="email" name="email" placeholder="Email" required>
 
             <label for="password">Password:</label>
             <div class="password-container">
-                <input type="password" id="password" name="password" required>
+                <input type="password" id="password" name="password" placeholder="Password" required>
                 <i class="fa-solid fa-eye-slash" id="togglePassword"></i>
+            </div>
+
+            <!-- Password Hint Section -->
+            <div id="passwordHintContainer" class="password-hint">
+                <p>Password must contain:</p>
+                <ul>
+                    <li id="lengthCheck"><i class="fa-solid fa-times"></i> At least 8 characters</li>
+                    <li id="uppercaseCheck"><i class="fa-solid fa-times"></i> Uppercase letter</li>
+                    <li id="lowercaseCheck"><i class="fa-solid fa-times"></i> Lowercase letter</li>
+                    <li id="numberCheck"><i class="fa-solid fa-times"></i> Number</li>
+                    <li id="specialCharCheck"><i class="fa-solid fa-times"></i> Special character</li>
+                </ul>
             </div>
 
             <label for="confirmPassword">Confirm Password:</label>
             <div class="password-container">
-                <input type="password" id="confirmPassword" name="confirmPassword" required>
+                <input type="password" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" required>
                 <i class="fa-solid fa-eye-slash" id="toggleConfirmPassword"></i>
             </div>
+
+            <!-- Error Message Section under Confirm Password -->
+            <div id="errorMessage" class="error-message" style="display: none;"></div>
 
             <button type="submit">Add User</button>
         </form>
     </div>
+
+    <script>
+        // Handle Student Number Change
+        function handleStudentNumberChange(event) {
+            let input = event.target.value.replace(/[^0-9]/g, ''); // Remove non-numeric characters
+            if (input.length > 2) {
+                input = input.slice(0, 2) + '-' + input.slice(2);
+            }
+            event.target.value = input;
+        }
+
+        // Password Validation Hint
+        const passwordField = document.getElementById('password');
+        passwordField.addEventListener('input', validatePassword);
+
+        function validatePassword() {
+            const value = passwordField.value;
+
+            updateHint('lengthCheck', value.length >= 8);
+            updateHint('uppercaseCheck', /[A-Z]/.test(value));
+            updateHint('lowercaseCheck', /[a-z]/.test(value));
+            updateHint('numberCheck', /\d/.test(value));
+            updateHint('specialCharCheck', /[!@#$%^&*]/.test(value));
+        }
+
+        function updateHint(id, isValid) {
+            const element = document.getElementById(id);
+            const icon = element.querySelector('i');
+            if (isValid) {
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-check');
+                element.style.color = '#455e14';
+                icon.style.color = '#455e14';
+            } else {
+                icon.classList.remove('fa-check');
+                icon.classList.add('fa-times');
+                element.style.color = '#ed3e3e';
+                icon.style.color = '#ed3e3e';
+            }
+        }
+
+        // Toggle Password Visibility
+        const togglePassword = document.getElementById('togglePassword');
+        const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
+        const confirmPasswordField = document.getElementById('confirmPassword');
+
+        togglePassword.addEventListener('click', function () {
+            const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            passwordField.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+            this.classList.toggle('fa-eye');
+        });
+
+        toggleConfirmPassword.addEventListener('click', function () {
+            const type = confirmPasswordField.getAttribute('type') === 'password' ? 'text' : 'password';
+            confirmPasswordField.setAttribute('type', type);
+            this.classList.toggle('fa-eye-slash');
+            this.classList.toggle('fa-eye');
+        });
+
+        // Form submission
+        const addUserForm = document.getElementById('addUserForm');
+        const errorMessage = document.getElementById('errorMessage');
+
+        addUserForm.addEventListener('submit', async (event) => {
+            event.preventDefault();
+            const studentNumber = document.getElementById('studentNumber').value;
+            const name = document.getElementById('name').value;
+            const email = document.getElementById('email').value;
+            const password = passwordField.value;
+            const confirmPassword = confirmPasswordField.value;
+
+            // Check if passwords match
+            if (password !== confirmPassword) {
+                errorMessage.textContent = 'Passwords do not match';
+                errorMessage.style.display = 'block';
+                return;
+            }
+
+            errorMessage.style.display = 'none'; // Hide the error message if passwords match
+
+            try {
+                await window.electronAPI.addUser({
+                    studentNumber,
+                    name,
+                    email,
+                    password
+                });
+                alert('User added successfully');
+                addUserForm.reset();
+                window.location.href = 'manageuser.html';
+            } catch (error) {
+                console.error('Error adding user:', error);
+            }
+        });
+    </script>
 </body>
-
-<script>
-    const togglePassword = document.getElementById('togglePassword');
-    const passwordField = document.getElementById('password');
-    const toggleConfirmPassword = document.getElementById('toggleConfirmPassword');
-    const confirmPasswordField = document.getElementById('confirmPassword');
-
-    togglePassword.addEventListener('click', function () {
-        // Toggle password visibility
-        const type = passwordField.getAttribute('type') === 'password' ? 'text' : 'password';
-        passwordField.setAttribute('type', type);
-        // Toggle icon class between eye-slash (hidden) and eye (visible)
-        this.classList.toggle('fa-eye-slash');
-        this.classList.toggle('fa-eye');
-    });
-
-    toggleConfirmPassword.addEventListener('click', function () {
-        // Toggle confirm password visibility
-        const type = confirmPasswordField.getAttribute('type') === 'password' ? 'text' : 'password';
-        confirmPasswordField.setAttribute('type', type);
-        // Toggle icon class between eye-slash (hidden) and eye (visible)
-        this.classList.toggle('fa-eye-slash');
-        this.classList.toggle('fa-eye');
-    });
-
-    addUserForm.addEventListener('submit', async (event) => {
-        event.preventDefault();
-        const studentNumber = document.getElementById('studentNumber').value;
-        const name = document.getElementById('name').value;
-        const email = document.getElementById('email').value;
-        const password = document.getElementById('password').value;
-        const confirmPassword = document.getElementById('confirmPassword').value;
-
-        if (password !== confirmPassword) {
-            alert('Passwords do not match');
-            return;
-        }
-
-        try {
-            await window.electronAPI.addUser({
-                studentNumber,
-                name,
-                email,
-                password
-            });
-            alert('User added successfully');
-            addUserForm.reset(); // Clear form fields
-            window.location.href = 'manageuser.html';
-        } catch (error) {
-            console.error('Error adding user:', error);
-            statusDiv.innerText = 'Failed to add user';
-        }
-    });
-</script>
-
 </html>

@@ -92,6 +92,36 @@ form#addUserForm label {
     color: #455e14;
 }
 
+.password-hint p {
+    color: #455e14;
+    font-size: 13px;
+}
+.password-hint ul {
+    margin-top: -10px;
+    padding-left: 0;
+    color: #455e14;
+    font-size: 13px;   
+}
+
+.password-hint li {
+    display: flex;
+    align-items: center;
+    color:#455e14; 
+}
+
+.password-hint li i {
+    margin-right: 8px;
+    color: #ed3e3e; 
+}
+
+.error-message {
+    color: #ed3e3e;
+    font-size: 0.9em;
+    margin-bottom: 10px;
+    display: none;
+}
+
+
 form#addUserForm input {
     width: 97%;
     padding: 12px;

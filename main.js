@@ -39,7 +39,7 @@ function createWindow() {
     },
     autoHideMenuBar: true,
     minWidth: 800,
-    minHeight: 600
+    minHeight: 660
   });
 
   mainWindow.loadFile('renderer/index.html');

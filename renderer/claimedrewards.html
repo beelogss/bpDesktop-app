@@ -169,7 +169,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Electron Firebase Admin</title>
+    <title>Claimed Rewards</title>
     <link rel="stylesheet" href="assets/manageclaimedrewards.css">
     <script src="https://kit.fontawesome.com/3980f875bb.js" crossorigin="anonymous"></script>
 </head>
@@ -184,13 +184,13 @@
         
         <div class="search-bar">
             <input type="text" id="search-input" placeholder="Search by name or barcode">
+            <button id="start-scan">Start Scanning</button>
             <button class="NewReward" onclick="location.href='newclaimedreward.html'">
                 Add New Reward
             </button>
         </div>
-
         <div class="scanner-status" id="scanner-status">Scanner not connected</div>
-        <button id="start-scan">Start Scanning</button>
+       
 
         <table id="data-table">
             <thead>
