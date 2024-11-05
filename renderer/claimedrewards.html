@@ -195,8 +195,10 @@
         <table id="data-table">
             <thead>
                 <tr>
+                    <th>User Name</th>
+                    <th>Student Number</th>
                     <th>Barcode</th>
-                    <th>Name</th>
+                    <th>Reward Name</th>
                     <th>Points</th>
                     <th>Claimed At</th>
                     <th>Status</th>
@@ -247,6 +249,8 @@
             data.forEach(reward => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
+                    <td>${reward.userName}</td>
+                    <td>${reward.studentNumber}</td>
                     <td>${reward.barcode}</td>
                     <td>${reward.name}</td>
                     <td>${reward.points}</td>
