@@ -15,6 +15,27 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
+async function getUserCountFromFirestore() {
+  try {
+    const querySnapshot = await getDocs(collection(db, 'users'));
+    return querySnapshot.size;
+  } catch (error) {
+    console.error('Error fetching user count from Firestore:', error);
+    throw error; // Throw error so it can be caught in the handler below
+  }
+}
+
+async function getClaimedRewardsCount() {
+  try {
+    const querySnapshot = await getDocs(collection(db, 'claimedRewards')); // Updated to 'claimedRewards'
+    console.log(`Number of claimed rewards fetched: ${querySnapshot.size}`); // Log the count for debugging
+    return querySnapshot.size;
+  } catch (error) {
+    console.error('Error fetching claimed rewards count:', error);
+    return { error: 'Failed to fetch claimed rewards count' };
+  }
+}
+
 async function getDataFromFirestore() {
   try {
     const querySnapshot = await getDocs(collection(db, 'users'));
@@ -23,15 +44,6 @@ async function getDataFromFirestore() {
     return data;
   } catch (error) {
     console.error('Error fetching Firestore data:', error);
-    throw error;
-  }
-}
-
-async function addUserToFirestore(user) {
-  try {
-    await addDoc(collection(db, 'users'), user);
-  } catch (error) {
-    console.error('Error adding user to Firestore:', error);
     throw error;
   }
 }
@@ -239,8 +251,10 @@ async function deleteClaimedReward(rewardId) {
 
 
 module.exports = { 
-  getDataFromFirestore, 
-  addUserToFirestore,
+  getUserCountFromFirestore,
+  getClaimedRewardsCount,
+
+  getDataFromFirestore,
   editUserFromFirestore, 
   deleteUserFromFirestore, 
 

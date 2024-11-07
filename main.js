@@ -5,8 +5,10 @@ require('electron-reload')(__dirname, {
   hardResetMethod: 'exit'
 });
 const { 
+  getUserCountFromFirestore,
+  getClaimedRewardsCount,
+
   getDataFromFirestore,
-  addUserToFirestore,
   editUserFromFirestore,
   deleteUserFromFirestore,
 
@@ -47,6 +49,26 @@ function createWindow() {
 
 app.whenReady().then(createWindow);
 
+ipcMain.handle('get-user-count', async () => {
+  try {
+    const userCount = await getUserCountFromFirestore();
+    return userCount;
+  } catch (error) {
+    console.error('Error fetching user count:', error);
+    return { error: 'Failed to fetch user count' };
+  }
+});
+
+ipcMain.handle('get-claimed-rewards-count', async () => {
+  try {
+    const claimedCount = await getClaimedRewardsCount();
+    return claimedCount;
+  } catch (error) {
+    console.error('Error in IPC handling of claimed rewards count:', error);
+    return { error: 'Failed to fetch claimed rewards count' };
+  }
+});
+
 ipcMain.handle('get-data', async () => {
   try {
     const data = await getDataFromFirestore();
@@ -55,16 +77,6 @@ ipcMain.handle('get-data', async () => {
   } catch (error) {
     console.error('Error fetching Firestore data:', error);
     return { error: 'Failed to fetch data' };
-  }
-});
-
-ipcMain.handle('add-user', async (event, user) => {
-  try {
-    await addUserToFirestore(user);
-    return { success: true };
-  } catch (error) {
-    console.error('Error adding user:', error);
-    return { error: 'Failed to add user' };
   }
 });
 

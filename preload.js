@@ -1,8 +1,10 @@
 const { contextBridge, ipcRenderer } = require('electron');
 
 contextBridge.exposeInMainWorld('electronAPI', {
+  getUserCount: () => ipcRenderer.invoke('get-user-count'),
+  getClaimedRewardsCount: () => ipcRenderer.invoke('get-claimed-rewards-count'),
+  
   getData: () => ipcRenderer.invoke('get-data'),
-  addUser: (user) => ipcRenderer.invoke('add-user', user),
   editUser: (userId, studentNumber, name, email) => ipcRenderer.invoke('edit-user', userId, studentNumber, name, email),
   deleteUser: (userId) => ipcRenderer.invoke('delete-user', userId),
 

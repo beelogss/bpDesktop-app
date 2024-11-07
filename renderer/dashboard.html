@@ -1,15 +1,13 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dash Board</title>
+    <title>Dashboard</title>
     <link rel="stylesheet" href="assets/dashboard.css">
     <script src="https://kit.fontawesome.com/3980f875bb.js" crossorigin="anonymous"></script>
     <script src="assets/manage-user.js" defer></script>
 </head>
-
 <body>
     <div class="topbar">
         <button class="toggle-sidebar" onclick="toggleSidebar()">☰</button>
@@ -26,22 +24,89 @@
             <a href="claimedrewards.html"><i class="fa-solid fa-gift"></i>&nbsp;&nbsp;&nbsp;Manage Claimed Rewards</a>
             <a href="index.html"><i class="fa-solid fa-right-from-bracket"></i>&nbsp;&nbsp;&nbsp;Logout</a>
         </div>
-        
+
+        <!-- Main Content -->
         <div class="grid-container">
-            <div class="grid-item box1">Box 1</div>
-            <div class="grid-item box2">Box 2</div>
+            <div class="grid-item box1" id="user-count">Loading total users...</div>
+            <div class="grid-item box2" id="claimed-rewards-count">Loading claimed rewards...</div>
             <div class="grid-item box3">Box 3</div>
-            <div class="grid-item full">Box 4 (Full Width)</div>
+
+            <!-- Leaderboard (Box 4) -->
+            <div class="grid-item full">
+                <table id="userTable">
+                    <thead>
+                        <tr>
+                            <th>Rank Number</th>
+                            <th>Full Name</th>
+                            <th>Collected Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    </tbody>
+                </table>
+            </div>
+
             <div class="grid-item wide">Box 5 (Wide)</div>
-         </div>
+        </div>
     </div>
 
     <script>
+        // Toggle Sidebar Visibility
         function toggleSidebar() {
-            var sidebar = document.getElementById('sidebar');
+            const sidebar = document.getElementById('sidebar');
             sidebar.classList.toggle('active');
         }
+
+        // Fetch and display the total user count in Box 1
+        async function displayUserCount() {
+            try {
+                const userCount = await window.electronAPI.getUserCount();
+                document.getElementById('user-count').textContent = `Total Users: ${userCount}`;
+            } catch (error) {
+                console.error('Error fetching user count:', error);
+                document.getElementById('user-count').textContent = 'Error loading user count';
+            }
+        }
+
+        // Fetch and display the total claimed rewards count in Box 2
+        async function displayClaimedRewardsCount() {
+            try {
+                const claimedCount = await window.electronAPI.getClaimedRewardsCount();
+                document.getElementById('claimed-rewards-count').textContent = `Total Claimed Rewards: ${claimedCount}`;
+            } catch (error) {
+                console.error('Error fetching claimed rewards count:', error);
+                document.getElementById('claimed-rewards-count').textContent = 'Error loading claimed rewards count';
+            }
+        }
+
+        // Fetch and display data in the leaderboard table
+        function fetchData() {
+            window.electronAPI.getData()
+                .then(data => {
+                    const dataTableBody = document.querySelector('#userTable tbody');
+                    dataTableBody.innerHTML = '';
+                    data.forEach((user, index) => {
+                        const collectedPoints = user.collected_points || 0;
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                            <td>${index + 1}</td>
+                            <td>${user.name}</td>
+                            <td>${collectedPoints}</td>
+                        `;
+                        dataTableBody.appendChild(row);
+                    });
+                })
+                .catch(error => {
+                    console.error('Error fetching leaderboard data:', error);
+                });
+        }
+
+        // Load all counts and leaderboard data on page load
+        window.onload = function () {
+            displayUserCount();
+            displayClaimedRewardsCount();
+            fetchData();
+        };
     </script>
 </body>
-
 </html>

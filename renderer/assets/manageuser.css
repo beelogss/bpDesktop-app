@@ -55,27 +55,6 @@ body {
     border-color: #7a9b57!important;
 }
 
-button.NewUser {
-    width: 150px;
-    height: 40px;
-    font-family: 'Poppins';
-    font-size: 13px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
-    border-radius: 5px;
-    background-color: white;
-    color: white;
-    background-color: #83951c;
-    font-weight: bold;
-    margin-left: auto;
-    border: none;
-}
-
-button.NewUser:hover {
-    background-color: #bdd299;
-    color: #455e14;
-}
-
 #get-data {
     width: 100px;
     height: 40px;
