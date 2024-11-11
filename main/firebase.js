@@ -260,20 +260,12 @@ async function verifyRFID(rfidCode) {
   }
 }
 
-async function storeUserPoints() {
-  const userName = document.getElementById('userName').textContent;
-  const userStudentNumber = document.getElementById('userStudentNumber').textContent;
-
+async function addUserPointToFirestore(user) {
   try {
-      await window.electronAPI.addUserPoints({
-          name: userName,
-          studentNumber: userStudentNumber,
-          totalPoints: totalPoints
-      });
-      alert('Data stored successfully!');
+    await addDoc(collection(db, 'userPoints'), user);
   } catch (error) {
-      console.error('Error storing data:', error);
-      alert('Error storing data.');
+    console.error('Error adding user points to Firestore:', error);
+    throw error;
   }
 }
 module.exports = { 
@@ -302,6 +294,5 @@ module.exports = {
   deleteClaimedReward,
 
   auth, signInWithEmailAndPassword, verifyRFID,
-
-  storeUserPoints
+  addUserPointToFirestore
 };

@@ -28,8 +28,10 @@ const {
   getClaimedRewards,
   updateClaimedRewardStatus,
   deleteClaimedReward,
+  addUserPointToFirestore,
 
-  auth, signInWithEmailAndPassword, verifyRFID
+  auth, signInWithEmailAndPassword, verifyRFID,
+  
 } = require('./main/firebase');
 
 function createWindow() {
@@ -262,12 +264,12 @@ ipcMain.handle('verify-rfid', async (event, rfidCode) => {
     }
 });
 
-ipcMain.handle('add-user-points', async (event, userPoints) => {
+ipcMain.handle('store-user-points', async (event, user) => {
   try {
-      await addDoc(collection(db, 'userPoints'), userPoints);
-      return { success: true };
+    await addUserPointToFirestore(user);
+    return { success: true };
   } catch (error) {
-      console.error('Error adding user points:', error);
-      return { error: 'Failed to add user points' };
+    console.error('Error storing user points:', error);
+    return { success: 'Failed to add user point'  };
   }
 });

@@ -1,378 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="assets/dashboard.css">
-    <script src="https://kit.fontawesome.com/3980f875bb.js" crossorigin="anonymous"></script>
-    <script src="assets/manage-user.js" defer></script>
-</head>
-<body>
-    <div class="topbar">
-        <button class="toggle-sidebar" onclick="toggleSidebar()">☰</button>
-    </div>
-    <div class="container">
-        <div class="sidebar" id="sidebar">
-            <button class="toggle-sidebar" onclick="toggleSidebar()">☰</button>
-            <h2>&nbsp;&nbsp;Dashboard</h2>
-            <a href="Manageuser.html"><i class="fa-solid fa-users-line"></i>&nbsp;&nbsp;&nbsp;Manage User</a>
-            <a href="leaderboard.html"><i class="fa-solid fa-ranking-star"></i>&nbsp;&nbsp;&nbsp;Leader Board</a>
-            <a href="pointsallocation.html"><i class="fa-solid fa-coins"></i>&nbsp;&nbsp;&nbsp;Points Allocation</a>
-            <a href="redemptionrewards.html"><i class="fa-solid fa-gift"></i>&nbsp;&nbsp;&nbsp;Redemption Rewards</a>
-            <a href="petbottles.html"><i class="fa-solid fa-bottle-water"></i>&nbsp;&nbsp;&nbsp;Pet Bottles</a>
-            <a href="claimedrewards.html"><i class="fa-solid fa-gift"></i>&nbsp;&nbsp;&nbsp;Manage Claimed Rewards</a>
-            <a href="index.html"><i class="fa-solid fa-right-from-bracket"></i>&nbsp;&nbsp;&nbsp;Logout</a>
-        </div>
-
-        <div class="grid-container">
-            <div class="grid-item box1" id="user-count-container">
-                <div class="user-count-text" id="user-count-text">Total Users:</div>
-                <div class="user-count-number" id="user-count">Loading...</div>
-            </div>
-            <div class="grid-item box2" id="claimed-rewards-container">
-                <div class="claimed-rewards-text" id="claimed-rewards-text">Total Claimed Rewards:</div>
-                <div class="claimed-rewards-number" id="claimed-rewards-count">Loading...</div>
-            </div>
-            <div class="grid-item box3">Box 3</div>
-
-            <div class="grid-item full">
-                <table id="userTable">
-                    <thead>
-                        <tr>
-                            <th>Rank Number</th>
-                            <th>Student Number</th>
-                            <th>Full Name</th>
-                            <th>Collected Points</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="grid-item wide">Box 5 (Wide)</div>
-        </div>
-    </div>
-
-    <script>
-        // Toggle Sidebar Visibility
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('active');
-        }
-
-        // Fetch and display the total user count in Box 1
-        async function displayUserCount() {
-    try {
-        const userCount = await window.electronAPI.getUserCount();
-        document.getElementById('user-count-text').textContent = 'Total Users';
-        document.getElementById('user-count').textContent = userCount;
-    } catch (error) {
-        console.error('Error fetching user count:', error);
-        document.getElementById('user-count-text').textContent = 'Total Users:';
-        document.getElementById('user-count').textContent = 'Error loading user count';
-    }
-}
-        // Fetch and display the total claimed rewards count in Box 2
-        async function displayClaimedRewardsCount() {
-    try {
-        const claimedCount = await window.electronAPI.getClaimedRewardsCount();
-        document.getElementById('claimed-rewards-text').textContent = 'Total Claimed Rewards:';
-        document.getElementById('claimed-rewards-count').textContent = claimedCount;
-    } catch (error) {
-        console.error('Error fetching claimed rewards count:', error);
-        document.getElementById('claimed-rewards-text').textContent = 'Total Claimed Rewards:';
-        document.getElementById('claimed-rewards-count').textContent = 'Error loading claimed rewards count';
-    }
-}
-
-        // Fetch and display data in the leaderboard table
-        function fetchData() {
-            window.electronAPI.getData()
-                .then(data => {
-                    const dataTableBody = document.querySelector('#userTable tbody');
-                    dataTableBody.innerHTML = '';
-                    data.forEach((user, index) => {
-                        const collectedPoints = user.collected_points || 0;
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${index + 1}</td>
-                            <td>${user.studentNumber}</td>
-                            <td>${user.name}</td>
-                            <td>${collectedPoints}</td>
-                        `;
-                        dataTableBody.appendChild(row);
-                    });
-                })
-                .catch(error => {
-                    console.error('Error fetching leaderboard data:', error);
-                });
-        }
-
-        // Load all counts and leaderboard data on page load
-        window.onload = function () {
-            displayUserCount();
-            displayClaimedRewardsCount();
-            fetchData();
-        };
-    </script>
-</body>
-</html> -->
-<!-- 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
-    <link rel="stylesheet" href="assets/dashboard.css">
-    <script src="https://kit.fontawesome.com/3980f875bb.js" crossorigin="anonymous"></script>
-    <script src="assets/manage-user.js" defer></script>
-</head>
-<body>
-    <div class="topbar">
-        <button class="toggle-sidebar" onclick="toggleSidebar()">☰</button>
-    </div>
-    <div class="container">
-        <div class="sidebar" id="sidebar">
-            <button class="toggle-sidebar" onclick="toggleSidebar()">☰</button>
-            <h2>&nbsp;&nbsp;Dashboard</h2>
-            <a href="Manageuser.html"><i class="fa-solid fa-users-line"></i>&nbsp;&nbsp;&nbsp;Manage User</a>
-            <a href="leaderboard.html"><i class="fa-solid fa-ranking-star"></i>&nbsp;&nbsp;&nbsp;Leader Board</a>
-            <a href="pointsallocation.html"><i class="fa-solid fa-coins"></i>&nbsp;&nbsp;&nbsp;Points Allocation</a>
-            <a href="redemptionrewards.html"><i class="fa-solid fa-gift"></i>&nbsp;&nbsp;&nbsp;Redemption Rewards</a>
-            <a href="petbottles.html"><i class="fa-solid fa-bottle-water"></i>&nbsp;&nbsp;&nbsp;Pet Bottles</a>
-            <a href="claimedrewards.html"><i class="fa-solid fa-gift"></i>&nbsp;&nbsp;&nbsp;Manage Claimed Rewards</a>
-            <a href="index.html"><i class="fa-solid fa-right-from-bracket"></i>&nbsp;&nbsp;&nbsp;Logout</a>
-        </div>
-
-        <div class="grid-container">
-            <div class="grid-item box1" id="user-count-container">
-                <div class="user-count-text" id="user-count-text">Total Users:</div>
-                <div class="user-count-number" id="user-count">Loading...</div>
-            </div>
-            <div class="grid-item box2" id="claimed-rewards-container">
-                <div class="claimed-rewards-text" id="claimed-rewards-text">Total Claimed Rewards:</div>
-                <div class="claimed-rewards-number" id="claimed-rewards-count">Loading...</div>
-            </div>
-            <div class="grid-item box3">Box 3</div>
-
-            <div class="grid-item full">
-                <table id="userTable">
-                    <thead>
-                        <tr>
-                            <th>Rank Number</th>
-                            <th>Student Number</th>
-                            <th>Full Name</th>
-                            <th>Collected Points</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    </tbody>
-                </table>
-            </div>
-
-            <div class="grid-item wide">
-                <button onclick="openModal()">Open User Info Modal</button>
-                Box 5 (Wide)
-            </div>
-        </div>
-    </div>
-
-    <div id="userModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeModal()">&times;</span>
-            
-            <div class="modal-body">
-                <div class="modal-section user-info">
-                    <h2>User Information</h2>
-                    <img id="userAvatar" src="assets/images/default-profile.png" alt="User Avatar" class="avatar">
-                    <div class="user-details">
-                        <p id="userName">Name: </p>
-                        <p id="userStudentNumber">Student Number: </p>
-                    </div>
-                    <button id="start-scan-user">Start Scanning User</button>
-                </div>
-                <div class="modal-section bottle-info" id="bottle-info-section">
-                    <h3>Bottle Information</h3>
-                    <table id="bottleTable">
-                        <thead>
-                            <tr>
-                                <th>Brand Name</th>
-                                <th>Size</th>
-                                <th>Points</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                        </tbody>
-                    </table>
-                    <button id="start-scan-bottle" disabled>Start Scanning Bottle</button>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            displayUserCount();
-            displayClaimedRewardsCount();
-            fetchData();
-        });
-
-        const dataTableBody = document.querySelector('#userTable tbody');
-        const startScanUserButton = document.getElementById('start-scan-user');
-        const startScanBottleButton = document.getElementById('start-scan-bottle');
-        let isScanningUser = false;
-        let isScanningBottle = false;
-
-        // Toggle Sidebar Visibility
-        function toggleSidebar() {
-            const sidebar = document.getElementById('sidebar');
-            sidebar.classList.toggle('active');
-        }
-
-        // Fetch and display the total user count in Box 1
-        async function displayUserCount() {
-            try {
-                const userCount = await window.electronAPI.getUserCount();
-                document.getElementById('user-count-text').textContent = 'Total Users';
-                document.getElementById('user-count').textContent = userCount;
-            } catch (error) {
-                console.error('Error fetching user count:', error);
-                document.getElementById('user-count-text').textContent = 'Total Users:';
-                document.getElementById('user-count').textContent = 'Error loading user count';
-            }
-        }
-
-        // Fetch and display the total claimed rewards count in Box 2
-        async function displayClaimedRewardsCount() {
-            try {
-                const claimedCount = await window.electronAPI.getClaimedRewardsCount();
-                document.getElementById('claimed-rewards-text').textContent = 'Total Claimed Rewards:';
-                document.getElementById('claimed-rewards-count').textContent = claimedCount;
-            } catch (error) {
-                console.error('Error fetching claimed rewards count:', error);
-                document.getElementById('claimed-rewards-text').textContent = 'Total Claimed Rewards:';
-                document.getElementById('claimed-rewards-count').textContent = 'Error loading claimed rewards count';
-            }
-        }
-
-        // Fetch and display data in the leaderboard table
-        async function fetchData() {
-            try {
-                const data = await window.electronAPI.getData();
-                updateTable(data);
-            } catch (error) {
-                console.error('Error fetching leaderboard data:', error);
-            }
-        }
-
-        // Update table with user data
-        function updateTable(data) {
-            dataTableBody.innerHTML = '';
-            data.forEach((user, index) => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${index + 1}</td>
-                    <td>${user.studentNumber}</td>
-                    <td>${user.name}</td>
-                    <td>${user.collected_points || 0}</td>
-                `;
-                dataTableBody.appendChild(row);
-            });
-        }
-
-        // Open Modal
-        function openModal() {
-            document.getElementById('userModal').style.display = 'block';
-            document.getElementById('bottle-info-section').style.display = 'none'; // Hide bottle info section initially
-            startScanBottleButton.disabled = true; // Disable bottle scan button initially
-        }
-
-        // Close Modal
-        function closeModal() {
-            document.getElementById('userModal').style.display = 'none';
-        }
-
-        // Function to display user info in the modal
-        async function displayUserInfo(studentNumber) {
-            try {
-                console.log('Fetching user info for student number:', studentNumber); // Debugging log
-                const data = await window.electronAPI.getData();
-                console.log('Fetched data:', data); // Debugging log
-                const user = data.find(user => user.studentNumber === studentNumber);
-                console.log('Found user:', user); // Debugging log
-                if (user) {
-                    document.getElementById('userName').textContent = `Name: ${user.name}`;
-                    document.getElementById('userStudentNumber').textContent = `Student Number: ${user.studentNumber}`;
-                    document.getElementById('userAvatar').src = user.avatar || 'assets/images/default-profile.png';
-                    document.getElementById('bottle-info-section').style.display = 'block'; // Enable bottle info section
-                    startScanBottleButton.disabled = false; // Enable bottle scan button
-                } else {
-                    console.error('No such user!');
-                }
-            } catch (error) {
-                console.error('Error fetching user info:', error);
-            }
-        }
-
-        // Function to add bottle info to the table
-        async function addBottleInfo(barcode_number) {
-            try {
-                const data = await window.electronAPI.getPetBottles();
-                const bottle = data.find(bottle => bottle.barcode_number === barcode_number);
-                if (bottle) {
-                    const bottleTableBody = document.querySelector('#bottleTable tbody');
-                    const row = document.createElement('tr');
-                    row.innerHTML = `
-                        <td>${bottle.brand_name}</td>
-                        <td>${bottle.size} ${bottle.size_unit}</td>
-                        <td>${bottle.points}</td>
-                    `;
-                    bottleTableBody.appendChild(row);
-                } else {
-                    console.error('No such bottle!');
-                }
-            } catch (error) {
-                console.error('Error fetching bottle info:', error);
-            }
-        }
-
-        // Listen for barcode scanner input
-        let barcodeInput = '';
-        document.addEventListener('keydown', async (event) => {
-            if (isScanningUser || isScanningBottle) {
-                if (event.key === 'Enter') {
-                    console.log('Barcode scanned:', barcodeInput); // Debugging log
-                    if (isScanningUser) {
-                        await displayUserInfo(barcodeInput);
-                        isScanningUser = false;
-                    } else if (isScanningBottle) {
-                        await addBottleInfo(barcodeInput);
-                        isScanningBottle = false;
-                    }
-                    barcodeInput = ''; // Reset the input
-                } else {
-                    barcodeInput += event.key; // Append the key to the input
-                }
-            }
-        });
-
-        // Start scanning user
-        startScanUserButton.addEventListener('click', () => {
-            isScanningUser = true;
-            alert('Scanner connected. Ready to scan user QR code.');
-        });
-
-        // Start scanning bottle
-        startScanBottleButton.addEventListener('click', () => {
-            isScanningBottle = true;
-            alert('Scanner connected. Ready to scan bottle barcode.');
-        });
-    </script>
-</body>
-</html> -->
 <!DOCTYPE html>
 <html lang="en">
 
@@ -445,7 +70,7 @@
             <div class="modal-body">
                 <div class="modal-section user-info">
                     <h2>User Information</h2>
-                    <img id="userAvatar" src="assets/images/default-profile.png" alt="User  Avatar" class="avatar">
+                    <img id="userAvatar" src="assets/images/default-profile.png" alt="User Avatar" class="avatar">
                     <div class="user-details">
                         <p>Name:</p>
                         <p id="userName"></p>
@@ -453,8 +78,6 @@
                         <p id="userStudentNumber"></p>
                     </div>
                     <button id="start-scan-user" class="styled-button">Scan QR</button>
-                    <button id="next-user" class="styled-button" style="display: none;">Next User</button>
-                    <!-- New button -->
                 </div>
                 <div class="modal-section bottle-info-section" id="bottle-info-section">
                     <h3>Bottle Information</h3>
@@ -500,7 +123,6 @@
         const startScanUserButton = document.getElementById('start-scan-user');
         const startScanBottleButton = document.getElementById('start-scan-bottle');
         const confirmScanBottleButton = document.getElementById('confirm-scan-bottle');
-        const nextUserButton = document.getElementById('next-user');
         let isScanningUser = false;
         let isScanningBottle = false;
 
@@ -590,9 +212,8 @@
                     startScanBottleButton.disabled = false; // Enable bottle scan button
                     confirmScanBottleButton.style.display = 'inline-block'; // Show confirm button
 
-                    // Disable the user scan button and show the next user button
+                    // Disable the user scan button
                     startScanUserButton.disabled = true; // Disable the user scan button
-                    nextUserButton.style.display = 'inline-block'; // Show the next user button
                 } else {
                     console.error('No such user!');
                 }
@@ -600,25 +221,6 @@
                 console.error('Error fetching user info:', error);
             }
         }
-
-        // Add event listener for the Next User button
-        nextUserButton.addEventListener('click', () => {
-            // Reset the modal for the next user
-            document.getElementById('userName').textContent = '';
-            document.getElementById('userStudentNumber').textContent = '';
-            document.getElementById('userAvatar').src = 'assets/images/default-profile.png';
-
-            // Reset the bottle info section
-            const bottleTableBody = document.querySelector('#bottleTable tbody');
-            bottleTableBody.innerHTML = ''; // Clear existing bottle info
-            document.getElementById('totalPoints').textContent = '0'; // Reset total points
-            startScanBottleButton.disabled = true; // Disable bottle scan button
-            confirmScanBottleButton.style.display = 'none'; // Hide confirm button
-
-            // Hide the next user button and enable the user scan button again
-            nextUserButton.style.display = 'none';
-            startScanUserButton.disabled = false; // Enable the user scan button
-        });
 
         let bottleCounter = 1; // Initialize a counter for the bottle rows
         let totalPoints = 0; // Variable to hold total points
@@ -631,11 +233,11 @@
                     const bottleTableBody = document.querySelector('#bottleTable tbody');
                     const row = document.createElement('tr');
                     row.innerHTML = `
-                <td>${bottleCounter++}</td> <!-- Sequential numbering -->
-                <td>${bottle.brand_name}</td>
-                <td>${bottle.size} ${bottle.size_unit}</td>
-                <td>${bottle.points}</td>
-            `;
+                        <td>${bottleCounter++}</td> <!-- Sequential numbering -->
+                        <td>${bottle.brand_name}</td>
+                        <td>${bottle.size} ${bottle.size_unit}</td>
+                        <td>${bottle.points}</td>
+                    `;
                     bottleTableBody.appendChild(row);
 
                     // Convert points to a number before adding to totalPoints
@@ -648,6 +250,48 @@
                 console.error('Error fetching bottle info:', error);
             }
         }
+
+        // Function to store user and total points in Firestore
+        async function storeUserPoints() {
+            const userName = document.getElementById('userName').textContent;
+            const userStudentNumber = document.getElementById('userStudentNumber').textContent;
+            const totalPoints = document.getElementById('totalPoints').textContent;
+
+            try {
+                await window.electronAPI.storeUserPoints({
+                    name: userName,
+                    studentNumber: userStudentNumber,
+                    totalPoints: Number(totalPoints) // Ensure totalPoints is a number
+                });
+                alert('Data stored successfully!');
+                resetModal(); // Reset the modal after successful storage
+            } catch (error) {
+                console.error('Error storing data:', error);
+                alert('Error storing data.');
+            }
+        }
+
+        // Reset the modal for the next user
+        function resetModal() {
+            document.getElementById('userName').textContent = '';
+            document.getElementById('userStudentNumber').textContent = '';
+            document.getElementById('userAvatar').src = 'assets/images/default-profile.png';
+
+            // Reset the bottle info section
+            const bottleTableBody = document.querySelector('#bottleTable tbody');
+            bottleTableBody.innerHTML = ''; // Clear existing bottle info
+            document.getElementById('totalPoints').textContent = '0'; // Reset total points
+            startScanBottleButton.disabled = true; // Disable bottle scan button
+            confirmScanBottleButton.style.display = 'none'; // Hide confirm button
+
+            // Reset the bottle counter
+            bottleCounter = 1;
+            totalPoints = 0; // Reset total points
+
+            // Enable the user scan button again
+            startScanUserButton.disabled = false; // Enable the user scan button
+        }
+
         // Listen for barcode scanner input
         let barcodeInput = '';
         document.addEventListener('keydown', async (event) => {
@@ -680,10 +324,9 @@
         });
 
         // Confirm bottle scan
-        confirmScanBottleButton.addEventListener('click', () => {
+        confirmScanBottleButton.addEventListener('click', async () => {
             isScanningBottle = false;
-            alert('Bottle scanning confirmed. Redirecting to points allocation.');
-            window.location.href = 'pointsallocation.html'; // Redirect to points allocation page
+            await storeUserPoints(); // Store user and total points in Firebase
         });
     </script>
 </body>

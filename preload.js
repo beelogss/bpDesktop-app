@@ -28,6 +28,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
   login: (email, password) => ipcRenderer.invoke('login', email, password),
     verifyRFID: (rfidCode) => ipcRenderer.invoke('verify-rfid', rfidCode),
 
-    addUserPoints: (userPoints) => ipcRenderer.invoke('add-user-points', userPoints),
+    storeUserPoints: (user) => ipcRenderer.invoke('store-user-points', user),
+
 
 });
