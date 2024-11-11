@@ -1,6 +1,7 @@
 const { initializeApp } = require('firebase/app');
-const { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, updateDoc } = require('firebase/firestore');
+const { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, updateDoc, query, where } = require('firebase/firestore');
 const { getStorage, ref, uploadBytes, getDownloadURL} = require('firebase/storage');
+const { getAuth, signInWithEmailAndPassword } = require('firebase/auth');
 
 const firebaseConfig = {
     apiKey: "AIzaSyCNBtOJqXJXiSbEZLO83DJ1oq2etkKUbI4",
@@ -14,7 +15,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const storage = getStorage(app);
-
+const auth = getAuth(app);
 async function getUserCountFromFirestore() {
   try {
     const querySnapshot = await getDocs(collection(db, 'users'));
@@ -40,7 +41,6 @@ async function getDataFromFirestore() {
   try {
     const querySnapshot = await getDocs(collection(db, 'users'));
     const data = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-    console.log('Firestore Data:', data);
     return data;
   } catch (error) {
     console.error('Error fetching Firestore data:', error);
@@ -249,7 +249,33 @@ async function deleteClaimedReward(rewardId) {
   }
 }
 
+async function verifyRFID(rfidCode) {
+  try {
+      const q = query(collection(db, 'rfidCodes'), where('code', '==', rfidCode));
+      const querySnapshot = await getDocs(q);
+      return !querySnapshot.empty;
+  } catch (error) {
+      console.error('Error verifying RFID code:', error);
+      throw error;
+  }
+}
 
+async function storeUserPoints() {
+  const userName = document.getElementById('userName').textContent;
+  const userStudentNumber = document.getElementById('userStudentNumber').textContent;
+
+  try {
+      await window.electronAPI.addUserPoints({
+          name: userName,
+          studentNumber: userStudentNumber,
+          totalPoints: totalPoints
+      });
+      alert('Data stored successfully!');
+  } catch (error) {
+      console.error('Error storing data:', error);
+      alert('Error storing data.');
+  }
+}
 module.exports = { 
   getUserCountFromFirestore,
   getClaimedRewardsCount,
@@ -274,4 +300,8 @@ module.exports = {
   getClaimedRewards,
   updateClaimedRewardStatus,
   deleteClaimedReward,
+
+  auth, signInWithEmailAndPassword, verifyRFID,
+
+  storeUserPoints
 };

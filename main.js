@@ -27,7 +27,9 @@ const {
   addClaimedReward,
   getClaimedRewards,
   updateClaimedRewardStatus,
-  deleteClaimedReward
+  deleteClaimedReward,
+
+  auth, signInWithEmailAndPassword, verifyRFID
 } = require('./main/firebase');
 
 function createWindow() {
@@ -72,7 +74,6 @@ ipcMain.handle('get-claimed-rewards-count', async () => {
 ipcMain.handle('get-data', async () => {
   try {
     const data = await getDataFromFirestore();
-    console.log('Data sent to renderer:', data);
     return data;
   } catch (error) {
     console.error('Error fetching Firestore data:', error);
@@ -238,5 +239,35 @@ ipcMain.handle('delete-claimed-reward', async (event, rewardId) => {
   } catch (error) {
     console.error('Error deleting claimed reward:', error);
     return { error: 'Failed to delete claimed reward' };
+  }
+});
+
+ipcMain.handle('login', async (event, email, password) => {
+  try {
+      const userCredential = await signInWithEmailAndPassword(auth, email, password);
+      return { success: true, user: { uid: userCredential.user.uid, email: userCredential.user.email } };
+  } catch (error) {
+      console.error('Error logging in:', error);
+      return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('verify-rfid', async (event, rfidCode) => {
+    try {
+        const isValid = await verifyRFID(rfidCode);
+        return { success: isValid };
+    } catch (error) {
+        console.error('Error verifying RFID code:', error);
+        return { success: false, error: error.message };
+    }
+});
+
+ipcMain.handle('add-user-points', async (event, userPoints) => {
+  try {
+      await addDoc(collection(db, 'userPoints'), userPoints);
+      return { success: true };
+  } catch (error) {
+      console.error('Error adding user points:', error);
+      return { error: 'Failed to add user points' };
   }
 });

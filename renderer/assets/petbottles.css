@@ -80,8 +80,9 @@ h2 {
 
 .bottle-image img {
     max-width: 100%;
-    height: auto;
+    height: 100px;
     border-radius: 8px;
+    padding: 10px;
 }
 
 .bottle-details {

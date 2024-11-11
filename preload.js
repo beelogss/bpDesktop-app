@@ -25,4 +25,9 @@ contextBridge.exposeInMainWorld('electronAPI', {
   updateClaimedRewardStatus: (rewardId, status) => ipcRenderer.invoke('update-claimed-reward-status', rewardId, status),
   deleteClaimedReward: (rewardId) => ipcRenderer.invoke('delete-claimed-reward', rewardId),
 
+  login: (email, password) => ipcRenderer.invoke('login', email, password),
+    verifyRFID: (rfidCode) => ipcRenderer.invoke('verify-rfid', rfidCode),
+
+    addUserPoints: (userPoints) => ipcRenderer.invoke('add-user-points', userPoints),
+
 });
