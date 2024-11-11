@@ -255,13 +255,17 @@
         async function storeUserPoints() {
             const userName = document.getElementById('userName').textContent;
             const userStudentNumber = document.getElementById('userStudentNumber').textContent;
+            const userAvatar = document.getElementById('userAvatar').src;
             const totalPoints = document.getElementById('totalPoints').textContent;
+            const bottleCount = bottleCounter - 1; // Number of bottles collected
 
             try {
                 await window.electronAPI.storeUserPoints({
                     name: userName,
                     studentNumber: userStudentNumber,
-                    totalPoints: Number(totalPoints) // Ensure totalPoints is a number
+                    avatar: userAvatar,
+                    totalPoints: Number(totalPoints), // Ensure totalPoints is a number
+                    bottleCount: bottleCount // Store the number of bottles collected
                 });
                 alert('Data stored successfully!');
                 resetModal(); // Reset the modal after successful storage
