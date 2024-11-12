@@ -1,168 +1,3 @@
-<!-- <!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Electron Firebase Admin</title>
-    <link rel="stylesheet" href="assets/manageclaimedrewards.css">
-    <script src="https://kit.fontawesome.com/3980f875bb.js" crossorigin="anonymous"></script>
-</head>
-
-<body>
-    <div class="main-content">
-        <a href="dashboard.html" class="back-to-dashboard">
-            <i class="fa-solid fa-arrow-left"></i>
-        </a>
-
-        <h2>Manage Claimed Rewards</h2>
-        
-        <div class="search-bar">
-            <input type="text" id="search-input" placeholder="Search by name or barcode">
-            <button class="NewReward" onclick="location.href='newclaimedreward.html'">
-                Add New Reward
-            </button>
-        </div>
-
-        <table id="data-table">
-            <thead>
-                <tr>
-                    <th>Barcode</th>
-                    <th>Name</th>
-                    <th>Points</th>
-                    <th>Claimed At</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-        <button id="get-data">Get Data</button> 
-    </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            fetchData(); // Auto-fetch data when page loads
-        });
-
-        const getDataButton = document.getElementById('get-data');
-        const dataTableBody = document.querySelector('#data-table tbody');
-        const searchInput = document.getElementById('search-input');
-        let claimedRewardsData = [];
-
-        // Fetch and display data in the table
-        async function fetchData() {
-            try {
-                const data = await window.electronAPI.getClaimedRewards();
-                console.log('Data received in renderer:', data);
-                claimedRewardsData = data; // Store the data for later use
-                updateTable(data); // Update table with fetched data
-            } catch (error) {
-                console.error('Error fetching data:', error);
-            }
-        }
-
-        // Update table with reward data
-        function updateTable(data) {
-            // Clear previous table rows
-            dataTableBody.innerHTML = '';
-            if (data.length === 0) {
-                const row = document.createElement('tr');
-                row.innerHTML = `<td colspan="6">No data available</td>`;
-                dataTableBody.appendChild(row);
-                return;
-            }
-            data.forEach(reward => {
-                const row = document.createElement('tr');
-                row.innerHTML = `
-                    <td>${reward.barcode}</td>
-                    <td>${reward.name}</td>
-                    <td>${reward.points}</td>
-                    <td>${new Date(reward.claimedAt).toLocaleString()}</td>
-                    <td>${reward.status}</td>
-                    <td>
-                        <button class="edit-reward" data-id="${reward.id}">Edit</button>
-                        <button class="delete-reward" data-id="${reward.id}">Delete</button>
-                    </td>
-                `;
-                dataTableBody.appendChild(row);
-            });
-            attachEventHandlers(); // Reattach event handlers for both edit and delete
-        }
-
-        // Fetch and display data on button click (or on page load)
-        getDataButton.addEventListener('click', fetchData);
-
-        // Search functionality
-        searchInput.addEventListener('input', async () => {
-            const query = searchInput.value.toLowerCase();
-            const filteredData = claimedRewardsData.filter(reward => {
-                return reward.name.toLowerCase().includes(query) || reward.barcode.toString().includes(query);
-            });
-            updateTable(filteredData); // Update table with filtered data
-        });
-
-        // Attach event handlers to edit and delete buttons
-        function attachEventHandlers() {
-            // Handle Edit button
-            document.querySelectorAll('.edit-reward').forEach(button => {
-                button.addEventListener('click', (event) => {
-                    const rewardId = event.target.getAttribute('data-id');
-                    window.location.href = `editclaimedreward.html?id=${rewardId}`;
-                });
-            });
-
-            // Handle Delete button
-            document.querySelectorAll('.delete-reward').forEach(button => {
-                button.addEventListener('click', async (event) => {
-                    const rewardId = event.target.getAttribute('data-id');
-                    try {
-                        await window.electronAPI.deleteClaimedReward(rewardId);
-                        alert('Reward deleted successfully');
-                        const row = event.target.closest('tr');
-                        row.remove(); // Immediately remove the row from the UI
-                    } catch (error) {
-                        console.error('Error deleting reward:', error);
-                    }
-                });
-            });
-        }
-
-        // Listen for barcode scanner input
-        let barcodeInput = '';
-        document.addEventListener('keydown', async (event) => {
-            if (event.key === 'Enter') {
-                console.log('Barcode scanned:', barcodeInput); // Debugging log
-                // Barcode scanner typically sends an Enter key after the barcode
-                handleBarcodeScan(barcodeInput);
-                barcodeInput = ''; // Reset the input
-            } else {
-                barcodeInput += event.key; // Append the key to the input
-            }
-        });
-
-        // Handle barcode scan
-        async function handleBarcodeScan(barcode) {
-            console.log('Handling barcode scan for:', barcode); // Debugging log
-            const reward = claimedRewardsData.find(reward => reward.barcode === barcode);
-            if (reward) {
-                try {
-                    await window.electronAPI.updateClaimedRewardStatus(reward.id, 'claimed');
-                    alert(`Reward with barcode ${barcode} marked as claimed.`);
-                    fetchData(); // Refresh the table
-                } catch (error) {
-                    console.error('Error updating reward status:', error);
-                }
-            } else {
-                alert(`No reward found with barcode ${barcode}.`);
-            }
-        }
-    </script>
-</body>
-
-</html> -->
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -181,31 +16,53 @@
         </a>
 
         <h2>Manage Claimed Rewards</h2>
-        
+
         <div class="search-bar">
             <input type="text" id="search-input" placeholder="Search by name or barcode">
             <button id="start-scan">Start Scanning</button>
         </div>
         <div class="scanner-status" id="scanner-status">Scanner not connected</div>
-       
 
-        <table id="data-table">
-            <thead>
-                <tr>
-                    <th>User Name</th>
-                    <th>Student Number</th>
-                    <th>Barcode</th>
-                    <th>Reward Name</th>
-                    <th>Points</th>
-                    <th>Claimed At</th>
-                    <th>Status</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-        <button id="get-data">Get Data</button> 
+        <!-- Table for To Be Claimed Rewards -->
+        <h3>To Be Claimed Rewards</h3>
+        <div class="table-container">
+            <table id="to-be-claimed-table">
+                <thead>
+                    <tr>
+                        <th>User Name</th>
+                        <th>Student Number</th>
+                        <th>Barcode</th>
+                        <th>Reward Name</th>
+                        <th>Points</th>
+                        <th>Claimed At</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <!-- Table for Claimed Rewards -->
+        <h3>Claimed Rewards</h3>
+        <div class="table-container">
+            <table id="claimed-table">
+                <thead>
+                    <tr>
+                        <th>User Name</th>
+                        <th>Student Number</th>
+                        <th>Barcode</th>
+                        <th>Reward Name</th>
+                        <th>Points</th>
+                        <th>Claimed At</th>
+                        <th>Status</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+        <button id="get-data">Get Data</button>
     </div>
 
     <script>
@@ -214,86 +71,86 @@
         });
 
         const getDataButton = document.getElementById('get-data');
-        const dataTableBody = document.querySelector('#data-table tbody');
+        const toBeClaimedTableBody = document.querySelector('#to-be-claimed-table tbody');
+        const claimedTableBody = document.querySelector('#claimed-table tbody');
         const searchInput = document.getElementById('search-input');
         const scannerStatus = document.getElementById('scanner-status');
         const startScanButton = document.getElementById('start-scan');
         let claimedRewardsData = [];
         let isScanning = false;
 
-        // Fetch and display data in the table
+        // Fetch and display data in the tables
+        // Fetch and display data in the tables
         async function fetchData() {
             try {
                 const data = await window.electronAPI.getClaimedRewards();
-                console.log('Data received in renderer:', data);
                 claimedRewardsData = data; // Store the data for later use
-                updateTable(data); // Update table with fetched data
+                displayTables(data); // Update both tables with fetched data
             } catch (error) {
                 console.error('Error fetching data:', error);
             }
         }
 
+        // Display data in both "to be claimed" and "claimed" tables
+        function displayTables(data) {
+            // Filter and sort data for each table
+            const toBeClaimedRewards = data
+                .filter(reward => reward.status.toLowerCase() === 'to be claimed')
+                .sort((a, b) => new Date(b.claimedAt) - new Date(a.claimedAt));
+            console.log('To Be Claimed Rewards:', toBeClaimedRewards);  // Debugging: View "To Be Claimed" rewards
+
+            const claimedRewards = data
+                .filter(reward => reward.status.toLowerCase() === 'claimed')
+                .sort((a, b) => new Date(b.claimedAt) - new Date(a.claimedAt));
+            console.log('Claimed Rewards:', claimedRewards);  // Debugging: View "Claimed" rewards
+
+            // Update tables with sorted data
+            updateTable(toBeClaimedTableBody, toBeClaimedRewards, "To Be Claimed Rewards");
+            updateTable(claimedTableBody, claimedRewards, "Claimed Rewards");
+        }
+
         // Update table with reward data
-        function updateTable(data) {
-            // Clear previous table rows
-            dataTableBody.innerHTML = '';
+        function updateTable(tableBody, data, status) {
+            tableBody.innerHTML = ''; // Clear previous table rows
             if (data.length === 0) {
                 const row = document.createElement('tr');
-                row.innerHTML = `<td colspan="6">No data available</td>`;
-                dataTableBody.appendChild(row);
+                row.innerHTML = `<td colspan="8">No ${status.toLowerCase()} available</td>`;
+                tableBody.appendChild(row);
                 return;
             }
             data.forEach(reward => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-                    <td>${reward.userName}</td>
-                    <td>${reward.studentNumber}</td>
-                    <td>${reward.barcode}</td>
-                    <td>${reward.name}</td>
-                    <td>${reward.points}</td>
-                    <td>${new Date(reward.claimedAt).toLocaleString()}</td>
-                    <td>${reward.status}</td>
-                    <td>
-                        <button class="edit-reward" data-id="${reward.id}">Edit</button>
-                        <button class="delete-reward" data-id="${reward.id}">Delete</button>
-                    </td>
-                `;
-                dataTableBody.appendChild(row);
+            <td>${reward.userName}</td>
+            <td>${reward.studentNumber}</td>
+            <td>${reward.barcode}</td>
+            <td>${reward.name}</td>
+            <td>${reward.points}</td>
+            <td>${new Date(reward.claimedAt).toLocaleString()}</td>
+            <td>${reward.status}</td>
+            <td>
+                <button class="delete-reward" data-id="${reward.id}">Delete</button>
+            </td>
+        `;
+                tableBody.appendChild(row);
             });
-            attachEventHandlers(); // Reattach event handlers for both edit and delete
+            attachEventHandlers(); // Attach event handlers for each table's buttons
         }
 
-        // Fetch and display data on button click (or on page load)
+
+        // Fetch and display data on button click
         getDataButton.addEventListener('click', fetchData);
 
-        // Search functionality
-        searchInput.addEventListener('input', async () => {
-            const query = searchInput.value.toLowerCase();
-            const filteredData = claimedRewardsData.filter(reward => {
-                return reward.name.toLowerCase().includes(query) || reward.barcode.toString().includes(query);
-            });
-            updateTable(filteredData); // Update table with filtered data
-        });
-
-        // Attach event handlers to edit and delete buttons
+        // Attach event handlers to delete buttons
         function attachEventHandlers() {
-            // Handle Edit button
-            document.querySelectorAll('.edit-reward').forEach(button => {
-                button.addEventListener('click', (event) => {
-                    const rewardId = event.target.getAttribute('data-id');
-                    window.location.href = `editclaimedreward.html?id=${rewardId}`;
-                });
-            });
 
-            // Handle Delete button
             document.querySelectorAll('.delete-reward').forEach(button => {
                 button.addEventListener('click', async (event) => {
                     const rewardId = event.target.getAttribute('data-id');
                     try {
                         await window.electronAPI.deleteClaimedReward(rewardId);
                         alert('Reward deleted successfully');
-                        const row = event.target.closest('tr');
-                        row.remove(); // Immediately remove the row from the UI
+                        fetchData(); // Refresh data after deletion
                     } catch (error) {
                         console.error('Error deleting reward:', error);
                     }
@@ -301,30 +158,35 @@
             });
         }
 
-        // Listen for barcode scanner input
+        // Search functionality
+        searchInput.addEventListener('input', () => {
+            const query = searchInput.value.toLowerCase();
+            const filteredData = claimedRewardsData.filter(reward => {
+                return reward.name.toLowerCase().includes(query) || reward.barcode.toString().includes(query);
+            });
+            displayTables(filteredData); // Display only matching results in both tables
+        });
+
+        // Barcode scanning functionality
         let barcodeInput = '';
         document.addEventListener('keydown', async (event) => {
             if (isScanning) {
                 if (event.key === 'Enter') {
-                    console.log('Barcode scanned:', barcodeInput); // Debugging log
-                    // Barcode scanner typically sends an Enter key after the barcode
                     handleBarcodeScan(barcodeInput);
-                    barcodeInput = ''; // Reset the input
+                    barcodeInput = ''; // Reset input
                 } else {
-                    barcodeInput += event.key; // Append the key to the input
+                    barcodeInput += event.key;
                 }
             }
         });
 
-        // Handle barcode scan
         async function handleBarcodeScan(barcode) {
-            console.log('Handling barcode scan for:', barcode); // Debugging log
             const reward = claimedRewardsData.find(reward => reward.barcode === barcode);
             if (reward) {
                 try {
                     await window.electronAPI.updateClaimedRewardStatus(reward.id, 'claimed');
                     alert(`Reward with barcode ${barcode} marked as claimed.`);
-                    fetchData(); // Refresh the table
+                    fetchData(); // Refresh tables
                 } catch (error) {
                     console.error('Error updating reward status:', error);
                 }

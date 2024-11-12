@@ -185,35 +185,35 @@ form#rewardForm button:hover {
     background-color: #e5eeda;
 }
 
-table#data-table {
+
+table#to-be-claimed-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
     font-size: 16px;
 }
 
-table#data-table th,
-table#data-table td {
+table#to-be-claimed-table th,
+table#to-be-claimed-table td {
     padding: 12px;
     border: 1px solid #bdd299;
     text-align: left;
     color: black;
 }
 
-table#data-table th {
+table#to-be-claimed-table th {
     background-color: #7a9b57;
     color: white;
     text-align: center;
 }
-
-table#data-table td button {
+table#to-be-claimed-table td button {
     padding: 8px 12px;
     border: none;
     border-radius: 4px;
     cursor: pointer;
 }
 
-table#data-table td button:first-of-type {
+table#to-be-claimed-table td button:first-of-type {
     color: black;
     background-color: #b4e639;
     margin-bottom: 3px;
@@ -223,7 +223,7 @@ table#data-table td button:first-of-type {
     font-weight: bold;
 }
 
-table#data-table td button:last-of-type {
+table#to-be-claimed-table td button:last-of-type {
     background-color: #8abf2c;
     width: 80px;
     font-size: 13px;
@@ -232,24 +232,134 @@ table#data-table td button:last-of-type {
     color: white;
 }
 
-table#data-table td button:first-of-type:hover {
+table#to-be-claimed-table td button:first-of-type:hover {
     background-color: #bdd299;
     color: white;
     font-family: 'Poppins';
     font-weight: bold;
 }
 
-table#data-table td button:last-of-type:hover {
+table#to-be-claimed-table td button:last-of-type:hover {
     background-color: #E74C3C;
     /* Red */
     font-family: 'Poppins';
     font-weight: bold;
 }
 
-table#data-table td {
+table#to-be-claimed-table td {
     text-align: center;
     margin-left: 5px;
     margin-right: 5px;
+}
+
+
+table#claimed-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+    font-size: 16px;
+}
+
+table#claimed-table th,
+table#claimed-table td {
+    padding: 12px;
+    border: 1px solid #bdd299;
+    text-align: left;
+    color: black;
+}
+
+table#claimed-table th {
+    background-color: #7a9b57;
+    color: white;
+    text-align: center;
+}
+table#claimed-table td button {
+    padding: 8px 12px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+table#claimed-table td button:first-of-type {
+    color: black;
+    background-color: #b4e639;
+    margin-bottom: 3px;
+    width: 80px;
+    font-size: 13px;
+    font-family: 'Poppins';
+    font-weight: bold;
+}
+
+table#claimed-table td button:last-of-type {
+    background-color: #8abf2c;
+    width: 80px;
+    font-size: 13px;
+    font-family: 'Poppins';
+    font-weight: bold;
+    color: white;
+}
+
+table#claimed-table td button:first-of-type:hover {
+    background-color: #bdd299;
+    color: white;
+    font-family: 'Poppins';
+    font-weight: bold;
+}
+
+table#claimed-table td button:last-of-type:hover {
+    background-color: #E74C3C;
+    /* Red */
+    font-family: 'Poppins';
+    font-weight: bold;
+}
+
+table#claimed-table td {
+    text-align: center;
+    margin-left: 5px;
+    margin-right: 5px;
+}
+
+.table-container {
+    max-height: 400px; /* Adjust height as needed */
+    overflow-y: auto;
+    margin-bottom: 20px;
+    border: 1px solid #ccc;
+}
+
+/* Style the table headers to remain fixed */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    table-layout: fixed;
+}
+
+thead th {
+    position: sticky;
+    top: 0;
+    background-color: whitesmoke;
+    padding: 10px;
+    border-bottom: 2px solid #ccc;
+    font-weight: bold;
+}
+
+tbody td, thead th {
+    padding: 8px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Scrollbar styling (optional) */
+.table-container::-webkit-scrollbar {
+    width: 8px;
+}
+
+.table-container::-webkit-scrollbar-thumb {
+    background-color: #455e14; /* Adjust to match your theme */
+    border-radius: 4px;
+}
+
+.table-container::-webkit-scrollbar-track {
+    background: #f1f1f1;
 }
 
 @media (max-width: 768px) {
@@ -265,8 +375,8 @@ table#data-table td {
         font-size: 14px;
     }
 
-    table#data-table th,
-    table#data-table td {
+    table#claimed-table th,
+    table#claimed-table td {
         font-size: 14px;
     }
 }

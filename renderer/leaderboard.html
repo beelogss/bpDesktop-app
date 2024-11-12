@@ -61,20 +61,20 @@
             }
         }
 
-        // Aggregate data by student number
+        // Aggregate data by name
         function aggregateData(data) {
             const aggregatedData = {};
 
             data.forEach(user => {
-                if (!aggregatedData[user.studentNumber]) {
-                    aggregatedData[user.studentNumber] = {
-                        studentNumber: user.studentNumber,
+                if (!aggregatedData[user.name]) {
+                    aggregatedData[user.name] = {
+                        name: user.name,
                         bottleCount: 0,
                         totalPoints: 0
                     };
                 }
-                aggregatedData[user.studentNumber].bottleCount += user.bottleCount || 0;
-                aggregatedData[user.studentNumber].totalPoints += user.totalPoints || 0;
+                aggregatedData[user.name].bottleCount += user.bottleCount || 0;
+                aggregatedData[user.name].totalPoints += user.totalPoints || 0;
             });
 
             return Object.values(aggregatedData);
@@ -90,7 +90,7 @@
                 const row = document.createElement('tr');
                 row.innerHTML = `
                     <td>${index + 1}</td>
-                    <td>${user.studentNumber}</td>
+                    <td>${user.name}</td>
                     <td>${user.totalPoints || 0}</td>
                 `;
                 dataTableBody.appendChild(row);
