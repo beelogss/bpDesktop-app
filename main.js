@@ -7,6 +7,7 @@ require('electron-reload')(__dirname, {
 const { 
   getUserCountFromFirestore,
   getClaimedRewardsCount,
+  getTotalBottleCount,
 
   getDataFromFirestore,
   editUserFromFirestore,
@@ -28,9 +29,13 @@ const {
   getClaimedRewards,
   updateClaimedRewardStatus,
   deleteClaimedReward,
-  addUserPointToFirestore,
 
-  auth, signInWithEmailAndPassword, verifyRFID,
+  auth, 
+  signInWithEmailAndPassword, 
+  verifyRFID,
+
+  addUserPointToFirestore,
+  getUserPointsFromFirestore,
   
 } = require('./main/firebase');
 
@@ -70,6 +75,16 @@ ipcMain.handle('get-claimed-rewards-count', async () => {
   } catch (error) {
     console.error('Error in IPC handling of claimed rewards count:', error);
     return { error: 'Failed to fetch claimed rewards count' };
+  }
+});
+
+ipcMain.handle('getTotalBottleCount', async () => {
+  try {
+    const totalBottleCount = await getTotalBottleCount();
+    return totalBottleCount;
+  } catch (error) {
+    console.error('Error in IPC handling of total bottle count:', error);
+    return 0; // Return 0 on error for consistency
   }
 });
 
@@ -271,5 +286,16 @@ ipcMain.handle('store-user-points', async (event, user) => {
   } catch (error) {
     console.error('Error storing user points:', error);
     return { success: 'Failed to add user point'  };
+  }
+});
+
+
+ipcMain.handle('get-UserPoints', async () => {
+  try {
+    const data = await getUserPointsFromFirestore();
+    return data;
+  } catch (error) {
+    console.error('Error fetching Firestore data:', error);
+    return { error: 'Failed to fetch data' };
   }
 });

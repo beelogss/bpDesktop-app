@@ -1,15 +1,15 @@
 const { initializeApp } = require('firebase/app');
 const { getFirestore, collection, getDocs, addDoc, deleteDoc, doc, updateDoc, query, where } = require('firebase/firestore');
-const { getStorage, ref, uploadBytes, getDownloadURL} = require('firebase/storage');
+const { getStorage, ref, uploadBytes, getDownloadURL } = require('firebase/storage');
 const { getAuth, signInWithEmailAndPassword } = require('firebase/auth');
 
 const firebaseConfig = {
-    apiKey: "AIzaSyCNBtOJqXJXiSbEZLO83DJ1oq2etkKUbI4",
-    authDomain: "bpts-34c54.firebaseapp.com",
-    projectId: "bpts-34c54",
-    storageBucket: "bpts-34c54.appspot.com",
-    messagingSenderId: "320960896346",
-    appId: "1:320960896346:web:7cb35f9324c9c2d7a7a763",
+  apiKey: "AIzaSyCNBtOJqXJXiSbEZLO83DJ1oq2etkKUbI4",
+  authDomain: "bpts-34c54.firebaseapp.com",
+  projectId: "bpts-34c54",
+  storageBucket: "bpts-34c54.appspot.com",
+  messagingSenderId: "320960896346",
+  appId: "1:320960896346:web:7cb35f9324c9c2d7a7a763",
 };
 
 const app = initializeApp(firebaseConfig);
@@ -37,6 +37,21 @@ async function getClaimedRewardsCount() {
   }
 }
 
+async function getTotalBottleCount() {
+  try {
+    const querySnapshot = await getDocs(collection(db, 'userPoints'));
+    let totalBottleCount = 0;
+    querySnapshot.forEach(doc => {
+      const data = doc.data();
+      totalBottleCount += data.bottleCount;
+    });
+    return totalBottleCount;
+  } catch (error) {
+    console.error('Error fetching total bottle count:', error);
+    return 0; // Return 0 on error to avoid disrupting the UI
+  }
+}
+
 async function getDataFromFirestore() {
   try {
     const querySnapshot = await getDocs(collection(db, 'users'));
@@ -48,19 +63,21 @@ async function getDataFromFirestore() {
   }
 }
 
+
+
 // Edit user data in Firestore
 async function editUserFromFirestore(userId, studentNumber, name, email) {
   try {
-      const userRef = doc(db, 'users', userId);
-      await updateDoc(userRef, {
-          studentNumber: studentNumber,
-          name: name,
-          email: email
-      });
-      console.log('User successfully updated in Firebase!');
+    const userRef = doc(db, 'users', userId);
+    await updateDoc(userRef, {
+      studentNumber: studentNumber,
+      name: name,
+      email: email
+    });
+    console.log('User successfully updated in Firebase!');
   } catch (error) {
-      console.error('Error editing user in Firebase:', error);
-      throw error;
+    console.error('Error editing user in Firebase:', error);
+    throw error;
   }
 }
 
@@ -251,12 +268,12 @@ async function deleteClaimedReward(rewardId) {
 
 async function verifyRFID(rfidCode) {
   try {
-      const q = query(collection(db, 'rfidCodes'), where('code', '==', rfidCode));
-      const querySnapshot = await getDocs(q);
-      return !querySnapshot.empty;
+    const q = query(collection(db, 'rfidCodes'), where('code', '==', rfidCode));
+    const querySnapshot = await getDocs(q);
+    return !querySnapshot.empty;
   } catch (error) {
-      console.error('Error verifying RFID code:', error);
-      throw error;
+    console.error('Error verifying RFID code:', error);
+    throw error;
   }
 }
 
@@ -268,17 +285,31 @@ async function addUserPointToFirestore(user) {
     throw error;
   }
 }
-module.exports = { 
+
+async function getUserPointsFromFirestore() {
+  try {
+    const querySnapshot = await getDocs(collection(db, 'userPoints'));
+    const userPoints = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+    return userPoints;
+  } catch (error) {
+    console.error('Error fetching user points from Firestore:', error);
+    throw error;
+  }
+}
+
+
+module.exports = {
   getUserCountFromFirestore,
   getClaimedRewardsCount,
+  getTotalBottleCount,
 
   getDataFromFirestore,
-  editUserFromFirestore, 
-  deleteUserFromFirestore, 
+  editUserFromFirestore,
+  deleteUserFromFirestore,
 
-  uploadImage, 
-  addRewardToFirestore, 
-  getRewardsFromFirestore, 
+  uploadImage,
+  addRewardToFirestore,
+  getRewardsFromFirestore,
   editRewardFromFirestore,
   deleteRewardFromFirestore,
 
@@ -293,6 +324,10 @@ module.exports = {
   updateClaimedRewardStatus,
   deleteClaimedReward,
 
-  auth, signInWithEmailAndPassword, verifyRFID,
-  addUserPointToFirestore
+  auth,
+  signInWithEmailAndPassword,
+  verifyRFID,
+
+  addUserPointToFirestore,
+  getUserPointsFromFirestore
 };

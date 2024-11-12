@@ -50,26 +50,51 @@
         const dataTableBody = document.querySelector('#userTable tbody');
 
         // Fetch and display data in the table
-        function fetchData() {
-            window.electronAPI.getData()
-                .then(data => {
-                    console.log('Data received in renderer:', data);
-                    // Clear previous table rows
-                    dataTableBody.innerHTML = '';
-                    data.forEach((user, index) => {
-                        const collectedPoints = user.collected_points || 0; // Default to 0 if null
-                        const row = document.createElement('tr');
-                        row.innerHTML = `
-                            <td>${index + 1}</td> <!-- Rank Number -->
-                            <td>${user.name}</td> <!-- Full Name -->
-                            <td>${collectedPoints}</td> <!-- Collected Points -->
-                        `;
-                        dataTableBody.appendChild(row);
-                    });
-                })
-                .catch(error => {
-                    console.error('Error fetching data:', error);
-                });
+        async function fetchData() {
+            try {
+                const data = await window.electronAPI.getUserPoints();
+                console.log('Data received in renderer:', data);
+                const aggregatedData = aggregateData(data);
+                updateTable(aggregatedData); // Update table with aggregated data
+            } catch (error) {
+                console.error('Error fetching data:', error);
+            }
+        }
+
+        // Aggregate data by student number
+        function aggregateData(data) {
+            const aggregatedData = {};
+
+            data.forEach(user => {
+                if (!aggregatedData[user.studentNumber]) {
+                    aggregatedData[user.studentNumber] = {
+                        studentNumber: user.studentNumber,
+                        bottleCount: 0,
+                        totalPoints: 0
+                    };
+                }
+                aggregatedData[user.studentNumber].bottleCount += user.bottleCount || 0;
+                aggregatedData[user.studentNumber].totalPoints += user.totalPoints || 0;
+            });
+
+            return Object.values(aggregatedData);
+        }
+
+        // Update table with user data
+        function updateTable(data) {
+            // Sort data by total points in descending order
+            data.sort((a, b) => b.totalPoints - a.totalPoints);
+
+            dataTableBody.innerHTML = '';
+            data.forEach((user, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                    <td>${index + 1}</td>
+                    <td>${user.studentNumber}</td>
+                    <td>${user.totalPoints || 0}</td>
+                `;
+                dataTableBody.appendChild(row);
+            });
         }
     </script>
 </body>

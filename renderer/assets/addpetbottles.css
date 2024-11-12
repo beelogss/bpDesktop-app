@@ -17,6 +17,22 @@ body {
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
+.back-to-dashboard {
+    display: inline-block;
+    color: #455e14;
+    text-decoration: none;
+    font-size: 16px;
+    margin-bottom: 20px;
+    padding: 10px 15px;
+    border-radius: 5px;
+}
+
+.back-to-dashboard:hover {
+    text-decoration: underline;
+    background-color: #bdd299;
+    color: white;
+}
+
 h2 {
     color: #455e14;
     margin-bottom: 20px;

@@ -25,8 +25,6 @@
             <!-- Bottles will be dynamically displayed here -->
         </div>
 
-        <button id="fetch-bottles-btn">Refresh Bottles</button>
-
         <!-- Modal for editing bottle (unchanged) -->
         <div id="editModal" class="modal">
             <div class="modal-content">
@@ -71,43 +69,6 @@
                 </div>
             </div>
         </div>
-<!-- 
-        <div id="addModal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="document.getElementById('addModal').style.display='none'">&times;</span>
-                <h3>Add New Bottle</h3>
-
-                <label for="brandname">Brand Name:</label>
-                <input type="text" id="brandname" required>
-
-                <label for="bottleSize">Size:</label>
-                <input type="number" id="bottleSize" required placeholder="Enter size">
-                <select id="bottleSizeUnit" required>
-                    <option value="ml">ml</option>
-                    <option value="L">L</option>
-                    <option value="oz">oz</option>
-                </select>
-
-                <label for="bottleWeight">Weight:</label>
-                <input type="number" id="bottleWeight" required placeholder="Enter weight">
-                <select id="bottleWeightUnit" required>
-                    <option value="g">g</option>
-                    <option value="kg">kg</option>
-                    <option value="lbs">lbs</option>
-                </select>
-
-                <label for="bottleBarcode">Barcode:</label>
-                <input type="text" id="bottleBarcode" required>
-
-                <label for="bottleImage">Image URL:</label>
-                <input type="text" id="bottleImage" required>
-                
-                <button id="saveBottle">Save Bottle</button>
-                <p id="successMessage" style="color: green; display: none;">Bottle successfully added!</p>
-            </div>
-        </div>
-    </div> -->
-
    <script>
    document.addEventListener('DOMContentLoaded', async () => {
        fetchBottles(); // Auto-fetch bottles when page loads    

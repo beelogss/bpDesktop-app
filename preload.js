@@ -3,7 +3,8 @@ const { contextBridge, ipcRenderer } = require('electron');
 contextBridge.exposeInMainWorld('electronAPI', {
   getUserCount: () => ipcRenderer.invoke('get-user-count'),
   getClaimedRewardsCount: () => ipcRenderer.invoke('get-claimed-rewards-count'),
-  
+  getTotalBottleCount: () => ipcRenderer.invoke('getTotalBottleCount'),
+
   getData: () => ipcRenderer.invoke('get-data'),
   editUser: (userId, studentNumber, name, email) => ipcRenderer.invoke('edit-user', userId, studentNumber, name, email),
   deleteUser: (userId) => ipcRenderer.invoke('delete-user', userId),
@@ -26,9 +27,8 @@ contextBridge.exposeInMainWorld('electronAPI', {
   deleteClaimedReward: (rewardId) => ipcRenderer.invoke('delete-claimed-reward', rewardId),
 
   login: (email, password) => ipcRenderer.invoke('login', email, password),
-    verifyRFID: (rfidCode) => ipcRenderer.invoke('verify-rfid', rfidCode),
+  verifyRFID: (rfidCode) => ipcRenderer.invoke('verify-rfid', rfidCode),
 
-    storeUserPoints: (user) => ipcRenderer.invoke('store-user-points', user),
-
-
+  storeUserPoints: (user) => ipcRenderer.invoke('store-user-points', user),
+  getUserPoints: () => ipcRenderer.invoke('get-UserPoints'),
 });

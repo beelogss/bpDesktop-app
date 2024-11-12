@@ -13,6 +13,7 @@ body {
     transition: margin-left 0.3s;
     background-color: white;
     margin: 10px;
+    
 }
 
 .sidebar h2 {
@@ -118,31 +119,37 @@ body {
     grid-column: span 3;
 }
 
-.grid-item.box1 {
-    background-color: white;
-    color: white;
-    font-size: 18px;
-}
-
 .box1, .box2, .box3 {
     height: 100px;
     margin-top: 0px;
-    background-color: white;
+    background-color: #bdd299;
     margin-bottom: 10px;
     margin-left: 10px;
     margin-right: 10px;
     border-color: grey;
     box-shadow: 0 0 5px 1px #acacac;
+    font-size: 16px; 
+    color: #333; 
 }
 
+
 .full {
-    height : 300px;
-    margin-top: 2px;
-    margin-left: 10px;
-    margin-right: 8px;
-    border-color: #455e14;
+    margin-top: -20px;
+    height: auto; 
+    max-height: 300px; 
+    overflow-y: auto; 
+    margin: 10px;
+    padding: 15px;
     background-color: white;
     box-shadow: 0 0 5px 1px #acacac;
+    border-radius: 10px;
+}
+
+.user-item {
+    margin: 5px 0;
+    padding: 8px;
+    background-color: #f0f0f0;
+    border-radius: 5px;
 }
 
 #userTable {
@@ -198,6 +205,7 @@ table#userTable td {
 }
 
 .user-count-text {
+    font-family: 'Poppins';
     position: absolute;
     top: 10px;
     left: 10px;
@@ -206,6 +214,7 @@ table#userTable td {
 }
 
 .user-count-number {
+    font-family: 'Poppins';
     font-size: 48px;
     font-weight: bold;
     color: black;
@@ -220,6 +229,7 @@ table#userTable td {
 }
 
 .claimed-rewards-text {
+    font-family: 'Poppins';
     position: absolute;
     top: 10px;
     left: 30px;
@@ -228,6 +238,31 @@ table#userTable td {
 }
 
 .claimed-rewards-number {
+    font-family: 'Poppins';
+    font-size: 48px;
+    font-weight: bold;
+    color: black;
+}
+
+#bottle-contribution-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.bottle-contribution-text {
+    font-family: 'Poppins';
+    position: absolute;
+    top: 10px;
+    left: 10px;
+    font-size: 14px;
+    color: #333;
+}
+
+.bottle-contribution-number {
+    font-family: 'Poppins';
     font-size: 48px;
     font-weight: bold;
     color: black;
@@ -434,3 +469,4 @@ h2 {
         font-size: 14px;
     }
 }
+

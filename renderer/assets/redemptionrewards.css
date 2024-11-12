@@ -60,6 +60,23 @@ h2 {
     color: #455e14;
 }
 
+#fetch-rewards-btn {
+    background-color: #83951c;
+    font-family: 'Poppins';
+    font-weight: bold;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+#fetch-rewards-btn:hover {
+    background-color: #bdd299;
+    color: #455e14;
+}
+
 .rewards-grid {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
