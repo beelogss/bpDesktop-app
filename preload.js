@@ -23,7 +23,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
   addClaimedReward: (reward) => ipcRenderer.invoke('add-claimed-reward', reward),
   getClaimedRewards: () => ipcRenderer.invoke('get-claimed-rewards'),
-  updateClaimedRewardStatus: (rewardId, status) => ipcRenderer.invoke('update-claimed-reward-status', rewardId, status),
+  updateClaimedRewardStatus: (rewardId, status, claimedAt) => ipcRenderer.invoke('update-claimed-reward-status', rewardId, status, claimedAt),
   deleteClaimedReward: (rewardId) => ipcRenderer.invoke('delete-claimed-reward', rewardId),
 
   login: (email, password) => ipcRenderer.invoke('login', email, password),

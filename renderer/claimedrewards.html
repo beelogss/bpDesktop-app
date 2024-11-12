@@ -80,7 +80,6 @@
         let isScanning = false;
 
         // Fetch and display data in the tables
-        // Fetch and display data in the tables
         async function fetchData() {
             try {
                 const data = await window.electronAPI.getClaimedRewards();
@@ -95,12 +94,12 @@
         function displayTables(data) {
             // Filter and sort data for each table
             const toBeClaimedRewards = data
-                .filter(reward => reward.status.toLowerCase() === 'to be claimed')
+                .filter(reward => reward.status === 'toBeClaimed')
                 .sort((a, b) => new Date(b.claimedAt) - new Date(a.claimedAt));
             console.log('To Be Claimed Rewards:', toBeClaimedRewards);  // Debugging: View "To Be Claimed" rewards
 
             const claimedRewards = data
-                .filter(reward => reward.status.toLowerCase() === 'claimed')
+                .filter(reward => reward.status === 'claimed')
                 .sort((a, b) => new Date(b.claimedAt) - new Date(a.claimedAt));
             console.log('Claimed Rewards:', claimedRewards);  // Debugging: View "Claimed" rewards
 
@@ -121,29 +120,27 @@
             data.forEach(reward => {
                 const row = document.createElement('tr');
                 row.innerHTML = `
-            <td>${reward.userName}</td>
-            <td>${reward.studentNumber}</td>
-            <td>${reward.barcode}</td>
-            <td>${reward.name}</td>
-            <td>${reward.points}</td>
-            <td>${new Date(reward.claimedAt).toLocaleString()}</td>
-            <td>${reward.status}</td>
-            <td>
-                <button class="delete-reward" data-id="${reward.id}">Delete</button>
-            </td>
-        `;
+                    <td>${reward.userName}</td>
+                    <td>${reward.studentNumber}</td>
+                    <td>${reward.barcode}</td>
+                    <td>${reward.name}</td>
+                    <td>${reward.points}</td>
+                    <td>${new Date(reward.claimedAt).toLocaleString()}</td>
+                    <td>${reward.status}</td>
+                    <td>
+                        <button class="delete-reward" data-id="${reward.id}">Delete</button>
+                    </td>
+                `;
                 tableBody.appendChild(row);
             });
             attachEventHandlers(); // Attach event handlers for each table's buttons
         }
-
 
         // Fetch and display data on button click
         getDataButton.addEventListener('click', fetchData);
 
         // Attach event handlers to delete buttons
         function attachEventHandlers() {
-
             document.querySelectorAll('.delete-reward').forEach(button => {
                 button.addEventListener('click', async (event) => {
                     const rewardId = event.target.getAttribute('data-id');
@@ -184,7 +181,8 @@
             const reward = claimedRewardsData.find(reward => reward.barcode === barcode);
             if (reward) {
                 try {
-                    await window.electronAPI.updateClaimedRewardStatus(reward.id, 'claimed');
+                    const currentTime = new Date().toISOString();
+                    await window.electronAPI.updateClaimedRewardStatus(reward.id, 'claimed', currentTime);
                     alert(`Reward with barcode ${barcode} marked as claimed.`);
                     fetchData(); // Refresh tables
                 } catch (error) {

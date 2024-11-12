@@ -239,9 +239,9 @@ ipcMain.handle('get-claimed-rewards', async () => {
   }
 });
 
-ipcMain.handle('update-claimed-reward-status', async (event, rewardId, status) => {
+ipcMain.handle('update-claimed-reward-status', async (event, rewardId, status, claimedAt) => {
   try {
-    await updateClaimedRewardStatus(rewardId, status);
+    await updateClaimedRewardStatus(rewardId, status, claimedAt);
     return { success: true };
   } catch (error) {
     console.error('Error updating claimed reward status:', error);

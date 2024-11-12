@@ -244,11 +244,11 @@ async function getClaimedRewards() {
   }
 }
 
-// Function to update the status of a claimed reward in Firestore
-async function updateClaimedRewardStatus(rewardId, status) {
+// Function to update the status of a claimed reward in Firestore// Function to update the status of a claimed reward in Firestore
+async function updateClaimedRewardStatus(rewardId, status, claimedAt) {
   try {
     const rewardDoc = doc(db, 'claimedRewards', rewardId);
-    await updateDoc(rewardDoc, { status });
+    await updateDoc(rewardDoc, { status, claimedAt });
   } catch (error) {
     console.error('Error updating claimed reward status:', error);
     throw error; // Rethrow the error to handle it in the calling function

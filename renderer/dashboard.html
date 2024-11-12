@@ -236,6 +236,8 @@
             document.getElementById('userModal').style.display = 'none';
         }
 
+        let currentUserId = null;
+
         async function displayUserInfo(id) {
             try {
                 console.log('Fetching user info for user ID:', id); // Debugging log
@@ -244,6 +246,7 @@
                 const user = data.find(user => user.id === id);
                 console.log('Found user:', user); // Debugging log
                 if (user) {
+                    currentUserId = user.id; // Store the current user's ID
                     document.getElementById('userName').textContent = user.name;
                     document.getElementById('userStudentNumber').textContent = user.studentNumber;
                     document.getElementById('userAvatar').src = user.avatar || 'assets/images/default-profile.png';
@@ -298,13 +301,26 @@
             const totalPoints = document.getElementById('totalPoints').textContent;
             const bottleCount = bottleCounter - 1; // Number of bottles collected
 
+            // Format the timestamp
+            const timestamp = new Date().toLocaleString('en-US', {
+                year: 'numeric',
+                month: '2-digit',
+                day: '2-digit',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit',
+                hour12: false
+            });
+
             try {
                 await window.electronAPI.storeUserPoints({
+                    id: currentUserId, // Use the current user's ID
                     name: userName,
                     studentNumber: userStudentNumber,
                     avatar: userAvatar,
                     totalPoints: Number(totalPoints), // Ensure totalPoints is a number
-                    bottleCount: bottleCount // Store the number of bottles collected
+                    bottleCount: bottleCount, // Store the number of bottles collected
+                    timestamp: timestamp // Add the formatted timestamp
                 });
                 alert('Data stored successfully!');
                 resetModal(); // Reset the modal after successful storage
@@ -313,7 +329,6 @@
                 alert('Error storing data.');
             }
         }
-
         // Reset the modal for the next user
         function resetModal() {
             document.getElementById('userName').textContent = '';
