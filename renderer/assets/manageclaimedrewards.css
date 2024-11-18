@@ -5,10 +5,10 @@ body {
     background-color: whitesmoke;
     margin: 0;
     padding: 20px;
+    font-size: 1rem;
 }
 
 .main-content {
-    font-family: 'Poppins';
     max-width: 1200px;
     margin: 0 auto;
     background-color: white;
@@ -21,7 +21,7 @@ body {
     display: inline-block;
     color: #455e14;
     text-decoration: none;
-    font-size: 16px;
+    font-size: 1rem;
     margin-bottom: 20px;
     padding: 10px 15px;
     border-radius: 5px;
@@ -35,16 +35,15 @@ body {
 
 .search-bar {
     display: flex;
+    margin-bottom: 15px;
 }
 
 .search-bar input {
     width: 68%;
     padding: 10px;
-    font-size: 14px;
-    border: 1px solid #ccc;
+    font-size: 1rem;
+    border: 1px solid #7a9b57;
     border-radius: 60px;
-    font-family: 'Poppins';
-    border-color: #7a9b57;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -55,18 +54,17 @@ body {
 }
 
 button.NewReward {
+    font-size: 0.9rem;
     width: 150px;
     height: 40px;
-    font-family: 'Poppins';
-    font-size: 13px;
-    cursor: pointer;
-    transition: background-color 0.3s ease;
     border-radius: 5px;
     color: white;
     background-color: #83951c;
     font-weight: bold;
     margin-left: 10px;
     border: none;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
 }
 
 button.NewReward:hover {
@@ -106,7 +104,7 @@ button.NewReward:hover {
     width: 100px;
     height: 40px;
     font-family: 'Poppins';
-    font-size: 13px;
+    font-size: 1rem;
     cursor: pointer;
     transition: background-color 0.3s ease;
     border-radius: 5px;
@@ -120,6 +118,10 @@ button.NewReward:hover {
 #get-data:hover {
     background-color: #bdd299;
     color: #455e14;
+}
+
+.main-content h2, .back-to-dashboard{
+    display: inline-block;
 }
 
 h2 {
@@ -138,89 +140,43 @@ h2 {
     font-weight: 600;
 }
 
-.main-content h2, .back-to-dashboard{
-    display: inline-block;
-}
-
 h3 {
     color: #455e14;
     font-size: 20px;
     margin-bottom: 15px;
 }
 
-form#rewardForm {
-    margin-bottom: 30px;
-}
-
-form#rewardForm .form-group {
-    margin-bottom: 15px;
-}
-
-form#rewardForm label {
-    font-weight: 500;
-    margin-bottom: 5px;
-    display: block;
-    color: #455e14;
-}
-
-form#rewardForm input {
-    width: 100%;
-    padding: 10px;
+.table-container {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-bottom: 20px;
     border: 1px solid #ccc;
-    border-radius: 4px;
-    font-size: 16px;
 }
 
-form#rewardForm button {
-    background-color: #83951c;
-    color: white;
-    padding: 10px 20px;
-    border: none;
-    border-radius: 4px;
-    font-size: 16px;
-    cursor: pointer;
-}
-
-form#rewardForm button:hover {
-    background-color: #e5eeda;
-}
-
-
-table#to-be-claimed-table {
+/* Responsive Table */
+table {
     width: 100%;
     border-collapse: collapse;
-    margin-top: 20px;
-    font-size: 16px;
 }
 
-table#to-be-claimed-table th,
-table#to-be-claimed-table td {
+table th, table td {
     padding: 12px;
     border: 1px solid #bdd299;
-    text-align: left;
-    color: black;
+    text-align: center;
+    font-size: 1rem;
 }
 
-table#to-be-claimed-table th {
+table th {
     background-color: #7a9b57;
     color: white;
-    text-align: center;
-}
-table#to-be-claimed-table td button {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
 }
 
-table#to-be-claimed-table td button:first-of-type {
-    color: black;
-    background-color: #b4e639;
-    margin-bottom: 3px;
-    width: 80px;
-    font-size: 13px;
-    font-family: 'Poppins';
-    font-weight: bold;
+table td button {
+    padding: 8px 12px;
+    font-size: 0.85rem;
+    border-radius: 4px;
+    cursor: pointer;
+    border: none;
 }
 
 table#to-be-claimed-table td button:last-of-type {
@@ -232,13 +188,6 @@ table#to-be-claimed-table td button:last-of-type {
     color: white;
 }
 
-table#to-be-claimed-table td button:first-of-type:hover {
-    background-color: #bdd299;
-    color: white;
-    font-family: 'Poppins';
-    font-weight: bold;
-}
-
 table#to-be-claimed-table td button:last-of-type:hover {
     background-color: #E74C3C;
     /* Red */
@@ -246,109 +195,7 @@ table#to-be-claimed-table td button:last-of-type:hover {
     font-weight: bold;
 }
 
-table#to-be-claimed-table td {
-    text-align: center;
-    margin-left: 5px;
-    margin-right: 5px;
-}
 
-
-table#claimed-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-    font-size: 16px;
-}
-
-table#claimed-table th,
-table#claimed-table td {
-    padding: 12px;
-    border: 1px solid #bdd299;
-    text-align: left;
-    color: black;
-}
-
-table#claimed-table th {
-    background-color: #7a9b57;
-    color: white;
-    text-align: center;
-}
-table#claimed-table td button {
-    padding: 8px 12px;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-}
-
-table#claimed-table td button:first-of-type {
-    color: black;
-    background-color: #b4e639;
-    margin-bottom: 3px;
-    width: 80px;
-    font-size: 13px;
-    font-family: 'Poppins';
-    font-weight: bold;
-}
-
-table#claimed-table td button:last-of-type {
-    background-color: #8abf2c;
-    width: 80px;
-    font-size: 13px;
-    font-family: 'Poppins';
-    font-weight: bold;
-    color: white;
-}
-
-table#claimed-table td button:first-of-type:hover {
-    background-color: #bdd299;
-    color: white;
-    font-family: 'Poppins';
-    font-weight: bold;
-}
-
-table#claimed-table td button:last-of-type:hover {
-    background-color: #E74C3C;
-    /* Red */
-    font-family: 'Poppins';
-    font-weight: bold;
-}
-
-table#claimed-table td {
-    text-align: center;
-    margin-left: 5px;
-    margin-right: 5px;
-}
-
-.table-container {
-    max-height: 400px; /* Adjust height as needed */
-    overflow-y: auto;
-    margin-bottom: 20px;
-    border: 1px solid #ccc;
-}
-
-/* Style the table headers to remain fixed */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    table-layout: fixed;
-}
-
-thead th {
-    position: sticky;
-    top: 0;
-    background-color: whitesmoke;
-    padding: 10px;
-    border-bottom: 2px solid #ccc;
-    font-weight: bold;
-}
-
-tbody td, thead th {
-    padding: 8px;
-    text-align: left;
-    border-bottom: 1px solid #ddd;
-}
-
-/* Scrollbar styling (optional) */
 .table-container::-webkit-scrollbar {
     width: 8px;
 }
@@ -362,21 +209,62 @@ tbody td, thead th {
     background: #f1f1f1;
 }
 
-@media (max-width: 768px) {
+/* Media Queries */
+@media (max-width: 1024px) {
     .main-content {
         padding: 15px;
     }
 
-    h2 {
-        font-size: 24px;
+    table th, table td {
+        font-size: 0.9rem;
     }
 
-    form#rewardForm input {
-        font-size: 14px;
+    button.NewReward {
+        width: 130px;
+        font-size: 0.8rem;
+    }
+}
+
+@media (max-width: 768px) {
+    body {
+        font-size: 0.9rem;
     }
 
-    table#claimed-table th,
-    table#claimed-table td {
-        font-size: 14px;
+    .search-bar input {
+        font-size: 0.85rem;
+        padding: 8px;
+    }
+
+    button.NewReward {
+        width: 120px;
+        height: 35px;
+        font-size: 0.8rem;
+    }
+
+    table th, table td {
+        font-size: 0.8rem;
+        padding: 8px;
+    }
+}
+
+@media (max-width: 576px) {
+    .main-content {
+        padding: 10px;
+    }
+
+    .search-bar input {
+        width: 100%;
+        font-size: 0.8rem;
+    }
+
+    table th, table td {
+        font-size: 0.75rem;
+        padding: 6px;
+    }
+
+    button.NewReward {
+        width: 100px;
+        height: 30px;
+        font-size: 0.7rem;
     }
 }
