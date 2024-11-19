@@ -2,9 +2,63 @@
 
 body {
     font-family: 'Poppins';
-    background-color: whitesmoke;
     margin: 0;
+    padding: 0;
+    background-color: whitesmoke;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+}
+
+.sidebar {
+    font-family: 'Poppins';
+    min-width: 150px;
+    width: 250px;
+    height: 100vh;
+    background: linear-gradient(to bottom, #009E49, #BAD80A);
+    color: white;
+    display: flex;
+    flex-direction: column;
     padding: 20px;
+    flex-shrink: 0;
+}
+
+.sidebar h2 {
+    margin-top: 3px;
+    border-bottom: 2px solid #143f17;
+    padding-bottom: 10px;
+    margin-bottom: 7px;
+}
+
+.sidebar a {
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    margin-bottom: 5px;
+    color: black;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar a:hover {
+    background-color: green;
+    border-radius: 10px;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin: 20px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .main-content {
@@ -15,30 +69,17 @@ body {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.back-to-dashboard {
-    display: inline-block;
-    color: #455e14;
-    text-decoration: none;
-    font-size: 16px;
-    margin-bottom: 20px;
-    padding: 10px 15px;
-    border-radius: 5px;
-}
-
-.back-to-dashboard:hover {
-    text-decoration: underline;
-    background-color: #bdd299;
-    color: white;
+    overflow: hidden;
 }
 
 .search-bar {
     display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
 }
 
 .search-bar input {
-    width: 68%;
+    flex-grow: 1;
     padding: 10px;
     font-size: 14px;
     border: 1px solid #ccc;
@@ -76,7 +117,8 @@ body {
 
 h2 {
     padding: 5px 15px;
-    width: 400px;
+    width: 100%;
+    max-width: 400px;
     font-family: 'Poppins';
     font-size: 25px;
     cursor: pointer;
@@ -90,7 +132,7 @@ h2 {
     font-weight: 600;
 }
 
-.main-content h2, .back-to-dashboard{
+.main-content h2, .back-to-dashboard {
     display: inline-block;
 }
 
@@ -137,11 +179,18 @@ form#userForm button:hover {
     background-color: #e5eeda;
 }
 
+.table-container {
+    width: 100%;
+    overflow-x: auto;
+}
+
 table#data-table {
     width: 100%;
     border-collapse: collapse;
     margin-top: 20px;
     font-size: 16px;
+    word-wrap: break-word;
+    table-layout: auto; 
 }
 
 table#data-table th,
@@ -150,6 +199,7 @@ table#data-table td {
     border: 1px solid #bdd299;
     text-align: left;
     color: black;
+    word-break: break-word;
 }
 
 table#data-table th {
@@ -193,7 +243,6 @@ table#data-table td button:first-of-type:hover {
 
 table#data-table td button:last-of-type:hover {
     background-color: #E74C3C;
-    /* Red */
     font-family: 'Poppins';
     font-weight: bold;
 }
@@ -204,21 +253,109 @@ table#data-table td {
     margin-right: 5px;
 }
 
-@media (max-width: 768px) {
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    .content {
+        margin: 10px;
+        padding: 15px;
+    }
+
     .main-content {
         padding: 15px;
     }
 
     h2 {
-        font-size: 24px;
+        font-size: 22px;
     }
 
     form#userForm input {
         font-size: 14px;
     }
 
-    table#userTable th,
-    table#userTable td {
+    form#userForm button {
+        padding: 8px 16px;
+    }
+
+    table#data-table th,
+    table#data-table td {
         font-size: 14px;
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 180px;
+    }
+
+    .content {
+        margin: 5px;
+        padding: 10px;
+    }
+
+    .main-content {
+        padding: 10px;
+    }
+
+    h2 {
+        font-size: 20px;
+    }
+
+    form#userForm input {
+        font-size: 12px;
+    }
+
+    form#userForm button {
+        padding: 6px 12px;
+    }
+
+    table#data-table th,
+    table#data-table td {
+        font-size: 12px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        width: 150px;
+    }
+
+    .content {
+        margin: 5px;
+        padding: 5px;
+    }
+
+    .main-content {
+        padding: 5px;
+    }
+
+    h2 {
+        font-size: 18px;
+    }
+
+    form#userForm input {
+        font-size: 10px;
+    }
+
+    form#userForm button {
+        padding: 4px 8px;
+    }
+
+    table#data-table th,
+    table#data-table td {
+        font-size: 10px;
+    }
+
+    .table-container {
+        overflow-x: auto;
+    }
+
+    table#data-table {
+        width: 100%;
+        display: block;
+        overflow-x: auto;
+        white-space: nowrap;
     }
 }

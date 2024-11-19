@@ -6,16 +6,19 @@ body {
     padding: 0;
     background-color: whitesmoke;
     display: flex;
+    flex-direction: column;
     height: 100vh;
 }
 
 .container {
     display: flex;
     width: 100%;
+    overflow: hidden;
 }
 
 .sidebar {
     font-family: 'Poppins';
+    min-width: 150px;
     width: 250px;
     height: 100vh;
     background: linear-gradient(to bottom, #009E49, #BAD80A);
@@ -23,6 +26,7 @@ body {
     display: flex;
     flex-direction: column;
     padding: 20px;
+    flex-shrink: 0;
 }
 
 .sidebar h2 {
@@ -54,6 +58,7 @@ body {
     border-radius: 10px;
     margin: 20px;
     overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .grid-container {
@@ -436,22 +441,70 @@ h2 {
     transition: background-color 0.3s;
 }
 
-@media (max-width: 768px) {
-    .main-content {
+@media (max-width: 1024px) {
+    .sidebar {
+        width: 200px;
+    }
+
+    .content {
+        margin: 10px;
         padding: 15px;
     }
 
-    h2 {
-        font-size: 24px;
+    .grid-container {
+        grid-gap: 8px; /* Adjust grid gap for smaller screens */
+    }
+}
+
+@media (max-width: 768px) {
+    .sidebar {
+        width: 180px;
     }
 
-    form#userForm input {
-        font-size: 14px;
+    .sidebar h2 {
+        font-size: 1rem; /* Smaller font for the heading */
     }
 
-    table#userTable th,
-    table#userTable td {
+    .content {
+        margin: 5px;
+        padding: 10px;
+    }
+
+    .grid-container {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Smaller grid items */
+        grid-gap: 5px;
+    }
+
+    .grid-item {
+        padding: 10px; /* Reduce padding */
+    }
+
+    .box1, .box2, .box3 {
+        height: 80px; /* Smaller boxes */
         font-size: 14px;
     }
 }
 
+@media (max-width: 480px) {
+    .sidebar {
+        width: 150px;
+    }
+
+    .content {
+        margin: 5px;
+        padding: 10px;
+    }
+
+    .grid-container {
+        grid-template-columns: 1fr; /* Single column layout */
+    }
+
+    .grid-item {
+        padding: 8px;
+    }
+
+    .box1, .box2, .box3 {
+        height: 60px; /* Further reduce box sizes */
+        font-size: 12px;
+    }
+}

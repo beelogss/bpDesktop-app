@@ -2,35 +2,74 @@
 
 body {
     font-family: 'Poppins';
-    background-color: whitesmoke;
     margin: 0;
+    padding: 0;
+    background-color: whitesmoke;
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+}
+
+.container {
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+}
+
+.sidebar {
+    font-family: 'Poppins';
+    min-width: 150px;
+    width: 250px;
+    height: 100vh;
+    background: linear-gradient(to bottom, #009E49, #BAD80A);
+    color: white;
+    display: flex;
+    flex-direction: column;
     padding: 20px;
-    font-size: 1rem;
+    flex-shrink: 0;
+}
+
+.sidebar h2 {
+    margin-top: 3px;
+    border-bottom: 2px solid #143f17;
+    padding-bottom: 10px;
+    margin-bottom: 7px;
+}
+
+.sidebar a {
+    text-decoration: none;
+    display: block;
+    padding: 10px;
+    margin-bottom: 5px;
+    color: black;
+    transition: background-color 0.3s ease;
+}
+
+.sidebar a:hover {
+    background-color: green;
+    border-radius: 10px;
+}
+
+.content {
+    flex-grow: 1;
+    padding: 20px;
+    background-color: #ffffff;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin: 20px;
+    overflow-y: auto;
+    overflow-x: hidden;
 }
 
 .main-content {
+    font-family: 'Poppins';
     max-width: 1200px;
     margin: 0 auto;
     background-color: white;
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-}
-
-.back-to-dashboard {
-    display: inline-block;
-    color: #455e14;
-    text-decoration: none;
-    font-size: 1rem;
-    margin-bottom: 20px;
-    padding: 10px 15px;
-    border-radius: 5px;
-}
-
-.back-to-dashboard:hover {
-    text-decoration: underline;
-    background-color: #bdd299;
-    color: white;
+    overflow: hidden;
 }
 
 .search-bar {
@@ -211,6 +250,11 @@ table#to-be-claimed-table td button:last-of-type:hover {
 
 /* Media Queries */
 @media (max-width: 1024px) {
+
+    .sidebar {
+        width: 200px;
+    }
+
     .main-content {
         padding: 15px;
     }
@@ -226,6 +270,11 @@ table#to-be-claimed-table td button:last-of-type:hover {
 }
 
 @media (max-width: 768px) {
+
+    .sidebar {
+        width: 180px;
+    }
+
     body {
         font-size: 0.9rem;
     }
@@ -247,7 +296,12 @@ table#to-be-claimed-table td button:last-of-type:hover {
     }
 }
 
-@media (max-width: 576px) {
+@media (max-width: 480px) {
+
+    .sidebar {
+        width: 150px;
+    }
+    
     .main-content {
         padding: 10px;
     }
