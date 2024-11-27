@@ -184,54 +184,8 @@ table#userTable td {
     box-shadow: 0 0 4px 2px rgba(69, 94, 20, 0.5); /* Green shadow on focus */
 }
 
-#user-count-container {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.user-count-text {
-    font-family: 'Poppins';
-    position: absolute;
-    top: 10px;
-    left: 10px;
-    font-size: 1rem;
-    color: #333;
-}
-
-.user-count-number {
-    font-family: 'Poppins';
-    font-size: 48px;
-    font-weight: bold;
-    color: #455e14;
-}
-
-#claimed-rewards-container {
-    position: relative;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-.claimed-rewards-text {
-    font-family: 'Poppins';
-    position: absolute;
-    top: 10px;
-    left: 30px;
-    font-size: 1rem;
-    color: #333;
-}
-
-.claimed-rewards-number {
-    font-family: 'Poppins';
-    font-size: 48px;
-    font-weight: bold;
-    color: #455e14;
-}
-
+#user-count-container,
+#claimed-rewards-container,
 #bottle-contribution-container {
     position: relative;
     display: flex;
@@ -240,6 +194,8 @@ table#userTable td {
     align-items: center;
 }
 
+.user-count-text,
+.claimed-rewards-text,
 .bottle-contribution-text {
     font-family: 'Poppins';
     position: absolute;
@@ -249,12 +205,15 @@ table#userTable td {
     color: #333;
 }
 
+.user-count-number,
+.claimed-rewards-number,
 .bottle-contribution-number {
     font-family: 'Poppins';
     font-size: 48px;
     font-weight: bold;
     color: #455e14;
 }
+
 
 
 
@@ -451,8 +410,40 @@ h2 {
         padding: 15px;
     }
 
-    .grid-container {
-        grid-gap: 8px; /* Adjust grid gap for smaller screens */
+    .main-content {
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    .bottle-item {
+        padding: 8px;
+    }
+
+    .bottle-details h3 {
+        font-size: 16px;
+    }
+
+    .bottle-details p {
+        font-size: 12px;
+    }
+
+    .modal-content {
+        width: 70%;
+    }
+
+    .user-count-text,
+    .claimed-rewards-text,
+    .bottle-contribution-text {
+        font-size: 0.9rem;
+    }
+
+    .user-count-number,
+    .claimed-rewards-number,
+    .bottle-contribution-number {
+        font-size: 40px;
     }
 }
 
@@ -461,27 +452,45 @@ h2 {
         width: 180px;
     }
 
-    .sidebar h2 {
-        font-size: 1rem; /* Smaller font for the heading */
-    }
-
     .content {
         margin: 5px;
         padding: 10px;
     }
 
-    .grid-container {
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); /* Smaller grid items */
-        grid-gap: 5px;
+    .main-content {
+        padding: 10px;
     }
 
-    .grid-item {
-        padding: 10px; /* Reduce padding */
+    h2 {
+        font-size: 20px;
     }
 
-    .box1, .box2, .box3 {
-        height: 80px; /* Smaller boxes */
+    .bottle-item {
+        padding: 6px;
+    }
+
+    .bottle-details h3 {
         font-size: 14px;
+    }
+
+    .bottle-details p {
+        font-size: 10px;
+    }
+
+    .modal-content {
+        width: 90%;
+    }
+
+    .user-count-text,
+    .claimed-rewards-text,
+    .bottle-contribution-text {
+        font-size: 0.8rem;
+    }
+
+    .user-count-number,
+    .claimed-rewards-number,
+    .bottle-contribution-number {
+        font-size: 32px;
     }
 }
 
@@ -492,19 +501,42 @@ h2 {
 
     .content {
         margin: 5px;
-        padding: 10px;
+        padding: 5px;
     }
 
-    .grid-container {
-        grid-template-columns: 1fr; /* Single column layout */
+    .main-content {
+        padding: 5px;
     }
 
-    .grid-item {
-        padding: 8px;
+    h2 {
+        font-size: 18px;
     }
 
-    .box1, .box2, .box3 {
-        height: 60px; /* Further reduce box sizes */
+    .bottle-item {
+        padding: 4px;
+    }
+
+    .bottle-details h3 {
         font-size: 12px;
+    }
+
+    .bottle-details p {
+        font-size: 8px;
+    }
+
+    .modal-content {
+        width: 100%;
+    }
+
+    .user-count-text,
+    .claimed-rewards-text,
+    .bottle-contribution-text {
+        font-size: 0.7rem;
+    }
+
+    .user-count-number,
+    .claimed-rewards-number,
+    .bottle-contribution-number {
+        font-size: 24px;
     }
 }

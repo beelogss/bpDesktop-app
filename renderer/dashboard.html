@@ -33,7 +33,82 @@
         </div>
 
         <div class="content" id="content">
-            <!-- Content will be displayed here -->
+            <div class="grid-container">
+                <div class="grid-item box1" id="user-count-container">
+                    <div class="user-count-text" id="user-count-text">Total Users:</div>
+                    <div class="user-count-number" id="user-count">Loading...</div>
+                </div>
+                <div class="grid-item box2" id="claimed-rewards-container">
+                    <div class="claimed-rewards-text" id="claimed-rewards-text">Total Claimed Rewards:</div>
+                    <div class="claimed-rewards-number" id="claimed-rewards-count">Loading...</div>
+                </div>
+                <div class="grid-item box3" id="bottle-contribution-container">
+                    <div class="bottle-contribution-text" id="bottle-count-text">Total Bottle Contribution:</div>
+                    <div class="bottle-contribution-number" id="bottle-count">Loading...</div>
+                </div>
+                <div class="grid-item full">
+                    <table id="userTable">
+                        <thead>
+                            <tr>
+                                <th>Rank Number</th>
+                                <th>Student Number</th>
+                                <th>Full Name</th>
+                                <th>Bottle Contribution</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                        </tbody>
+                    </table>
+                </div>
+                <div class="grid-item wide">
+                    <button onclick="openModal()">Start Scan</button>
+                </div>
+            </div>
+            <div id="userModal" class="modal">
+            <div class="modal-content">
+                <span class="close" onclick="closeModal()">&times;</span>
+                <div class="modal-body">
+                    <div class="modal-section user-info">
+                        <h2>User Information</h2>
+                        <img id="userAvatar" src="assets/images/default-profile.png" alt="User Avatar" class="avatar">
+                        <div class="user-details">
+                            <p>Name:</p>
+                            <p id="userName"></p>
+                            <p>Student Number:</p>
+                            <p id="userStudentNumber"></p>
+                        </div>
+                        <button id="start-scan-user" class="styled-button">Scan QR</button>
+                    </div>
+                    <div class="modal-section bottle-info-section" id="bottle-info-section">
+                        <h3>Bottle Information</h3>
+                        <div class="bottle-table-container">
+                            <table id="bottleTable">
+                                <thead>
+                                    <tr>
+                                        <th>No.</th>
+                                        <th>Brand Name</th>
+                                        <th>Size</th>
+                                        <th>Points</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="3" style="text-align:right;"><strong>Total Points:</strong></td>
+                                        <td id="totalPoints">0</td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="button-container">
+                            <button id="start-scan-bottle" class="styled-button disabled-button" disabled>Scan Bottle</button>
+                            <button id="confirm-scan-bottle" class="styled-button" style="display: none;">Confirm</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
         </div>
     </div>
 
