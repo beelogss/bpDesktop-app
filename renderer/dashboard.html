@@ -28,7 +28,6 @@
                 Rewards</a>
             <a href="#" onclick="showContent('sales')"><i
                     class="fa-solid fa-bottle-water"></i>&nbsp;&nbsp;&nbsp;Sales</a>
-            <a href="#" onclick="showContent('settings')"><i class="fa-solid fa-gear"></i>&nbsp;&nbsp;&nbsp;Settings</a>
             <a href="index.html"><i class="fa-solid fa-right-from-bracket"></i>&nbsp;&nbsp;&nbsp;Logout</a>
         </div>
 
@@ -65,50 +64,54 @@
                 </div>
             </div>
             <div id="userModal" class="modal">
-            <div class="modal-content">
-                <span class="close" onclick="closeModal()">&times;</span>
-                <div class="modal-body">
-                    <div class="modal-section user-info">
-                        <h2>User Information</h2>
-                        <img id="userAvatar" src="assets/images/default-profile.png" alt="User Avatar" class="avatar">
-                        <div class="user-details">
-                            <p>Name:</p>
-                            <p id="userName"></p>
-                            <p>Student Number:</p>
-                            <p id="userStudentNumber"></p>
+                <div class="modal-content">
+                    <span class="close" onclick="closeModal()">&times;</span>
+                    <div class="modal-body">
+                        <div class="modal-section user-info">
+                            <h2>User Information</h2>
+                            <img id="userAvatar" src="assets/images/default-profile.png" alt="User Avatar"
+                                class="avatar">
+                            <div class="user-details">
+                                <p>Name:</p>
+                                <p id="userName"></p>
+                                <p>Student Number:</p>
+                                <p id="userStudentNumber"></p>
+                            </div>
+                            <button id="start-scan-user" class="styled-button">Scan QR</button>
                         </div>
-                        <button id="start-scan-user" class="styled-button">Scan QR</button>
-                    </div>
-                    <div class="modal-section bottle-info-section" id="bottle-info-section">
-                        <h3>Bottle Information</h3>
-                        <div class="bottle-table-container">
-                            <table id="bottleTable">
-                                <thead>
-                                    <tr>
-                                        <th>No.</th>
-                                        <th>Brand Name</th>
-                                        <th>Size</th>
-                                        <th>Points</th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td colspan="3" style="text-align:right;"><strong>Total Points:</strong></td>
-                                        <td id="totalPoints">0</td>
-                                    </tr>
-                                </tfoot>
-                            </table>
-                        </div>
-                        <div class="button-container">
-                            <button id="start-scan-bottle" class="styled-button disabled-button" disabled>Scan Bottle</button>
-                            <button id="confirm-scan-bottle" class="styled-button" style="display: none;">Confirm</button>
+                        <div class="modal-section bottle-info-section" id="bottle-info-section">
+                            <h3>Bottle Information</h3>
+                            <div class="bottle-table-container">
+                                <table id="bottleTable">
+                                    <thead>
+                                        <tr>
+                                            <th>No.</th>
+                                            <th>Brand Name</th>
+                                            <th>Size</th>
+                                            <th>Points</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="3" style="text-align:right;"><strong>Total Points:</strong>
+                                            </td>
+                                            <td id="totalPoints">0</td>
+                                        </tr>
+                                    </tfoot>
+                                </table>
+                            </div>
+                            <div class="button-container">
+                                <button id="start-scan-bottle" class="styled-button disabled-button" disabled>Scan
+                                    Bottle</button>
+                                <button id="confirm-scan-bottle" class="styled-button"
+                                    style="display: none;">Confirm</button>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
         </div>
     </div>
 
@@ -421,11 +424,37 @@
 
                 case 'sales':
                     dynamicCss.href = 'assets/sales.css';
-                    content.innerHTML = '<h1>Sales</h1>';
-                    break;
-                case 'settings':
-                    dynamicCss.href = 'assets/settings.css';
-                    content.innerHTML = '<h1>Settings</h1>';
+                    content.innerHTML = `
+                        <div class="main-content">
+                            <h1>Sales Tracking System</h1>
+                            <form id="salesForm">
+                                <label for="quantity">Quantity Sold:</label>
+                                <input type="number" id="quantity" required>
+                                <label for="totalWeight">Total Weight:</label>
+                                <input type="number" id="totalWeight" required>
+                                <label for="price">Price of Pet Bottle:</label>
+                                <input type="number" id="price" required>
+                                <label for="dateOfSale">Date of Sale:</label>
+                                <input type="text" id="dateOfSale" required>
+                                <button type="submit">Add Sale</button>
+                            </form>
+                            <h2>Sales Data</h2>
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Quantity</th>
+                                        <th>Total Weight</th>
+                                        <th>Price of Pet Bottle</th>
+                                        <th>Date of Sale</th>
+                                        <th>Total</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="salesTable">
+                                    <!-- Data dynamically added here -->
+                                </tbody>
+                            </table>
+                        </div>`;
+                    initializeSales();
                     break;
 
                 case 'edit-user':
@@ -1412,6 +1441,57 @@
             fetchData();
         }
 
+        //FUNCTION FOR SALES
+
+        function initializeSales() {
+            // Function to save sales data
+            async function saveSale(quantity, totalWeight, price, dateOfSale) {
+                const total = totalWeight * price; // Calculate total as Total Weight * Price of Bottle
+                const result = await window.electronAPI.saveSale({ quantity, totalWeight, price, dateOfSale, total });
+                if (result.success) {
+                    console.log('Sale added successfully');
+                    fetchSales(); // Fetch and display updated sales data
+                } else {
+                    console.error('Error adding sale:', result.error);
+                }
+            }
+
+            // Function to fetch sales data and display it in the table
+            async function fetchSales() {
+                const result = await window.electronAPI.fetchSales();
+                if (result.success) {
+                    const salesTable = document.getElementById('salesTable');
+                    salesTable.innerHTML = ''; // Clear existing table rows
+                    result.sales.forEach(sale => {
+                        const row = document.createElement('tr');
+                        row.innerHTML = `
+                    <td>${sale.quantity}</td>
+                    <td>${sale.totalWeight}</td>
+                    <td>${sale.price}</td>
+                    <td>${sale.dateOfSale}</td>
+                    <td>${sale.total}</td>
+                `;
+                        salesTable.appendChild(row);
+                    });
+                } else {
+                    console.error('Error fetching sales:', result.error);
+                }
+            }
+
+            // Event listener for form submission
+            document.getElementById('salesForm').addEventListener('submit', (event) => {
+                event.preventDefault();
+                const quantity = document.getElementById('quantity').value;
+                const totalWeight = document.getElementById('totalWeight').value;
+                const price = document.getElementById('price').value;
+                const dateOfSale = document.getElementById('dateOfSale').value;
+                saveSale(quantity, totalWeight, price, dateOfSale);
+                event.target.reset(); // Reset the form
+            });
+
+            // Fetch and display sales data when the page loads
+            fetchSales();
+        }
 
         //FUNCTION FOR EDIT USER
         function initializeEditUser(userId) {

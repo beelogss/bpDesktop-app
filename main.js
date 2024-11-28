@@ -4,7 +4,7 @@ require('electron-reload')(__dirname, {
   electron: path.join(__dirname, 'node_modules', '.bin', 'electron'),
   hardResetMethod: 'exit'
 });
-const { 
+const {
   getUserCountFromFirestore,
   getClaimedRewardsCount,
   getTotalBottleCount,
@@ -30,13 +30,16 @@ const {
   updateClaimedRewardStatus,
   deleteClaimedReward,
 
-  auth, 
-  signInWithEmailAndPassword, 
+  auth,
+  signInWithEmailAndPassword,
   verifyRFID,
 
   addUserPointToFirestore,
   getUserPointsFromFirestore,
-  
+
+  saveSale,
+  fetchSales,
+
 } = require('./main/firebase');
 
 function createWindow() {
@@ -261,22 +264,22 @@ ipcMain.handle('delete-claimed-reward', async (event, rewardId) => {
 
 ipcMain.handle('login', async (event, email, password) => {
   try {
-      const userCredential = await signInWithEmailAndPassword(auth, email, password);
-      return { success: true, user: { uid: userCredential.user.uid, email: userCredential.user.email } };
+    const userCredential = await signInWithEmailAndPassword(auth, email, password);
+    return { success: true, user: { uid: userCredential.user.uid, email: userCredential.user.email } };
   } catch (error) {
-      console.error('Error logging in:', error);
-      return { success: false, error: error.message };
+    console.error('Error logging in:', error);
+    return { success: false, error: error.message };
   }
 });
 
 ipcMain.handle('verify-rfid', async (event, rfidCode) => {
-    try {
-        const isValid = await verifyRFID(rfidCode);
-        return { success: isValid };
-    } catch (error) {
-        console.error('Error verifying RFID code:', error);
-        return { success: false, error: error.message };
-    }
+  try {
+    const isValid = await verifyRFID(rfidCode);
+    return { success: isValid };
+  } catch (error) {
+    console.error('Error verifying RFID code:', error);
+    return { success: false, error: error.message };
+  }
 });
 
 ipcMain.handle('store-user-points', async (event, user) => {
@@ -285,7 +288,7 @@ ipcMain.handle('store-user-points', async (event, user) => {
     return { success: true };
   } catch (error) {
     console.error('Error storing user points:', error);
-    return { success: 'Failed to add user point'  };
+    return { success: 'Failed to add user point' };
   }
 });
 
@@ -297,5 +300,23 @@ ipcMain.handle('get-UserPoints', async () => {
   } catch (error) {
     console.error('Error fetching Firestore data:', error);
     return { error: 'Failed to fetch data' };
+  }
+});
+
+ipcMain.handle('save-sale', async (event, saleData) => {
+  try {
+    await saveSale(saleData.quantity, saleData.totalWeight, saleData.price, saleData.dateOfSale);
+    return { success: true };
+  } catch (error) {
+    return { success: false, error: error.message };
+  }
+});
+
+ipcMain.handle('fetch-sales', async () => {
+  try {
+    const sales = await fetchSales();
+    return { success: true, sales: sales };
+  } catch (error) {
+    return { success: false, error: error.message };
   }
 });

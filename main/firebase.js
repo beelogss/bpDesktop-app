@@ -297,6 +297,34 @@ async function getUserPointsFromFirestore() {
   }
 }
 
+async function saveSale(quantity, totalWeight, price, dateOfSale) {
+  try {
+    await addDoc(collection(db, 'sales'), {
+        quantity: quantity,
+        totalWeight: totalWeight,
+        price: price,
+        dateOfSale: dateOfSale,
+        total: quantity * price
+    });
+    console.log('Sale added successfully');
+  } catch (error) {
+    console.error('Error adding sale:', error);
+    throw error;
+  }
+  }
+  
+  // Function to fetch sales data from Firestore
+  async function fetchSales() {
+  try {
+    const querySnapshot = await getDocs(collection(db, 'sales'));
+    const sales = querySnapshot.docs.map(doc => doc.data());
+    return sales;
+  } catch (error) {
+    console.error('Error fetching sales:', error);
+    throw error;
+  }
+  }
+
 
 module.exports = {
   getUserCountFromFirestore,
@@ -329,5 +357,8 @@ module.exports = {
   verifyRFID,
 
   addUserPointToFirestore,
-  getUserPointsFromFirestore
+  getUserPointsFromFirestore,
+
+  saveSale,
+  fetchSales
 };

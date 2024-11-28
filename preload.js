@@ -31,4 +31,7 @@ contextBridge.exposeInMainWorld('electronAPI', {
 
   storeUserPoints: (user) => ipcRenderer.invoke('store-user-points', user),
   getUserPoints: () => ipcRenderer.invoke('get-UserPoints'),
+
+  saveSale: (saleData) => ipcRenderer.invoke('save-sale', saleData),
+  fetchSales: () => ipcRenderer.invoke('fetch-sales'),
 });
